@@ -1,0 +1,11 @@
+D:\Users\jacky\Downloads\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\bin\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.deps.json
+D:\Users\jacky\Downloads\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\bin\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.dll
+D:\Users\jacky\Downloads\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\bin\Debug\net5.0\ref\TeamJ.SKS.Package.Services.Interfaces.dll
+D:\Users\jacky\Downloads\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\bin\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.pdb
+D:\Users\jacky\Downloads\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.GeneratedMSBuildEditorConfig.editorconfig
+D:\Users\jacky\Downloads\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.AssemblyInfoInputs.cache
+D:\Users\jacky\Downloads\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.AssemblyInfo.cs
+D:\Users\jacky\Downloads\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.csproj.CoreCompileInputs.cache
+D:\Users\jacky\Downloads\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.dll
+D:\Users\jacky\Downloads\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\ref\TeamJ.SKS.Package.Services.Interfaces.dll
+D:\Users\jacky\Downloads\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.pdb
