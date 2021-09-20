@@ -21,3 +21,15 @@ C:\Users\jacky\Desktop\ParcelTracknTrace\TeamJ.SKS.Package\TeamJ.SKS.Package.Ser
 C:\Users\jacky\Desktop\ParcelTracknTrace\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.dll
 C:\Users\jacky\Desktop\ParcelTracknTrace\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\ref\TeamJ.SKS.Package.Services.Interfaces.dll
 C:\Users\jacky\Desktop\ParcelTracknTrace\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.pdb
+C:\Users\joel.kudiyirickal\Desktop\test\ParcelTracknTrace\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\bin\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.deps.json
+C:\Users\joel.kudiyirickal\Desktop\test\ParcelTracknTrace\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\bin\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.dll
+C:\Users\joel.kudiyirickal\Desktop\test\ParcelTracknTrace\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\bin\Debug\net5.0\ref\TeamJ.SKS.Package.Services.Interfaces.dll
+C:\Users\joel.kudiyirickal\Desktop\test\ParcelTracknTrace\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\bin\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.pdb
+C:\Users\joel.kudiyirickal\Desktop\test\ParcelTracknTrace\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.csproj.AssemblyReference.cache
+C:\Users\joel.kudiyirickal\Desktop\test\ParcelTracknTrace\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\joel.kudiyirickal\Desktop\test\ParcelTracknTrace\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.AssemblyInfoInputs.cache
+C:\Users\joel.kudiyirickal\Desktop\test\ParcelTracknTrace\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.AssemblyInfo.cs
+C:\Users\joel.kudiyirickal\Desktop\test\ParcelTracknTrace\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.csproj.CoreCompileInputs.cache
+C:\Users\joel.kudiyirickal\Desktop\test\ParcelTracknTrace\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.dll
+C:\Users\joel.kudiyirickal\Desktop\test\ParcelTracknTrace\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\ref\TeamJ.SKS.Package.Services.Interfaces.dll
+C:\Users\joel.kudiyirickal\Desktop\test\ParcelTracknTrace\TeamJ.SKS.Package\TeamJ.SKS.Package.Services.Interfaces\obj\Debug\net5.0\TeamJ.SKS.Package.Services.Interfaces.pdb
