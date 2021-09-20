@@ -22,7 +22,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
     /// 
     /// </summary>
     [ApiController]
-    public class WarehouseManagementApiController : ControllerBase
+    public class WarehouseManagementApiController : ControllerBase 
     { 
         /// <summary>
         /// Exports the hierarchy of Warehouse and Truck objects. 
