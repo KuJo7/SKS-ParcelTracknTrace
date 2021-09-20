@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.Services", "src\TeamJ.SKS.Package.Services\TeamJ.SKS.Package.Services.csproj", "{A0819C4F-68AE-4C3F-A856-1719D1A4798E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.Services", "TeamJ.SKS.Package.Services\TeamJ.SKS.Package.Services.csproj", "{A0819C4F-68AE-4C3F-A856-1719D1A4798E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.Services.DTOs", "TeamJ.SKS.Package.Services.DTOs\TeamJ.SKS.Package.Services.DTOs.csproj", "{FB330443-9F9B-464A-A674-57C770F10024}"
 EndProject
