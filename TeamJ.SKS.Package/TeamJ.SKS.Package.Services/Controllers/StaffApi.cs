@@ -46,13 +46,13 @@ namespace TeamJ.SKS.Package.Services.Controllers
             //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(404);
 
-            if (trackingId == "123456789")
+            if (trackingId == "123")
             {
-                return Ok();
+                return BadRequest(StatusCode(400, default(Error)));
             }
             else
             {
-                return BadRequest();
+                return Ok(StatusCode(200));
             }
 
             throw new NotImplementedException();
@@ -75,6 +75,14 @@ namespace TeamJ.SKS.Package.Services.Controllers
         {
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200);
+            if (trackingId == "123")
+            {
+                return BadRequest(StatusCode(400, default(Error)));
+            }
+            else
+            {
+                return Ok(StatusCode(200));
+            }
 
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400, default(Error));
