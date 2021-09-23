@@ -24,7 +24,7 @@ namespace TeamJ.SKS.Package.Services.DTOs.Models
     /// 
     /// </summary>
     [DataContract]
-    public partial class Truck
+    public partial class Truck : Hop
     { 
         /// <summary>
         /// GeoJSON of the are covered by the truck.
