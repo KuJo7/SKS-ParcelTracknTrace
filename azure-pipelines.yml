@@ -10,28 +10,29 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
+  solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
 steps:
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'restore'
-    feedsToUse: 'select'
-    vstsFeed: 'my-vsts-feed' # A series of numbers and letters
+- task: NuGetToolInstaller@1
 
-- task: DotNetCoreCLI@2
+- task: NuGetCommand@2
   inputs:
-    command: 'build'
-    arguments: '--configuration $(buildConfiguration)'
-  displayName: 'dotnet build $(buildConfiguration)'
+    restoreSolution: '$(solution)'
 
-- task: DotNetCoreCLI@2
-  displayName: Build
+- task: VSBuild@1
   inputs:
-    command: build
-    projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+    solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: VSTest@2
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+    codeCoverageEnabled: true
     
 - task: DotNetCoreCLI@2
   inputs:
