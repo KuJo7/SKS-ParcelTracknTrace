@@ -28,27 +28,25 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: DotNetCoreCLI@2
-  displayName: dotnet test
+- task: VSTest@2
   inputs:
-    command: test
-    arguments: '--configuration $(BuildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
-    projects: 'tests/**/*.csproj'
-    nobuild: true
-
-
-- script: |
-    dotnet tool install -g dotnet-reportgenerator-globaltool
-    reportgenerator -reports:$(Build.SourcesDirectory)/tests/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines;Cobertura
-  displayName: Create Code coverage report
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+    codeCoverageEnabled: true
 
 - task: PublishCodeCoverageResults@1
   displayName: 'Publish code coverage'
   inputs:
     codeCoverageTool: Cobertura
-    summaryFileLocation: '$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml'
-    reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
+    summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
     
+- task: DotNetCoreCLI@2
+  displayName: 'Run tests'
+  inputs:
+    command: 'test'
+    projects: '**/*[Tt]est*/*.csproj'
+    publishTestResults: true
+    arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish $(buildConfiguration)'
