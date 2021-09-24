@@ -10,7 +10,7 @@ using TeamJ.SKS.Package.Services.DTOs.Models;
 
 namespace TeamJ.SKS.Package.ServicesTest
 {
-    class ReceipientApiTest
+    class RecipientApiTest
     {
         [SetUp]
         public void Setup()
@@ -20,8 +20,8 @@ namespace TeamJ.SKS.Package.ServicesTest
         [Test]
         public void TrackParcel_ValidTrackingID_Success()
         {
-            ReceipientApiController receipient = new ReceipientApiController();
-            var result = receipient.TrackParcel("123456789");
+            RecipientApiController recipient = new RecipientApiController();
+            var result = recipient.TrackParcel("123456789");
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
             Assert.AreEqual(200, okResult.StatusCode);
@@ -29,8 +29,8 @@ namespace TeamJ.SKS.Package.ServicesTest
         [Test]
         public void TrackParcel_WrongTrackingID_Error()
         {
-            ReceipientApiController receipient = new ReceipientApiController();
-            var result = receipient.TrackParcel("123");
+            RecipientApiController recipient = new RecipientApiController();
+            var result = recipient.TrackParcel("123");
             var badResult = result as BadRequestObjectResult;
             Assert.IsNotNull(badResult);
             Assert.AreEqual(400, badResult.StatusCode);

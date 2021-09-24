@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using System.Diagnostics.CodeAnalysis;
 
 namespace TeamJ.SKS.Package.Services
 {
     /// <summary>
     /// Program
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class Program
     {
         /// <summary>

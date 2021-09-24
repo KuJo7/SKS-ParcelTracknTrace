@@ -39,8 +39,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult TransitionParcel([FromBody]Parcel body, [FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")]string trackingId)
         { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(NewParcelInfo));
+
             if (trackingId == "123")
             {
                 return BadRequest(StatusCode(400, default(Error)));
@@ -49,6 +48,10 @@ namespace TeamJ.SKS.Package.Services.Controllers
             {
                 return Ok(StatusCode(200, default(NewParcelInfo)));
             }
+
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(NewParcelInfo));
+
             //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(400, default(Error));
             /*string exampleJson = null;

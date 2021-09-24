@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using TeamJ.SKS.Package.Services.DTOs.Models;
 
 namespace TeamJ.SKS.Package.Services.DTOs.Converter
 {
+    [ExcludeFromCodeCoverage]
     public class HopJsonConverter : JsonCreationConverter<Hop>
     {
         protected override Hop Create(Type objectType, JObject jObject)

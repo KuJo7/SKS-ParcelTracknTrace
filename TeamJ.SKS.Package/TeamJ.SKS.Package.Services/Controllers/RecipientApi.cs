@@ -21,7 +21,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
     /// 
     /// </summary>
     [ApiController]
-    public class ReceipientApiController : ControllerBase
+    public class RecipientApiController : ControllerBase
     { 
         /// <summary>
         /// Find the latest state of a parcel by its tracking ID. 

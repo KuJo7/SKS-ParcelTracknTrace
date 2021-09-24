@@ -17,12 +17,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using System.Diagnostics.CodeAnalysis;
 
 namespace TeamJ.SKS.Package.Services.DTOs.Models
-{ 
+{
     /// <summary>
     /// 
     /// </summary>
+    [ExcludeFromCodeCoverage]
     [DataContract]
     public partial class Parcel
     { 
@@ -39,8 +41,8 @@ namespace TeamJ.SKS.Package.Services.DTOs.Models
         /// </summary>
         [Required]
 
-        [DataMember(Name="receipient")]
-        public Receipient Receipient { get; set; }
+        [DataMember(Name="recipient")]
+        public Recipient Recipient { get; set; }
 
         /// <summary>
         /// Gets or Sets Sender
@@ -48,6 +50,6 @@ namespace TeamJ.SKS.Package.Services.DTOs.Models
         [Required]
 
         [DataMember(Name="sender")]
-        public Receipient Sender { get; set; }
+        public Recipient Sender { get; set; }
     }
 }
