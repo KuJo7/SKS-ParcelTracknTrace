@@ -17,14 +17,16 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using System.Diagnostics.CodeAnalysis;
 
 namespace TeamJ.SKS.Package.Services.DTOs.Models
-{ 
+{
     /// <summary>
     /// 
     /// </summary>
+    [ExcludeFromCodeCoverage]
     [DataContract]
-    public partial class Warehouse
+    public partial class Warehouse : Hop
     { 
         /// <summary>
         /// Gets or Sets Level
