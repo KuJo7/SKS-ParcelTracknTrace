@@ -47,7 +47,7 @@ steps:
   displayName: 'dotnet test'
   inputs:
     command: 'test'
-    projects: '**/*Tests/*.csproj'
+    projects: 'TeamJ.SKS.Package/TeamJ.SKS.Package.ServicesTest/TeamJ.SKS.Package.ServicesTest.csproj'
     arguments: '--configuration $(buildConfiguration) --collect "Code Coverage"'
     testRunTitle: 'WebService Tests'
 
