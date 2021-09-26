@@ -38,14 +38,14 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "An error occurred loading.")]
         public virtual IActionResult ExportWarehouses()
         {
-            if (false)
-            {
-                return BadRequest(StatusCode(400, default(Error)));
-            }
-            else
-            {
+            //if (false)
+            //{
+            //    return BadRequest(StatusCode(400, default(Error)));
+            //}
+            //else
+            //{
                 return Ok(StatusCode(200, default(NewParcelInfo)));
-            }
+            //}
                         
                         
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
