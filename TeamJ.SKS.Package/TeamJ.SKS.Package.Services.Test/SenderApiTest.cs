@@ -8,9 +8,9 @@ using NUnit.Framework;
 using TeamJ.SKS.Package.Services.Controllers;
 using TeamJ.SKS.Package.Services.DTOs.Models;
 
-namespace TeamJ.SKS.Package.ServicesTest
+namespace TeamJ.SKS.Package.Services.Test
 {
-    class RecipientApiTest
+    class SenderApiTest
     {
         [SetUp]
         public void Setup()
@@ -18,19 +18,21 @@ namespace TeamJ.SKS.Package.ServicesTest
         }
 
         [Test]
-        public void TrackParcel_ValidTrackingID_Success()
+        public void SubmitParcel_ValidParcelBody_Success()
         {
-            RecipientApiController recipient = new RecipientApiController();
-            var result = recipient.TrackParcel("123456789");
+            SenderApiController sender = new SenderApiController();
+            //Parcel body = new Parcel();
+            var result = sender.SubmitParcel(new Parcel());
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
             Assert.AreEqual(200, okResult.StatusCode);
         }
         [Test]
-        public void TrackParcel_WrongTrackingID_Error()
+        public void SubmitParcel_WrongParcelBody_Error()
         {
-            RecipientApiController recipient = new RecipientApiController();
-            var result = recipient.TrackParcel("123");
+            SenderApiController sender = new SenderApiController();
+            //Parcel body = new Parcel();
+            var result = sender.SubmitParcel(null);
             var badResult = result as BadRequestObjectResult;
             Assert.IsNotNull(badResult);
             Assert.AreEqual(400, badResult.StatusCode);

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.Services.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.Services.Interfaces", "TeamJ.SKS.Package.Services.Interfaces\TeamJ.SKS.Package.Services.Interfaces.csproj", "{CF75D38B-413F-4655-85F5-9844C0E92324}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamJ.SKS.Package.ServicesTest", "TeamJ.SKS.Package.ServicesTest\TeamJ.SKS.Package.ServicesTest.csproj", "{9FD081BA-49A3-42BE-8170-329B35496A68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.Services.Test", "TeamJ.SKS.Package.Services.Test\TeamJ.SKS.Package.Services.Test.csproj", "{98DAFA03-CB26-493B-AA0D-48524DAB6B51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{CF75D38B-413F-4655-85F5-9844C0E92324}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF75D38B-413F-4655-85F5-9844C0E92324}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF75D38B-413F-4655-85F5-9844C0E92324}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9FD081BA-49A3-42BE-8170-329B35496A68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9FD081BA-49A3-42BE-8170-329B35496A68}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9FD081BA-49A3-42BE-8170-329B35496A68}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9FD081BA-49A3-42BE-8170-329B35496A68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98DAFA03-CB26-493B-AA0D-48524DAB6B51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98DAFA03-CB26-493B-AA0D-48524DAB6B51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98DAFA03-CB26-493B-AA0D-48524DAB6B51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98DAFA03-CB26-493B-AA0D-48524DAB6B51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
