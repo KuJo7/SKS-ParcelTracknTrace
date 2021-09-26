@@ -28,28 +28,18 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet publish WebService'
+- task: VSTest@2
   inputs:
-    command: 'publish'
-    projects: 'TeamJ.SKS.Package/TeamJ.SKS.Package.Services/TeamJ.SKS.Package.Services.csproj'
-    publishWebProjects: true
-    arguments: '--output "$(Build.ArtifactStagingDirectory)"'
+    platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-    zipAfterPublish: true
-
+    
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet build Tests'
+  displayName: 'dotnet publish $(buildConfiguration)'
   inputs:
-    command: 'build'
-    projects: 'TeamJ.SKS.Package/TeamJ.SKS.Package.ServicesTest/TeamJ.SKS.Package.ServicesTest.csproj'
-
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet test'
-  inputs:
-    command: 'test'
-    projects: 'TeamJ.SKS.Package/TeamJ.SKS.Package.ServicesTest/TeamJ.SKS.Package.ServicesTest.csproj'
-    arguments: '--configuration $(buildConfiguration) --collect "Code Coverage" --settings "TeamJ.SKS.Package/TeamJ.SKS.Package.ServicesTest.runsettings"'
-    testRunTitle: 'WebService Tests'
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
 
 - task: PublishBuildArtifacts@1
+  displayName: 'publish artifacts'
