@@ -8,7 +8,7 @@ using NUnit.Framework;
 using TeamJ.SKS.Package.Services.Controllers;
 using TeamJ.SKS.Package.Services.DTOs.Models;
 
-namespace TeamJ.SKS.Package.ServicesTest
+namespace TeamJ.SKS.Package.Services.Test
 {
     class WarehouseManagementApiTest
     {
@@ -17,15 +17,15 @@ namespace TeamJ.SKS.Package.ServicesTest
         {
         }
 
-        [Test]
-        public void ExportWarehouses_IsFalse_Success()
-        {
-            WarehouseManagementApiController controller = new WarehouseManagementApiController();
-            var result = controller.ExportWarehouses();
-            var okResult = result as OkObjectResult;
-            Assert.IsNotNull(okResult);
-            Assert.AreEqual(200, okResult.StatusCode);
-        }
+        //[Test]
+        //public void ExportWarehouses_IsFalse_Success()
+        //{
+        //    WarehouseManagementApiController controller = new WarehouseManagementApiController();
+        //    var result = controller.ExportWarehouses();
+        //    var okResult = result as OkObjectResult;
+        //    Assert.IsNotNull(okResult);
+        //    Assert.AreEqual(200, okResult.StatusCode);
+        //}
 
         [Test]
         public void GetWarehouse_ValidCode_Success()
