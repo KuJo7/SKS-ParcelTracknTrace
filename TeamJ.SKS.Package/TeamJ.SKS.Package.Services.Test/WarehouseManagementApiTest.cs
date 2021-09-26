@@ -17,15 +17,15 @@ namespace TeamJ.SKS.Package.Services.Test
         {
         }
 
-        //[Test]
-        //public void ExportWarehouses_IsFalse_Success()
-        //{
-        //    WarehouseManagementApiController controller = new WarehouseManagementApiController();
-        //    var result = controller.ExportWarehouses();
-        //    var okResult = result as OkObjectResult;
-        //    Assert.IsNotNull(okResult);
-        //    Assert.AreEqual(200, okResult.StatusCode);
-        //}
+        [Test]
+        public void ExportWarehouses_IsFalse_Success()
+        {
+            WarehouseManagementApiController controller = new WarehouseManagementApiController();
+            var result = controller.ExportWarehouses();
+            var okResult = result as OkObjectResult;
+            Assert.IsNotNull(okResult);
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
 
         [Test]
         public void GetWarehouse_ValidCode_Success()
