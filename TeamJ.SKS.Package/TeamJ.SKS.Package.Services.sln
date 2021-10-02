@@ -11,13 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.Services.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.Services.Test", "TeamJ.SKS.Package.Services.Test\TeamJ.SKS.Package.Services.Test.csproj", "{98DAFA03-CB26-493B-AA0D-48524DAB6B51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamJ.SKS.Package.BusinessLogic.Entities", "TeamJ.SKS.Package.BusinessLogic.Entities\TeamJ.SKS.Package.BusinessLogic.Entities.csproj", "{A31F9C57-F1CD-4566-8216-5E5ECBAD26D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.BusinessLogic.DTOs", "TeamJ.SKS.Package.BusinessLogic.Entities\TeamJ.SKS.Package.BusinessLogic.DTOs.csproj", "{A31F9C57-F1CD-4566-8216-5E5ECBAD26D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamJ.SKS.Package.BusinessLogic.Interfaces", "TeamJ.SKS.Package.BusinessLogic.Interfaces\TeamJ.SKS.Package.BusinessLogic.Interfaces.csproj", "{F3506675-091D-4732-AA44-98AEE37652C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.BusinessLogic.Interfaces", "TeamJ.SKS.Package.BusinessLogic.Interfaces\TeamJ.SKS.Package.BusinessLogic.Interfaces.csproj", "{F3506675-091D-4732-AA44-98AEE37652C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamJ.SKS.Package.BusinessLogic.Test", "TeamJ.SKS.Package.BusinessLogic.Test\TeamJ.SKS.Package.BusinessLogic.Test.csproj", "{ABA068F3-32F4-48BE-8C3F-58F27446DA63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.BusinessLogic.Test", "TeamJ.SKS.Package.BusinessLogic.Test\TeamJ.SKS.Package.BusinessLogic.Test.csproj", "{ABA068F3-32F4-48BE-8C3F-58F27446DA63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamJ.SKS.Package.BusinessLogic", "TeamJ.SKS.Package.BusinessLogic\TeamJ.SKS.Package.BusinessLogic.csproj", "{AED68E58-6E95-4056-9BFF-298031DBADBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.BusinessLogic", "TeamJ.SKS.Package.BusinessLogic\TeamJ.SKS.Package.BusinessLogic.csproj", "{AED68E58-6E95-4056-9BFF-298031DBADBA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
