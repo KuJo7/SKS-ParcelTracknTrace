@@ -9,10 +9,15 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
+using TeamJ.SKS.Package.BusinessLogic.DTOs;
+using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.Services.Attributes;
 using TeamJ.SKS.Package.Services.DTOs.Models;
 
@@ -23,7 +28,15 @@ namespace TeamJ.SKS.Package.Services.Controllers
     /// </summary>
     [ApiController]
     public class WarehouseManagementApiController : ControllerBase 
-    { 
+    {
+        private readonly IMapper _mapper;
+        private readonly IHopLogic _hopLogic;
+        public WarehouseManagementApiController(IMapper mapper, IHopLogic hopLogic)
+        {
+            _hopLogic = hopLogic;
+            _mapper = mapper;
+        }
+
         /// <summary>
         /// Exports the hierarchy of Warehouse and Truck objects. 
         /// </summary>
@@ -38,14 +51,15 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "An error occurred loading.")]
         public virtual IActionResult ExportWarehouses()
         {
-            //if (false)
-            //{
-            //    return BadRequest(StatusCode(400, default(Error)));
-            //}
-            //else
-            //{
+            
+            if (_hopLogic.ExportWarehouses().Any())
+            {
                 return Ok(StatusCode(200, default(NewParcelInfo)));
-            //}
+            }
+            else
+            {
+                return BadRequest(StatusCode(400, default(Error)));
+            }
                         
                         
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -81,15 +95,16 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "An error occurred loading.")]
         public virtual IActionResult GetWarehouse([FromRoute][Required]string code)
         {
-            if (code == "")
-            {
-                return BadRequest(StatusCode(400, default(Error)));
-            }
-            else
+            
+            if (_hopLogic.GetWarehouse(code) != null)
             {
                 return Ok(StatusCode(200, default(NewParcelInfo)));
             }
-                        
+            else
+            {
+                return BadRequest(StatusCode(400, default(Error)));
+            }
+
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(Warehouse));
 
@@ -100,7 +115,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
             // return StatusCode(404);
             //string exampleJson = null;
             //exampleJson = "\"\"";
-            
+
             //            var example = exampleJson != null
             //            ? JsonConvert.DeserializeObject<Warehouse>(exampleJson)
             //            : default(Warehouse);            //TODO: Change the data returned
@@ -120,14 +135,16 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult ImportWarehouses([FromBody]Warehouse body)
         {
-
-            if (body == null)
+            BLHop blHop = _mapper.Map<BLHop>(body);
+            if (_hopLogic.ImportWarehouses(blHop))
             {
-                return BadRequest(StatusCode(400, default(Error)));
+                // Mapping back auf SVC Parcel (?)
+                // mapping entfällt nicht aufpassen!
+                return Ok(StatusCode(200, default(NewParcelInfo)));
             }
             else
             {
-                return Ok(StatusCode(200, default(NewParcelInfo)));
+                return BadRequest(StatusCode(400, default(Error)));
             }
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200);

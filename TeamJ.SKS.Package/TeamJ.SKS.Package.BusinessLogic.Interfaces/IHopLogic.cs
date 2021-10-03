@@ -9,8 +9,8 @@ namespace TeamJ.SKS.Package.BusinessLogic.Interfaces
 {
     public interface IHopLogic
     {
-        public List<BLHop> exportAllHops();
-        public void importAllHops();
-        public BLHop exportHops(string code);
+        public List<BLHop> ExportWarehouses();
+        public bool ImportWarehouses(BLHop blHop);
+        public BLHop GetWarehouse(string code);
     }
 }

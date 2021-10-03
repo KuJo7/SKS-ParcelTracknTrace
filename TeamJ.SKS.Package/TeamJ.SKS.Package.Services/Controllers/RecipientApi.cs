@@ -12,6 +12,8 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
+using TeamJ.SKS.Package.BusinessLogic;
+using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.Services.Attributes;
 using TeamJ.SKS.Package.Services.DTOs.Models;
 
@@ -38,13 +40,14 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult TrackParcel([FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")]string trackingId)
         {
-            if (trackingId == "123")
+            IParcelLogic parcelLogic = new ParcelLogic();
+            if (parcelLogic.TrackParcel(trackingId) != null)
             {
-                return BadRequest(StatusCode(400, default(Error)));
+                return Ok(StatusCode(200, default(TrackingInformation)));
             }
             else
             {
-                return Ok(StatusCode(200, default(TrackingInformation)));
+                return BadRequest(StatusCode(400, default(Error)));
             }
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(TrackingInformation));

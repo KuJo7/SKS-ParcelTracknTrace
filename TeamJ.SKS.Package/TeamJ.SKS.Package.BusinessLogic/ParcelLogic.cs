@@ -10,29 +10,65 @@ namespace TeamJ.SKS.Package.BusinessLogic
 {
     public class ParcelLogic : IParcelLogic
     {
-        public BLParcel trackPackage(int trackingID)
+        public BLParcel TrackParcel(string trackingID)
         {
-            throw new NotImplementedException();
+            if (trackingID == "123456789")
+            {
+                return new BLParcel();
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public void TransferPackage(int trackingID)
+        public bool TransitionParcel(BLParcel blParcel)
         {
-            throw new NotImplementedException();
+            //Check blParcel not null eigentlich jetzt nur zum Testen von Mapping
+            if (String.IsNullOrWhiteSpace(blParcel.Name))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public void SubmitParcel(int trackingID)
+        public bool SubmitParcel(BLParcel blParcel)
         {
-            throw new NotImplementedException();
+            if (blParcel != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public void ParcelDelivered(int trackingID)
+        public bool ReportParcelDelivery(string trackingID)
         {
-            throw new NotImplementedException();
+            if (trackingID == "123456789")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public void ParcelHopArrival(int trackingID, string code)
+        public bool ReportParcelHop(string trackingID, string code)
         {
-            throw new NotImplementedException();
+            if (trackingID == "123456789" && code == "test")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

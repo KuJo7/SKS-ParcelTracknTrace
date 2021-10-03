@@ -10,9 +10,13 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
+using TeamJ.SKS.Package.BusinessLogic;
+using TeamJ.SKS.Package.BusinessLogic.DTOs;
+using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.Services.Attributes;
 using TeamJ.SKS.Package.Services.DTOs.Models;
 
@@ -23,7 +27,14 @@ namespace TeamJ.SKS.Package.Services.Controllers
     /// </summary>
     [ApiController]
     public class LogisticsPartnerApiController : ControllerBase
-    { 
+    {
+        private readonly IMapper _mapper;
+        private readonly IParcelLogic _parcelLogic;
+        public LogisticsPartnerApiController(IMapper mapper, IParcelLogic parcelLogic)
+        {
+            _parcelLogic = parcelLogic;
+            _mapper = mapper;
+        }
         /// <summary>
         /// Transfer an existing parcel into the system from the service of a logistics partner. 
         /// </summary>
@@ -38,15 +49,20 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 200, type: typeof(NewParcelInfo), description: "Successfully transitioned the parcel")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult TransitionParcel([FromBody]Parcel body, [FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")]string trackingId)
-        { 
+        {
 
-            if (trackingId == "123")
+            BLParcel blParcel = _mapper.Map<BLParcel>(body);
+            blParcel.TrackingId = trackingId;
+            if (_parcelLogic.TransitionParcel(blParcel))
             {
-                return BadRequest(StatusCode(400, default(Error)));
+                // Mapping back auf SVC Parcel (?)
+                // mapping entfällt, weil nur ein string
+                return Ok(StatusCode(200));
             }
             else
             {
-                return Ok(StatusCode(200, default(NewParcelInfo)));
+                return BadRequest(StatusCode(400, default(Error)));
+
             }
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...

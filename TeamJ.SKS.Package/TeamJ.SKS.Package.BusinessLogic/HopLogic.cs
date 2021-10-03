@@ -10,19 +10,33 @@ namespace TeamJ.SKS.Package.BusinessLogic
 {
     public class HopLogic : IHopLogic
     {
-        public List<BLHop> exportAllHops()
+        public List<BLHop> ExportWarehouses()
         {
-            throw new NotImplementedException();
+            return new List<BLHop>();
         }
 
-        public void importAllHops()
+        public bool ImportWarehouses(BLHop blHop)
         {
-            throw new NotImplementedException();
+            if (blHop != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public BLHop exportHops(string code)
+        public BLHop GetWarehouse(string code)
         {
-            throw new NotImplementedException();
+            if (code == "test")
+            {
+                return new BLHop();
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

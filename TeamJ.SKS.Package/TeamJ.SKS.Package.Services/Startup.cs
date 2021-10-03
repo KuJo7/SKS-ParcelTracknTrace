@@ -21,6 +21,7 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using TeamJ.SKS.Package.Services.Filters;
+using AutoMapper;
 
 namespace TeamJ.SKS.Package.Services
 {
@@ -51,6 +52,10 @@ namespace TeamJ.SKS.Package.Services
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddAutoMapper(typeof(Startup));
+            services.AddMvc();
+
             // Add framework services.
             services
                 .AddMvc(options =>
