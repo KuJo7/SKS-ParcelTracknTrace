@@ -10,7 +10,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Interfaces
     public interface IHopLogic
     {
         public List<BLHop> ExportWarehouses();
-        public bool ImportWarehouses(BLHop blHop);
+        public bool ImportWarehouses(BLWarehouse blWarehouse);
         public BLHop GetWarehouse(string code);
     }
 }

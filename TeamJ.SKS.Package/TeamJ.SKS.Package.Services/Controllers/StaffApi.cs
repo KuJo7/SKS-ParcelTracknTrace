@@ -24,7 +24,9 @@ namespace TeamJ.SKS.Package.Services.Controllers
     /// </summary>
     [ApiController]
     public class StaffApiController : ControllerBase
-    { 
+    {
+        IParcelLogic parcelLogic = new ParcelLogic();
+
         /// <summary>
         /// Report that a Parcel has been delivered at it&#x27;s final destination address. 
         /// </summary>
@@ -39,7 +41,6 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult ReportParcelDelivery([FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")]string trackingId)
         {
-            IParcelLogic parcelLogic = new ParcelLogic();
             if (parcelLogic.ReportParcelDelivery(trackingId))
             {
                 return Ok(StatusCode(200));
@@ -78,7 +79,6 @@ namespace TeamJ.SKS.Package.Services.Controllers
         public virtual IActionResult ReportParcelHop([FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")] string trackingId, [FromRoute][Required][RegularExpression("/^[A-Z]{4}\\d{1,4}$/")] string code)
         {
 
-            IParcelLogic parcelLogic = new ParcelLogic();
             if (parcelLogic.ReportParcelHop(trackingId, code))
             {
                 return Ok(StatusCode(200));

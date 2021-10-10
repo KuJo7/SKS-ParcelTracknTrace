@@ -3,40 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
+using TeamJ.SKS.Package.BusinessLogic.DTOs.Validators;
 using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 
 namespace TeamJ.SKS.Package.BusinessLogic
 {
     public class HopLogic : IHopLogic
     {
+        IValidator<BLWarehouse> blWarehouseValidator = new BLWarehouseValidator();
+        IValidator<string> codeValidator = new BLCodeValidator();
         public List<BLHop> ExportWarehouses()
         {
             return new List<BLHop>();
         }
 
-        public bool ImportWarehouses(BLHop blHop)
+        public bool ImportWarehouses(BLWarehouse blWarehouse)
         {
-            if (blHop != null)
+            var result = blWarehouseValidator.Validate(blWarehouse);
+            if (result.IsValid)
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         public BLHop GetWarehouse(string code)
         {
-            if (code == "test")
+            var result = codeValidator.Validate(code);
+            if (result.IsValid)
             {
-                return new BLHop();
+                return new BLWarehouse();
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
     }
 }

@@ -16,9 +16,11 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
+using TeamJ.SKS.Package.BusinessLogic;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
 using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.Services.Attributes;
+using TeamJ.SKS.Package.Services.DTOs.MapperProfiles;
 using TeamJ.SKS.Package.Services.DTOs.Models;
 
 namespace TeamJ.SKS.Package.Services.Controllers
@@ -31,6 +33,17 @@ namespace TeamJ.SKS.Package.Services.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IHopLogic _hopLogic;
+
+        public WarehouseManagementApiController()
+        {
+            _hopLogic = new HopLogic();
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new MapperProfiles());
+            });
+            _mapper = new Mapper(config);
+
+        }
         public WarehouseManagementApiController(IMapper mapper, IHopLogic hopLogic)
         {
             _hopLogic = hopLogic;
@@ -135,7 +148,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult ImportWarehouses([FromBody]Warehouse body)
         {
-            BLHop blHop = _mapper.Map<BLHop>(body);
+            BLWarehouse blHop = _mapper.Map<BLWarehouse>(body);
             if (_hopLogic.ImportWarehouses(blHop))
             {
                 // Mapping back auf SVC Parcel (?)

@@ -12,12 +12,12 @@ namespace TeamJ.SKS.Package.BusinessLogic.DTOs
     public class BLParcel
     {
 
-        [Required]
-
-        [DataMember(Name = "weight")]
         public float? Weight { get; set; }
 
-        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        public BLRecipient Recipient { get; set; }
+
+        public BLRecipient Sender { get; set; }
+
         public enum StateEnum
         {
             [EnumMember(Value = "Pickup")]
@@ -32,48 +32,13 @@ namespace TeamJ.SKS.Package.BusinessLogic.DTOs
             DeliveredEnum = 4
         }
 
-        [Required]
-
-        [DataMember(Name = "state")]
         public StateEnum? State { get; set; }
 
-        [Required]
+        public List<BLHopArrival> VisitedHops { get; set; }
 
-        [DataMember(Name = "visitedHops")]
-        public List<BLHop> VisitedHops { get; set; }
+        public List<BLHopArrival> FutureHops { get; set; }
 
-        [Required]
-
-        [DataMember(Name = "futureHops")]
-        public List<BLHop> FutureHops { get; set; }
-
-        [RegularExpression("/^[A-Z0-9]{9}$/")]
-        [DataMember(Name = "trackingId")]
         public string TrackingId { get; set; }
 
-        [Required]
-
-        [DataMember(Name = "name")]
-        public string Name { get; set; }
-
-        [Required]
-
-        [DataMember(Name = "street")]
-        public string Street { get; set; }
-
-        [Required]
-
-        [DataMember(Name = "postalCode")]
-        public string PostalCode { get; set; }
-
-        [Required]
-
-        [DataMember(Name = "city")]
-        public string City { get; set; }
-
-        [Required]
-
-        [DataMember(Name = "country")]
-        public string Country { get; set; }
     }
 }

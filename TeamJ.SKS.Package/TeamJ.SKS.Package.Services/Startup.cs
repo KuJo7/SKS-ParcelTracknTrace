@@ -22,6 +22,10 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using TeamJ.SKS.Package.Services.Filters;
 using AutoMapper;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using TeamJ.SKS.Package.BusinessLogic.DTOs;
+using TeamJ.SKS.Package.BusinessLogic.DTOs.Validators;
 
 namespace TeamJ.SKS.Package.Services
 {
@@ -55,6 +59,14 @@ namespace TeamJ.SKS.Package.Services
 
             services.AddAutoMapper(typeof(Startup));
             services.AddMvc();
+
+            services.AddMvc(setup => { }).AddFluentValidation();
+            services.AddTransient<IValidator<BLParcel>, BLParcelValidator>();
+            services.AddTransient<IValidator<BLWarehouse>, BLWarehouseValidator>();
+            services.AddTransient<IValidator<BLHopArrival>, BLHopArrivalValidator>();
+            services.AddTransient<IValidator<BLRecipient>, BLRecipientValidator>();
+            services.AddTransient<IValidator<BLWarehouseNextHops>, BLWarehouseNextHopsValidator>();
+            services.AddTransient<IValidator<string>, BLCodeValidator>();
 
             // Add framework services.
             services

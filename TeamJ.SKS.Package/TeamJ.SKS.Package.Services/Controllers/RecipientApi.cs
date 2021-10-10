@@ -9,12 +9,14 @@
  */
 
 using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 using TeamJ.SKS.Package.BusinessLogic;
 using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.Services.Attributes;
+using TeamJ.SKS.Package.Services.DTOs.MapperProfiles;
 using TeamJ.SKS.Package.Services.DTOs.Models;
 
 namespace TeamJ.SKS.Package.Services.Controllers
@@ -24,7 +26,8 @@ namespace TeamJ.SKS.Package.Services.Controllers
     /// </summary>
     [ApiController]
     public class RecipientApiController : ControllerBase
-    { 
+    {
+        IParcelLogic parcelLogic = new ParcelLogic();
         /// <summary>
         /// Find the latest state of a parcel by its tracking ID. 
         /// </summary>
@@ -40,7 +43,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult TrackParcel([FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")]string trackingId)
         {
-            IParcelLogic parcelLogic = new ParcelLogic();
+            
             if (parcelLogic.TrackParcel(trackingId) != null)
             {
                 return Ok(StatusCode(200, default(TrackingInformation)));

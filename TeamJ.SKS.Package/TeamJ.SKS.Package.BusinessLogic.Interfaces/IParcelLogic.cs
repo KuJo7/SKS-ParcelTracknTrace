@@ -10,9 +10,9 @@ namespace TeamJ.SKS.Package.BusinessLogic.Interfaces
     public interface IParcelLogic
     {
         BLParcel TrackParcel(string trackingID);
-        bool TransitionParcel(BLParcel blParcel);
-        bool SubmitParcel(BLParcel blParcel);
-        bool ReportParcelDelivery(string trackingID);
-        bool ReportParcelHop(string trackingID, string code);
+        public bool TransitionParcel(BLParcel blParcel);
+        public bool SubmitParcel(BLParcel blParcel);
+        public bool ReportParcelDelivery(string trackingID);
+        public bool ReportParcelHop(string trackingID, string code);
     }
 }
