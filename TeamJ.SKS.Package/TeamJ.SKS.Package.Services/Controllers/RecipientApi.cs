@@ -27,7 +27,19 @@ namespace TeamJ.SKS.Package.Services.Controllers
     [ApiController]
     public class RecipientApiController : ControllerBase
     {
-        IParcelLogic parcelLogic = new ParcelLogic();
+        private readonly IParcelLogic _parcelLogic;
+
+        public RecipientApiController()
+        {
+            _parcelLogic = new ParcelLogic();
+        }
+
+        public RecipientApiController(IParcelLogic parcelLogic)
+        {
+            _parcelLogic = parcelLogic;
+        }
+
+        
         /// <summary>
         /// Find the latest state of a parcel by its tracking ID. 
         /// </summary>
@@ -44,13 +56,13 @@ namespace TeamJ.SKS.Package.Services.Controllers
         public virtual IActionResult TrackParcel([FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")]string trackingId)
         {
             
-            if (parcelLogic.TrackParcel(trackingId) != null)
+            if (_parcelLogic.TrackParcel(trackingId) != null)
             {
-                return Ok(StatusCode(200, default(TrackingInformation)));
+                return Ok(new TrackingInformation());
             }
             else
             {
-                return BadRequest(StatusCode(400, default(Error)));
+                return BadRequest(new Error("Error: TrackParcel"));
             }
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(TrackingInformation));

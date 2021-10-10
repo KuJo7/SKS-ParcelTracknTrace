@@ -9,6 +9,6 @@ namespace TeamJ.SKS.Package.BusinessLogic.DTOs
 
         public string Description { get; set; }
 
-        public DateTime? DateTime { get; set; }
+        public DateTime DateTime { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.DTOs
 {
     public class BLWarehouse : BLHop
     {
-        public int? Level { get; set; }
+        public int Level { get; set; }
         public List<BLWarehouseNextHops> NextHops { get; set; }
     }
 }

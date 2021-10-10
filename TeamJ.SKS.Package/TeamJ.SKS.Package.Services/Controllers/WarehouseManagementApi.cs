@@ -50,6 +50,11 @@ namespace TeamJ.SKS.Package.Services.Controllers
             _mapper = mapper;
         }
 
+        public WarehouseManagementApiController(IHopLogic hopLogic)
+        {
+            _hopLogic = hopLogic;
+        }
+
         /// <summary>
         /// Exports the hierarchy of Warehouse and Truck objects. 
         /// </summary>
@@ -67,11 +72,11 @@ namespace TeamJ.SKS.Package.Services.Controllers
             
             if (_hopLogic.ExportWarehouses().Any())
             {
-                return Ok(StatusCode(200, default(NewParcelInfo)));
+                return Ok(new Warehouse());
             }
             else
             {
-                return BadRequest(StatusCode(400, default(Error)));
+                return BadRequest(new Error("Error: ExportWarehouses"));
             }
                         
                         
@@ -111,11 +116,11 @@ namespace TeamJ.SKS.Package.Services.Controllers
             
             if (_hopLogic.GetWarehouse(code) != null)
             {
-                return Ok(StatusCode(200, default(NewParcelInfo)));
+                return Ok(new Warehouse());
             }
             else
             {
-                return BadRequest(StatusCode(400, default(Error)));
+                return BadRequest(new Error("Error: GetWarehouse"));
             }
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -148,16 +153,17 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult ImportWarehouses([FromBody]Warehouse body)
         {
-            BLWarehouse blHop = _mapper.Map<BLWarehouse>(body);
-            if (_hopLogic.ImportWarehouses(blHop))
+            BLWarehouse blWarehouse = _mapper.Map<BLWarehouse>(body);
+            blWarehouse.NextHops = new();
+            if (_hopLogic.ImportWarehouses(blWarehouse))
             {
                 // Mapping back auf SVC Parcel (?)
-                // mapping entfällt nicht aufpassen!
-                return Ok(StatusCode(200, default(NewParcelInfo)));
+                // mapping entf?llt nicht aufpassen!
+                return Ok();
             }
             else
             {
-                return BadRequest(StatusCode(400, default(Error)));
+                return BadRequest(new Error("Error: ImportWarehouses"));
             }
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200);

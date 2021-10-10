@@ -14,8 +14,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.DTOs.Validators
         public BLParcelValidator()
         {
             RuleFor(x => x.TrackingId).Matches("^[A-Z0-9]{9}$");
-
-            RuleFor(x => x.Weight).GreaterThanOrEqualTo(0);
+            RuleFor(x => x.Weight).GreaterThan(0);
             RuleFor(x => x.Recipient).NotNull();
             RuleFor(x => x.Sender).NotNull();
             RuleFor(x => x.FutureHops).NotNull();

@@ -12,7 +12,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.DTOs
     public class BLParcel
     {
 
-        public float? Weight { get; set; }
+        public float Weight { get; set; }
 
         public BLRecipient Recipient { get; set; }
 
@@ -32,7 +32,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.DTOs
             DeliveredEnum = 4
         }
 
-        public StateEnum? State { get; set; }
+        public StateEnum State { get; set; }
 
         public List<BLHopArrival> VisitedHops { get; set; }
 

@@ -60,15 +60,17 @@ namespace TeamJ.SKS.Package.Services.Controllers
         {
 
             BLParcel blParcel = _mapper.Map<BLParcel>(body);
+            //blParcel.FutureHops = new();
+            //blParcel.VisitedHops = new();
             if (_parcelLogic.SubmitParcel(blParcel))
             {
                 // Mapping back auf SVC Parcel (?)
-                // mapping entfällt, weil nur ein string
-                return Ok(StatusCode(200));
+                // mapping entf?llt, weil nur ein string
+                return Ok(new NewParcelInfo());
             }
             else
             {
-                return BadRequest(StatusCode(400, default(Error)));
+                return BadRequest(new Error("Error: SubmitParcel"));
 
             }
 
