@@ -101,13 +101,13 @@ namespace TeamJ.SKS.Package.Services.Test
             });
             var controller = new WarehouseManagementApiController(new Mapper(config), mockHopLogic.Object);
             var warehouse = Builder<Warehouse>.CreateNew()
-                .With(x => x.Code = Builder<string>.CreateNew().Build())
-                .With(x => x.Description = Builder<string>.CreateNew().Build())
-                .With(x => x.HopType = Builder<string>.CreateNew().Build())
-                .With(x => x.LocationName = Builder<string>.CreateNew().Build())
+                .With(x => x.Code = "code")
+                .With(x => x.Description = "")
+                .With(x => x.HopType = "")
+                .With(x => x.LocationName = "")
                 .With(x => x.ProcessingDelayMins = Builder<int>.CreateNew().Build())
-                .With(x => x.LocationCoordinates = Builder<GeoCoordinate>.CreateNew().Build())
                 .With(x => x.Level = Builder<int>.CreateNew().Build())
+                .With(x => x.LocationCoordinates = Builder<GeoCoordinate>.CreateNew().Build())
                 .Build();
             var result = (ObjectResult)controller.ImportWarehouses(warehouse);
             Assert.AreEqual(200, result.StatusCode);
@@ -124,11 +124,12 @@ namespace TeamJ.SKS.Package.Services.Test
             });
             var controller = new WarehouseManagementApiController(new Mapper(config), mockHopLogic.Object);
             var warehouse = Builder<Warehouse>.CreateNew()
-                .With(x => x.Code = Builder<>.CreateNew().Build())
-                .With(x => x.Description = Builder<string>.CreateNew().Build())
-                .With(x => x.HopType = Builder<string>.CreateNew().Build())
-                .With(x => x.LocationName = Builder<string>.CreateNew().Build())
+                .With(x => x.Code = "code")
+                .With(x => x.Description = "")
+                .With(x => x.HopType = "")
+                .With(x => x.LocationName = "")
                 .With(x => x.ProcessingDelayMins = Builder<int>.CreateNew().Build())
+                .With(x => x.Level = Builder<int>.CreateNew().Build())
                 .With(x => x.LocationCoordinates = Builder<GeoCoordinate>.CreateNew().Build())
                 .Build();
             var result = (ObjectResult)controller.ImportWarehouses(warehouse);

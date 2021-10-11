@@ -12,7 +12,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.DTOs.Validators
     {
         public BLWarehouseValidator()
         {
-            RuleFor(x => x.Description).Matches(@"^([a-zA-Z-\s\p{L}]+)$");
+            RuleFor(x => x.Description).Matches(@"^([a-zA-Z0-9-\s\p{L}]+)$");
             RuleFor(x => x.NextHops).NotNull();
         }
     }

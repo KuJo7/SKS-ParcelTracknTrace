@@ -14,7 +14,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.DTOs
 
         public string HopType { get; set; }
 
-        public int? ProcessingDelayMins { get; set; }
+        public int ProcessingDelayMins { get; set; }
 
         public string LocationName { get; set; }
 
