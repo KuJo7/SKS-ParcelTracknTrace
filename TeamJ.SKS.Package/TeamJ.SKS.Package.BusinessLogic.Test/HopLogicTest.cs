@@ -18,20 +18,20 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         {
         }
 
-        /*[Test]
-        public void ExportWarehouse_ValidMethodCall_Success()
+        [Test]
+        public void ExportWarehouse_DoesNotThrowException()
         {
             IHopLogic hopLogic = new HopLogic();
-            Assert.AreEqual(new List<BLHop>(), hopLogic.ExportWarehouses());
-        }*/
+            Assert.DoesNotThrow(() => hopLogic.ExportWarehouses());
+        }
 
         [Test]
-        public void ExportWarehouses_WrongMethodCall_Error()
+        public void ExportWarehouses_ReturnsList_Error()
         {
 
             IHopLogic hopLogic = new HopLogic();
             var result = hopLogic.ExportWarehouses();
-            Assert.AreEqual(null, result);
+            Assert.NotNull(result);
         }
 
         [Test]
