@@ -27,11 +27,17 @@ namespace TeamJ.SKS.Package.Services.DTOs.Models
     [ExcludeFromCodeCoverage]
     [DataContract]
     public partial class Error
-    { 
+    {
         /// <summary>
         /// The error message.
         /// </summary>
         /// <value>The error message.</value>
+
+        public Error(string message)
+        {
+            ErrorMessage = message;
+        }
+
         [Required]
 
         [DataMember(Name="errorMessage")]
