@@ -16,12 +16,12 @@ namespace TeamJ.SKS.Package.BusinessLogic
         IValidator<string> codeValidator = new BLCodeValidator();
         public List<BLHop> ExportWarehouses()
         {
-            var list = new List<BLHop>();
-            if (list.Count != 0)
-            {
+            //var list = new List<BLHop>();
+            //if (list.Count != 0)
+            //{
                 return new List<BLHop>();
-            }
-            return null;
+            //}
+            //return null;
 
         }
 
