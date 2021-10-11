@@ -9,6 +9,8 @@
               <Exclude>
                 <ModulePath>.*nunit.*</ModulePath>
                 <ModulePath>.*NUnit.*</ModulePath>
+	        <ModulePath>.*Moq.*</ModulePath>
+	        <ModulePath>.*moq.*</ModulePath>
               </Exclude>
             </ModulePaths>
             <Attributes>
