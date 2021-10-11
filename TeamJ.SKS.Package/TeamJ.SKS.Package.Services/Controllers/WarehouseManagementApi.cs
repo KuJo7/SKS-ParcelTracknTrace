@@ -159,7 +159,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
             {
                 // Mapping back auf SVC Parcel (?)
                 // mapping entf?llt nicht aufpassen!
-                return Ok();
+                return Ok(200);
             }
             else
             {

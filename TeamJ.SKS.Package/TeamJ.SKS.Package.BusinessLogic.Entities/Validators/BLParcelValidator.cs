@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -9,6 +10,7 @@ using FluentValidation.Validators;
 
 namespace TeamJ.SKS.Package.BusinessLogic.DTOs.Validators
 {
+    [ExcludeFromCodeCoverage]
     public class BLParcelValidator : AbstractValidator<BLParcel>
     {
         public BLParcelValidator()

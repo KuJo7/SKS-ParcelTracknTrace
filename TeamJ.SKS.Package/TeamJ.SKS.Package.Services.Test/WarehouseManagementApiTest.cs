@@ -22,7 +22,7 @@ namespace TeamJ.SKS.Package.Services.Test
         public void Setup()
         {
         }
-        //ein bad case test fehlt noch bei export warehouses
+
         [Test]
         public void ExportWarehouses_IsFalse_Success()
         {
@@ -38,12 +38,6 @@ namespace TeamJ.SKS.Package.Services.Test
             var result = (ObjectResult)controller.ExportWarehouses();
             Assert.AreEqual(200, result.StatusCode);
 
-
-            /*WarehouseManagementApiController controller = new WarehouseManagementApiController();
-            var result = controller.ExportWarehouses();
-            var okResult = result as OkObjectResult;
-            Assert.IsNotNull(okResult);
-            Assert.AreEqual(200, okResult.StatusCode);*/
         }
 
         [Test]
@@ -60,12 +54,6 @@ namespace TeamJ.SKS.Package.Services.Test
             var result = (ObjectResult)controller.ExportWarehouses();
             Assert.AreEqual(400, result.StatusCode);
 
-
-            /*WarehouseManagementApiController controller = new WarehouseManagementApiController();
-            var result = controller.ExportWarehouses();
-            var badResult = result as OkObjectResult;
-            Assert.IsNotNull(badResult);
-            Assert.AreEqual(400, badResult.StatusCode);*/
         }
 
         [Test]
@@ -75,7 +63,7 @@ namespace TeamJ.SKS.Package.Services.Test
             mockHopLogic.Setup(pl => pl.GetWarehouse(It.IsAny<string>())).Returns(new BLWarehouse());
 
             var controller = new WarehouseManagementApiController(mockHopLogic.Object);
-            var result = (ObjectResult)controller.GetWarehouse("code");
+            var result = (ObjectResult)controller.GetWarehouse("ABCD12");
             Assert.AreEqual(200, result.StatusCode);
         }
 
@@ -124,13 +112,12 @@ namespace TeamJ.SKS.Package.Services.Test
             });
             var controller = new WarehouseManagementApiController(new Mapper(config), mockHopLogic.Object);
             var warehouse = Builder<Warehouse>.CreateNew()
-                .With(x => x.Code = "code")
+                .With(x => x.Code = "wrongCode")
                 .With(x => x.Description = "")
                 .With(x => x.HopType = "")
                 .With(x => x.LocationName = "")
                 .With(x => x.ProcessingDelayMins = Builder<int>.CreateNew().Build())
                 .With(x => x.Level = Builder<int>.CreateNew().Build())
-                .With(x => x.LocationCoordinates = Builder<GeoCoordinate>.CreateNew().Build())
                 .Build();
             var result = (ObjectResult)controller.ImportWarehouses(warehouse);
             Assert.AreEqual(400, result.StatusCode);

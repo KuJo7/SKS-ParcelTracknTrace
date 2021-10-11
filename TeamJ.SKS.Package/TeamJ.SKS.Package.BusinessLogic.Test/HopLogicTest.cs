@@ -18,11 +18,29 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         {
         }
 
-        [Test]
+        /*[Test]
         public void ExportWarehouse_ValidMethodCall_Success()
         {
             IHopLogic hopLogic = new HopLogic();
             Assert.AreEqual(new List<BLHop>(), hopLogic.ExportWarehouses());
+        }*/
+
+        [Test]
+        public void ExportWarehouses_WrongMethodCall_Error()
+        {
+
+            IHopLogic hopLogic = new HopLogic();
+            var result = hopLogic.ExportWarehouses();
+            Assert.AreEqual(null, result);
+        }
+
+        [Test]
+        public void ImportWarehouse_NextHopsNotNull_Success()
+        {
+            IHopLogic hopLogic = new HopLogic();
+            BLWarehouse warehouse = new BLWarehouse();
+            warehouse.NextHops = new List<BLWarehouseNextHops>();
+            Assert.IsTrue(hopLogic.ImportWarehouses(warehouse));
         }
 
         [Test]
@@ -33,8 +51,9 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             warehouse.NextHops = null;
             Assert.IsFalse(hopLogic.ImportWarehouses(warehouse));
         }
+
         [Test]
-        public void ImportWarehouse_RegexWrong_Error()
+        public void ImportWarehouse_WrongRegex_Error()
         {
             IHopLogic hopLogic = new HopLogic();
             BLWarehouse warehouse = new BLWarehouse();
@@ -43,7 +62,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         }
 
         [Test]
-        public void ImportWarehouse_ParameterCorrect_Success()
+        public void ImportWarehouse_ValidParameter_Success()
         {
             IHopLogic hopLogic = new HopLogic();
             BLWarehouse warehouse = new BLWarehouse();
@@ -53,27 +72,17 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         }
 
         [Test]
-        public void ImportWarehouse_NextHopNotNull_Success()
+        public void GetWarehouse_ValidCode_Success()
         {
             IHopLogic hopLogic = new HopLogic();
-            BLWarehouse warehouse = new BLWarehouse();
-            warehouse.NextHops = new List<BLWarehouseNextHops>();
-            Assert.IsTrue(hopLogic.ImportWarehouses(warehouse));
+            Assert.IsNotNull(hopLogic.GetWarehouse("ABCD12"));
         }
 
         [Test]
-        public void GetWarehouse_CodeCorrect_Success()
+        public void GetWarehouse_WrongCode_Error()
         {
             IHopLogic hopLogic = new HopLogic();
-            Assert.AreEqual(new BLWarehouse(), hopLogic.GetWarehouse("ABCD2222"));
-        }
-
-        [Test]
-        public void GetWarehouse_CodeWrong_Error()
-        {
-            IHopLogic hopLogic = new HopLogic();
-            BLWarehouse warehouse = new BLWarehouse();
-            Assert.IsNull(hopLogic.GetWarehouse("AbCD22"));
+            Assert.IsNull(hopLogic.GetWarehouse("wrongCode"));
         }
     }
 }

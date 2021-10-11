@@ -48,7 +48,7 @@ namespace TeamJ.SKS.Package.Services.Test
             mockParcelLogic.Setup(pl => pl.ReportParcelHop(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
             var controller = new StaffApiController(mockParcelLogic.Object);
-            var result = (ObjectResult)controller.ReportParcelHop("123456789", "code");
+            var result = (ObjectResult)controller.ReportParcelHop("123456789", "ABCD12");
             Assert.AreEqual(200, result.StatusCode);
         }
         [Test]
@@ -58,7 +58,7 @@ namespace TeamJ.SKS.Package.Services.Test
             mockParcelLogic.Setup(pl => pl.ReportParcelHop(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
 
             var controller = new StaffApiController(mockParcelLogic.Object);
-            var result = (ObjectResult)controller.ReportParcelHop("1234", "code");
+            var result = (ObjectResult)controller.ReportParcelHop("1234", "wrongCode");
             Assert.AreEqual(400, result.StatusCode);
         }
     }

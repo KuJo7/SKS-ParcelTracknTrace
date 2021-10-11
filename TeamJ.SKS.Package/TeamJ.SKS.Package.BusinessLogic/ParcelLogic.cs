@@ -17,9 +17,15 @@ namespace TeamJ.SKS.Package.BusinessLogic
 
         public BLParcel TrackParcel(string trackingID)
         {
-            var test = new BLParcel();
-            test.TrackingId = trackingID;
-            var result = validator.Validate(test);
+            var parcel = new BLParcel();
+            parcel.TrackingId = trackingID;
+            parcel.FutureHops = new();
+            parcel.VisitedHops = new();
+            parcel.Weight = 1;
+            parcel.State = BLParcel.StateEnum.PickupEnum;
+            parcel.Sender = new();
+            parcel.Recipient = new();
+            var result = validator.Validate(parcel);
             if (result.IsValid)
             {
                 return new BLParcel();
@@ -51,9 +57,15 @@ namespace TeamJ.SKS.Package.BusinessLogic
 
         public bool ReportParcelDelivery(string trackingID)
         {
-            var test = new BLParcel();
-            test.TrackingId = trackingID;
-            var result = validator.Validate(test);
+            var parcel = new BLParcel();
+            parcel.TrackingId = trackingID;
+            parcel.FutureHops = new();
+            parcel.VisitedHops = new();
+            parcel.Weight = 1;
+            parcel.State = BLParcel.StateEnum.PickupEnum;
+            parcel.Sender = new();
+            parcel.Recipient = new();
+            var result = validator.Validate(parcel);
             if (result.IsValid)
             {
                 return true;
@@ -66,6 +78,12 @@ namespace TeamJ.SKS.Package.BusinessLogic
         {
             var parcel = new BLParcel();
             parcel.TrackingId = trackingID;
+            parcel.FutureHops = new();
+            parcel.VisitedHops = new();
+            parcel.Weight = 1;
+            parcel.State = BLParcel.StateEnum.PickupEnum;
+            parcel.Sender = new();
+            parcel.Recipient = new();
             var resultTrackingID = validator.Validate(parcel);
             var resultCode = codeValidator.Validate(code);
             if (resultTrackingID.IsValid && resultCode.IsValid)

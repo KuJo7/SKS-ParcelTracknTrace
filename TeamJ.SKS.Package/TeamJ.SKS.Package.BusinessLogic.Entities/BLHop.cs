@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace TeamJ.SKS.Package.BusinessLogic.DTOs
 {
+    [ExcludeFromCodeCoverage]
     public abstract class BLHop
     {
 

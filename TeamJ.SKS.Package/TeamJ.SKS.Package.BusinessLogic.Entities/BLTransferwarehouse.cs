@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace TeamJ.SKS.Package.BusinessLogic.DTOs
 {
+    [ExcludeFromCodeCoverage]
     public class BLTransferwarehouse : BLHop
     {
         public string RegionGeoJson { get; set; }
