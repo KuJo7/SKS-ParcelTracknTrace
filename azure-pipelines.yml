@@ -28,10 +28,6 @@ steps:
     projects: 'TeamJ.SKS.Package/TeamJ.SKS.Package.Services/TeamJ.SKS.Package.Services.csproj'
     arguments: '--configuration $(buildConfiguration)'
 
-- task: CopyFiles@2
-  inputs:
-    targetFolder: '$(Build.ArtifactStagingDirectory)'
-
 - task: DotNetCoreCLI@2
   displayName: Tests
   inputs:
@@ -47,14 +43,6 @@ steps:
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     configuration: '$(buildConfiguration)'
     zipAfterPublish: true
-
-- task: AzureWebApp@1
-  inputs:
-    azureSubscription: 'Azure for Students (d9a56636-1f8c-4016-93a2-8afdb04aa66a)'
-    appType: 'webApp'
-    appName: 'ParcelTracknTraceWebApp'
-    package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-    deploymentMethod: 'auto'
 
 - task: PublishBuildArtifacts@1
   displayName: 'publish artifacts'
