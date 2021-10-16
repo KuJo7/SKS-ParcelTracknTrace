@@ -11,6 +11,8 @@
                 <ModulePath>.*NUnit.*</ModulePath>
 	        <ModulePath>.*Moq.*</ModulePath>
 	        <ModulePath>.*moq.*</ModulePath>
+		<ModulePath>.*fluentvalidation.*</ModulePath>
+		<ModulePath>.*FluentValidation.*</ModulePath>
               </Exclude>
             </ModulePaths>
             <Attributes>
