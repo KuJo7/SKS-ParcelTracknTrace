@@ -12,6 +12,9 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.2" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.2.2" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.2.2" />
@@ -22,6 +25,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TeamJ.SKS.Package.BusinessLogic\TeamJ.SKS.Package.BusinessLogic.csproj" />
     <ProjectReference Include="..\TeamJ.SKS.Package.Services.DTOs\TeamJ.SKS.Package.Services.DTOs.csproj" />
     <ProjectReference Include="..\TeamJ.SKS.Package.Services.Interfaces\TeamJ.SKS.Package.Services.Interfaces.csproj" />
   </ItemGroup>

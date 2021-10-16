@@ -26,7 +26,7 @@ namespace TeamJ.SKS.Package.Services.DTOs.Models
     /// </summary>
     [ExcludeFromCodeCoverage]
     [DataContract]
-    public partial class Hop
+    public abstract partial class Hop
     { 
         /// <summary>
         /// Gets or Sets HopType

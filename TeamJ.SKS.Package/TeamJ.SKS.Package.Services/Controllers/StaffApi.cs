@@ -12,6 +12,8 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using TeamJ.SKS.Package.BusinessLogic;
+using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.Services.Attributes;
 using TeamJ.SKS.Package.Services.DTOs.Models;
 
@@ -22,7 +24,24 @@ namespace TeamJ.SKS.Package.Services.Controllers
     /// </summary>
     [ApiController]
     public class StaffApiController : ControllerBase
-    { 
+    {
+        private readonly IParcelLogic _parcelLogic;
+
+        /// <summary>
+        /// StaffApiController default Constructor
+        /// </summary>
+        public StaffApiController()
+        {
+            _parcelLogic = new ParcelLogic();
+        }
+        /// <summary>
+        /// StaffApiController Constructor with 1 parameters
+        /// </summary>
+        public StaffApiController(IParcelLogic parcelLogic)
+        {
+            _parcelLogic = parcelLogic;
+        }
+
         /// <summary>
         /// Report that a Parcel has been delivered at it&#x27;s final destination address. 
         /// </summary>
@@ -36,16 +55,15 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerOperation("ReportParcelDelivery")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult ReportParcelDelivery([FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")]string trackingId)
-        { 
-
-
-            if (trackingId == "123")
+        {
+            if (_parcelLogic.ReportParcelDelivery(trackingId))
             {
-                return BadRequest(StatusCode(400, default(Error)));
+                return Ok(StatusCode(200));
             }
             else
             {
-                return Ok(StatusCode(200));
+                return BadRequest(new Error("Error: ReportParcelDelivery"));
+
             }
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -76,13 +94,14 @@ namespace TeamJ.SKS.Package.Services.Controllers
         public virtual IActionResult ReportParcelHop([FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")] string trackingId, [FromRoute][Required][RegularExpression("/^[A-Z]{4}\\d{1,4}$/")] string code)
         {
 
-            if (trackingId == "123")
+            if (_parcelLogic.ReportParcelHop(trackingId, code))
             {
-                return BadRequest(StatusCode(400, default(Error)));
+                return Ok(StatusCode(200));
             }
             else
             {
-                return Ok(StatusCode(200));
+                return BadRequest(new Error("Error: ReportParcelHop"));
+
             }
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200);

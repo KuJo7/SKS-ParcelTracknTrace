@@ -30,7 +30,7 @@ namespace TeamJ.SKS.Package.Services.DTOs.Converter
             }
             else
             {
-                return new Hop();
+                return null;
             }
         }
     }

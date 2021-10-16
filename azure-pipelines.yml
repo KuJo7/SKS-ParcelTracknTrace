@@ -22,33 +22,27 @@ steps:
     restoreSolution: '$(solution)'
 
 - task: DotNetCoreCLI@2
-  displayName: 'dotnet build WebService'
+  displayName: Build
   inputs:
-    command: 'build'
+    command: build
     projects: 'TeamJ.SKS.Package/TeamJ.SKS.Package.Services/TeamJ.SKS.Package.Services.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: Tests
+  inputs:
+    command: test
+    projects: '**/*Test/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --collect "Code coverage" --settings "TeamJ.SKS.Package/TeamJ.SKS.Package.Services.Test.runsettings"'
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish WebService'
   inputs:
     command: 'publish'
-    projects: 'TeamJ.SKS.Package/TeamJ.SKS.Package.Services/TeamJ.SKS.Package.Services.csproj'
     publishWebProjects: true
-    arguments: '--output "$(Build.ArtifactStagingDirectory)"'
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     configuration: '$(buildConfiguration)'
     zipAfterPublish: true
 
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet build Tests'
-  inputs:
-    command: 'build'
-    projects: 'TeamJ.SKS.Package/TeamJ.SKS.Package.ServicesTest/TeamJ.SKS.Package.ServicesTest.csproj'
-
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet test'
-  inputs:
-    command: 'test'
-    projects: 'TeamJ.SKS.Package/TeamJ.SKS.Package.ServicesTest/TeamJ.SKS.Package.ServicesTest.csproj'
-    arguments: '--configuration $(buildConfiguration) --collect "Code Coverage" --settings "TeamJ.SKS.Package/TeamJ.SKS.Package.ServicesTest.runsettings"'
-    testRunTitle: 'WebService Tests'
-
 - task: PublishBuildArtifacts@1
+  displayName: 'publish artifacts'

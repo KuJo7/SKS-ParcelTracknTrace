@@ -9,10 +9,14 @@
  */
 
 using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
+using TeamJ.SKS.Package.BusinessLogic;
+using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.Services.Attributes;
+using TeamJ.SKS.Package.Services.DTOs.MapperProfiles;
 using TeamJ.SKS.Package.Services.DTOs.Models;
 
 namespace TeamJ.SKS.Package.Services.Controllers
@@ -22,7 +26,26 @@ namespace TeamJ.SKS.Package.Services.Controllers
     /// </summary>
     [ApiController]
     public class RecipientApiController : ControllerBase
-    { 
+    {
+        private readonly IParcelLogic _parcelLogic;
+
+        /// <summary>
+        /// RecipientApiController default Constructor
+        /// </summary>
+        public RecipientApiController()
+        {
+            _parcelLogic = new ParcelLogic();
+        }
+
+        /// <summary>
+        /// RecipientApiController Constructor with 2 parameters
+        /// </summary>
+        public RecipientApiController(IParcelLogic parcelLogic)
+        {
+            _parcelLogic = parcelLogic;
+        }
+
+        
         /// <summary>
         /// Find the latest state of a parcel by its tracking ID. 
         /// </summary>
@@ -38,13 +61,14 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult TrackParcel([FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")]string trackingId)
         {
-            if (trackingId == "123")
+            
+            if (_parcelLogic.TrackParcel(trackingId) != null)
             {
-                return BadRequest(StatusCode(400, default(Error)));
+                return Ok(new TrackingInformation());
             }
             else
             {
-                return Ok(StatusCode(200, default(TrackingInformation)));
+                return BadRequest(new Error("Error: TrackParcel"));
             }
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(TrackingInformation));

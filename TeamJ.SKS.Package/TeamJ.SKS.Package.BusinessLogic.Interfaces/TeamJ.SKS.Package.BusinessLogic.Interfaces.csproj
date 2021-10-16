@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TeamJ.SKS.Package.BusinessLogic.Entities\TeamJ.SKS.Package.BusinessLogic.DTOs.csproj" />
+    <ProjectReference Include="..\TeamJ.SKS.Package.Services.DTOs\TeamJ.SKS.Package.Services.DTOs.csproj" />
+  </ItemGroup>
+
+</Project>
