@@ -9,6 +9,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,9 @@ namespace TeamJ.SKS.Package.Services.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IParcelLogic _parcelLogic;
+        /// <summary>
+        /// LogisticsPartnerApiController default Constructor
+        /// </summary>
         public LogisticsPartnerApiController()
         {
             _parcelLogic = new ParcelLogic();
@@ -42,6 +46,9 @@ namespace TeamJ.SKS.Package.Services.Controllers
             });
             _mapper = new Mapper(config);
         }
+        /// <summary>
+        /// LogisticsPartnerApiController Constructor with 2 parameters
+        /// </summary>
         public LogisticsPartnerApiController(IMapper mapper, IParcelLogic parcelLogic)
         {
             _parcelLogic = parcelLogic;
@@ -65,8 +72,8 @@ namespace TeamJ.SKS.Package.Services.Controllers
 
             BLParcel blParcel = _mapper.Map<BLParcel>(body);
             blParcel.TrackingId = trackingId;
-            blParcel.FutureHops = new();
-            blParcel.VisitedHops = new();
+            blParcel.FutureHops = new List<BLHopArrival>();
+            blParcel.VisitedHops = new List<BLHopArrival>();
             if (_parcelLogic.TransitionParcel(blParcel))
             {
                 // Mapping back auf SVC Parcel (?)

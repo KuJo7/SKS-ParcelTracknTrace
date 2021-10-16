@@ -32,7 +32,7 @@ steps:
   displayName: Tests
   inputs:
     command: test
-    projects: 'TeamJ.SKS.Package/TeamJ.SKS.Package.Services.Test/TeamJ.SKS.Package.Services.Test.csproj'
+    projects: '**/*Test/*.csproj'
     arguments: '--configuration $(buildConfiguration) --collect "Code coverage" --settings "TeamJ.SKS.Package/TeamJ.SKS.Package.Services.Test.runsettings"'
 
 - task: DotNetCoreCLI@2

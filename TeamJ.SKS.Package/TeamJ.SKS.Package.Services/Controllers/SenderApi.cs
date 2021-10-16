@@ -30,6 +30,9 @@ namespace TeamJ.SKS.Package.Services.Controllers
         private readonly IMapper _mapper;
         private readonly IParcelLogic _parcelLogic;
 
+        /// <summary>
+        /// SenderApiController default Constructor
+        /// </summary>
         public SenderApiController()
         {
             _parcelLogic = new ParcelLogic();
@@ -39,6 +42,9 @@ namespace TeamJ.SKS.Package.Services.Controllers
             });
             _mapper = new Mapper(config);
         }
+        /// <summary>
+        /// SenderApiController Constructor with 2 parameters
+        /// </summary>
         public SenderApiController(IMapper mapper, IParcelLogic parcelLogic)
         {
             _parcelLogic = parcelLogic;
