@@ -12,8 +12,8 @@ namespace TeamJ.SKS.Package.BusinessLogic
 {
     public class HopLogic : IHopLogic
     {
-        IValidator<BLWarehouse> blWarehouseValidator = new BLWarehouseValidator();
-        IValidator<string> codeValidator = new BLCodeValidator();
+        readonly IValidator<BLWarehouse> blWarehouseValidator = new BLWarehouseValidator();
+        readonly IValidator<string> codeValidator = new BLCodeValidator();
         public List<BLHop> ExportWarehouses()
         {
             //var list = new List<BLHop>();
