@@ -161,7 +161,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
         {
             BLWarehouse blWarehouse = _mapper.Map<BLWarehouse>(body);
             blWarehouse.NextHops = new List<BLWarehouseNextHops>();
-            if (_hopLogic.ImportWarehouses(blWarehouse))
+            if (_hopLogic.ImportWarehouses(blWarehouse, _mapper))
             {
                 // Mapping back auf SVC Parcel (?)
                 // mapping entf?llt nicht aufpassen!

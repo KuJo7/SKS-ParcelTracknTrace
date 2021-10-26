@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 using AutoMapper;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
 using TeamJ.SKS.Package.Services.DTOs.Models;

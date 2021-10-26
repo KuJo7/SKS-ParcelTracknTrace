@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using FluentValidation;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
 using TeamJ.SKS.Package.BusinessLogic.DTOs.Validators;
 using TeamJ.SKS.Package.BusinessLogic.Interfaces;
+using TeamJ.SKS.Package.DataAccess.DTOs;
 
 namespace TeamJ.SKS.Package.BusinessLogic
 {
@@ -33,23 +35,25 @@ namespace TeamJ.SKS.Package.BusinessLogic
             return null;
         }
 
-        public bool TransitionParcel(BLParcel blParcel)
+        public bool TransitionParcel(BLParcel blParcel, IMapper mapper)
         {
             var result = validator.Validate(blParcel);
             //Check blParcel not null eigentlich jetzt nur zum Testen von Mapping
             //if (String.IsNullOrWhiteSpace(blParcel.Name))
             if(result.IsValid)
             {
+                DALParcel dalParcel = mapper.Map<DALParcel>(blParcel);
                 return true;
             }
             return false;
         }
 
-        public bool SubmitParcel(BLParcel blParcel)
+        public bool SubmitParcel(BLParcel blParcel, IMapper mapper)
         {
             var result = validator.Validate(blParcel);
             if (result.IsValid)
             {
+                DALParcel dalParcel = mapper.Map<DALParcel>(blParcel);
                 return true;
             }
             return false;

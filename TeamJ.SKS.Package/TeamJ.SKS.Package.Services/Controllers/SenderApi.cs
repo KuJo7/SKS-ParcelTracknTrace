@@ -68,7 +68,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
             BLParcel blParcel = _mapper.Map<BLParcel>(body);
             //blParcel.FutureHops = new();
             //blParcel.VisitedHops = new();
-            if (_parcelLogic.SubmitParcel(blParcel))
+            if (_parcelLogic.SubmitParcel(blParcel, _mapper))
             {
                 // Mapping back auf SVC Parcel (?)
                 // mapping entf?llt, weil nur ein string

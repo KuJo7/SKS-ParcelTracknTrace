@@ -74,7 +74,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
             blParcel.TrackingId = trackingId;
             blParcel.FutureHops = new List<BLHopArrival>();
             blParcel.VisitedHops = new List<BLHopArrival>();
-            if (_parcelLogic.TransitionParcel(blParcel))
+            if (_parcelLogic.TransitionParcel(blParcel, _mapper))
             {
                 // Mapping back auf SVC Parcel (?)
                 // mapping entf?llt, weil nur ein string
