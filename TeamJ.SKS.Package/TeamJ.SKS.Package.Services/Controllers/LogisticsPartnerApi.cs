@@ -37,7 +37,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
         /// <summary>
         /// LogisticsPartnerApiController default Constructor
         /// </summary>
-        public LogisticsPartnerApiController()
+        /*public LogisticsPartnerApiController()
         {
             _parcelLogic = new ParcelLogic();
             var config = new MapperConfiguration(cfg =>
@@ -45,7 +45,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
                 cfg.AddProfile(new MapperProfiles());
             });
             _mapper = new Mapper(config);
-        }
+        }*/
         /// <summary>
         /// LogisticsPartnerApiController Constructor with 2 parameters
         /// </summary>
@@ -67,14 +67,16 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerOperation("TransitionParcel")]
         [SwaggerResponse(statusCode: 200, type: typeof(NewParcelInfo), description: "Successfully transitioned the parcel")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
-        public virtual IActionResult TransitionParcel([FromBody]Parcel body, [FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")]string trackingId)
+        public virtual IActionResult TransitionParcel([FromBody]Parcel body, [FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")]string trackingId)
         {
 
             BLParcel blParcel = _mapper.Map<BLParcel>(body);
             blParcel.TrackingId = trackingId;
             blParcel.FutureHops = new List<BLHopArrival>();
             blParcel.VisitedHops = new List<BLHopArrival>();
-            if (_parcelLogic.TransitionParcel(blParcel, _mapper))
+            blParcel.Recipient = new BLRecipient();
+            blParcel.Sender = new BLRecipient();
+            if (_parcelLogic.TransitionParcel(blParcel))
             {
                 // Mapping back auf SVC Parcel (?)
                 // mapping entf?llt, weil nur ein string

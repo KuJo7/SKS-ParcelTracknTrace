@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using AutoMapper;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
+using TeamJ.SKS.Package.DataAccess.DTOs;
 using TeamJ.SKS.Package.Services.DTOs.Models;
 
 namespace TeamJ.SKS.Package.Services.DTOs.MapperProfiles
@@ -21,6 +22,15 @@ namespace TeamJ.SKS.Package.Services.DTOs.MapperProfiles
             CreateMap<TrackingInformation, BLParcel>();
             CreateMap<NewParcelInfo, BLParcel>();
             CreateMap<Recipient, BLRecipient>();
+
+            CreateMap<BLHop, DALHop>();
+            CreateMap<BLTruck, DALHop>();
+            CreateMap<BLWarehouse, DALHop>();
+            CreateMap<BLTransferwarehouse, DALHop>();
+            CreateMap<BLHopArrival, DALHopArrival>();
+            CreateMap<BLWarehouseNextHops, DALWarehouseNextHops>();
+            CreateMap<BLParcel, DALParcel>();
+            CreateMap<BLRecipient, DALRecipient>();
         }
     }
 }

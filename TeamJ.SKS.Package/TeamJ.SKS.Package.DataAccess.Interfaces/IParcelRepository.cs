@@ -1,22 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using TeamJ.SKS.Package.DataAccess.DTOs;
 
 namespace TeamJ.SKS.Package.DataAccess.Interfaces
 {
     public interface IParcelRepository
     {
-        public Boolean Create(DALParcel parcel);
-        public void Update(DALParcel parcel);
-        public void Delete(DALParcel parcel);
+        public void Create(DALParcel dalParcel);
+        public void Update(DALParcel dalParcel);
+        public void Delete(DALParcel dalParcel);
 
-        public DALParcel TrackParcel(string trackingID);
 
-        public DALParcel TransitionParcel(DALParcel blParcel);
+        //public DALHop GetByCode(string code);
+        //public IEnumerable<DALHop> GetAllHops();
+        //public IEnumerable<DALHop> GetByHopType(string hopType);
+        //public IEnumerable<DALHop> GetByLevel(int level);
 
-        public DALParcel SubmitParcel(DALParcel blParcel);
+        //public DALParcel GetByCode(string code);
+        public DALParcel GetById(string trackingID);
+        public IEnumerable<DALParcel> GetByState(DALStateEnum state);
 
-        public DALParcel ReportParcelDelivery(string trackingID);
-
-        public DALParcel ReportParcelHop(string trackingID, string code);
+        //Person GetSinglePersonByFirstName(string searchPattern);
+        //Person GetSinglePersonByLastName(string searchPattern);
+        //ICollection<Person> GetAllPeopleWithEmptyCompany();
     }
 }

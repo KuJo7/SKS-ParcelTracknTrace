@@ -26,6 +26,10 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
 using TeamJ.SKS.Package.BusinessLogic.DTOs.Validators;
+using Microsoft.EntityFrameworkCore;
+using TeamJ.SKS.Package.DataAccess.Interfaces;
+using TeamJ.SKS.Package.BusinessLogic.Interfaces;
+using TeamJ.SKS.Package.Services.DTOs.MapperProfiles;
 
 namespace TeamJ.SKS.Package.Services
 {
@@ -57,7 +61,8 @@ namespace TeamJ.SKS.Package.Services
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddAutoMapper(typeof(Startup));
+
+            services.AddAutoMapper(typeof(MapperProfiles));
             services.AddMvc();
 
             services.AddMvc(setup => { }).AddFluentValidation();
@@ -67,6 +72,19 @@ namespace TeamJ.SKS.Package.Services
             services.AddTransient<IValidator<BLRecipient>, BLRecipientValidator>();
             services.AddTransient<IValidator<BLWarehouseNextHops>, BLWarehouseNextHopsValidator>();
             services.AddTransient<IValidator<string>, BLCodeValidator>();
+
+            services.AddDbContext<DataAccess.Sql.Context>(opt => opt.UseSqlServer("Server=.\\SQLEXPRESS;Database=ParcelTracknTrace_DB;User Id=parceltrackntrace;Password=password;Trusted_Connection=True;MultipleActiveResultSets=true")); //, x =>
+            //{
+            //    x.UseNetTopologySuite();
+            //    x.MigrationsAssembly("TeamJ")
+            //});
+            services.AddScoped<IContext, DataAccess.Sql.Context>(provider => provider.GetRequiredService<DataAccess.Sql.Context>());
+
+            services.AddScoped<IHopRepository, DataAccess.Sql.SqlHopRepository>();
+            services.AddScoped<IParcelRepository, DataAccess.Sql.SqlParcelRepository>();
+
+            services.AddScoped<IParcelLogic, BusinessLogic.ParcelLogic>();
+            services.AddScoped<IHopLogic, BusinessLogic.HopLogic>();
 
             // Add framework services.
             services

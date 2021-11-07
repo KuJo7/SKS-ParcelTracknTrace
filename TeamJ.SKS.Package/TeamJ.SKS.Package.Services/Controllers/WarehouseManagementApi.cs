@@ -35,7 +35,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
         /// <summary>
         /// WarehouseManagementApiController default Constructor
         /// </summary>
-        public WarehouseManagementApiController()
+        /*public WarehouseManagementApiController()
         {
             _hopLogic = new HopLogic();
             var config = new MapperConfiguration(cfg =>
@@ -44,7 +44,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
             });
             _mapper = new Mapper(config);
 
-        }
+        }*/
         /// <summary>
         /// WarehouseManagementApiController Constructor with 2 parameters
         /// </summary>
@@ -161,7 +161,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
         {
             BLWarehouse blWarehouse = _mapper.Map<BLWarehouse>(body);
             blWarehouse.NextHops = new List<BLWarehouseNextHops>();
-            if (_hopLogic.ImportWarehouses(blWarehouse, _mapper))
+            if (_hopLogic.ImportWarehouses(blWarehouse))
             {
                 // Mapping back auf SVC Parcel (?)
                 // mapping entf?llt nicht aufpassen!

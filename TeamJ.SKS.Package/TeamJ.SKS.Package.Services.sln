@@ -19,13 +19,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.BusinessL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.BusinessLogic", "TeamJ.SKS.Package.BusinessLogic\TeamJ.SKS.Package.BusinessLogic.csproj", "{AED68E58-6E95-4056-9BFF-298031DBADBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamJ.SKS.Package.DataAccess.Sql", "TeamJ.SKS.Package.DataAccess.Sql\TeamJ.SKS.Package.DataAccess.Sql.csproj", "{E89B1960-85B5-477C-90AA-164568FD7F88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.DataAccess.Sql", "TeamJ.SKS.Package.DataAccess.Sql\TeamJ.SKS.Package.DataAccess.Sql.csproj", "{E89B1960-85B5-477C-90AA-164568FD7F88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamJ.SKS.Package.DataAccess.Interfaces", "TeamJ.SKS.Package.DataAccess.Interfaces\TeamJ.SKS.Package.DataAccess.Interfaces.csproj", "{55AC6D00-CF61-47B5-B3C8-06AB024713DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.DataAccess.Interfaces", "TeamJ.SKS.Package.DataAccess.Interfaces\TeamJ.SKS.Package.DataAccess.Interfaces.csproj", "{55AC6D00-CF61-47B5-B3C8-06AB024713DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamJ.SKS.Package.DataAccess.Tests", "TeamJ.SKS.Package.DataAccess.Tests\TeamJ.SKS.Package.DataAccess.Tests.csproj", "{CFF98846-13E7-4590-8BAD-FEA07FA92663}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.DataAccess.Test", "TeamJ.SKS.Package.DataAccess.Tests\TeamJ.SKS.Package.DataAccess.Test.csproj", "{CFF98846-13E7-4590-8BAD-FEA07FA92663}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamJ.SKS.Package.DataAccess.DTOs", "TeamJ.SKS.Package.DataAccess.DTOs\TeamJ.SKS.Package.DataAccess.DTOs.csproj", "{C19F1912-8BDA-41DB-831A-85F835C04C6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.DataAccess.DTOs", "TeamJ.SKS.Package.DataAccess.DTOs\TeamJ.SKS.Package.DataAccess.DTOs.csproj", "{C19F1912-8BDA-41DB-831A-85F835C04C6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

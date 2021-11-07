@@ -30,10 +30,10 @@ namespace TeamJ.SKS.Package.Services.Controllers
         /// <summary>
         /// StaffApiController default Constructor
         /// </summary>
-        public StaffApiController()
+        /*public StaffApiController()
         {
             _parcelLogic = new ParcelLogic();
-        }
+        }*/
         /// <summary>
         /// StaffApiController Constructor with 1 parameters
         /// </summary>
@@ -54,7 +54,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [ValidateModelState]
         [SwaggerOperation("ReportParcelDelivery")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
-        public virtual IActionResult ReportParcelDelivery([FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")]string trackingId)
+        public virtual IActionResult ReportParcelDelivery([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")]string trackingId)
         {
             if (_parcelLogic.ReportParcelDelivery(trackingId))
             {
@@ -91,7 +91,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [ValidateModelState]
         [SwaggerOperation("ReportParcelHop")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
-        public virtual IActionResult ReportParcelHop([FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")] string trackingId, [FromRoute][Required][RegularExpression("/^[A-Z]{4}\\d{1,4}$/")] string code)
+        public virtual IActionResult ReportParcelHop([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")] string trackingId, [FromRoute][Required][RegularExpression("^[A-Z]{4}\\d{1,4}$")] string code)
         {
 
             if (_parcelLogic.ReportParcelHop(trackingId, code))

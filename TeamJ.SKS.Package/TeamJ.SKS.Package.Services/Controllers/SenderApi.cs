@@ -33,7 +33,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
         /// <summary>
         /// SenderApiController default Constructor
         /// </summary>
-        public SenderApiController()
+        /*public SenderApiController()
         {
             _parcelLogic = new ParcelLogic();
             var config = new MapperConfiguration(cfg =>
@@ -41,7 +41,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
                 cfg.AddProfile(new MapperProfiles());
             });
             _mapper = new Mapper(config);
-        }
+        }*/
         /// <summary>
         /// SenderApiController Constructor with 2 parameters
         /// </summary>
@@ -62,22 +62,24 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerOperation("SubmitParcel")]
         [SwaggerResponse(statusCode: 200, type: typeof(NewParcelInfo), description: "Successfully submitted the new parcel")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
-        public virtual IActionResult SubmitParcel([FromBody]Parcel body)
+        public virtual IActionResult SubmitParcel([FromBody] Parcel body)
         {
 
             BLParcel blParcel = _mapper.Map<BLParcel>(body);
+            blParcel.FutureHops = new();
+            blParcel.VisitedHops = new();
+            //blParcel.TrackingId = "PYJRB4HZ6";
             //blParcel.FutureHops = new();
-            //blParcel.VisitedHops = new();
-            if (_parcelLogic.SubmitParcel(blParcel, _mapper))
+            try
             {
                 // Mapping back auf SVC Parcel (?)
                 // mapping entf?llt, weil nur ein string
-                return Ok(new NewParcelInfo());
+                blParcel = _parcelLogic.SubmitParcel(blParcel);
+                return Ok(new NewParcelInfo() { TrackingId = ""});
             }
-            else
+            catch
             {
                 return BadRequest(new Error("Error: SubmitParcel"));
-
             }
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...

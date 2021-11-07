@@ -9,26 +9,35 @@ using TeamJ.SKS.Package.BusinessLogic.DTOs;
 using TeamJ.SKS.Package.BusinessLogic.DTOs.Validators;
 using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.DataAccess.DTOs;
+using TeamJ.SKS.Package.DataAccess.Interfaces;
 
 namespace TeamJ.SKS.Package.BusinessLogic
 {
     public class HopLogic : IHopLogic
     {
-        readonly IValidator<BLWarehouse> blWarehouseValidator = new BLWarehouseValidator();
-        readonly IValidator<string> codeValidator = new BLCodeValidator();
-        public List<BLHop> ExportWarehouses()
-        {
+        private readonly IValidator<BLWarehouse> blWarehouseValidator = new BLWarehouseValidator();
+        private readonly IValidator<string> codeValidator = new BLCodeValidator();
+        private readonly IHopRepository _repo;
+        private readonly IMapper _mapper;
 
-            return new List<BLHop>();
+        public HopLogic(IHopRepository repo, IMapper mapper)
+        {
+            _repo = repo;
+            _mapper = mapper;
         }
 
-        public bool ImportWarehouses(BLWarehouse blWarehouse, IMapper mapper)
+        public List<BLHop> ExportWarehouses()
+        {
+            return _mapper.Map<List<BLHop>>(_repo.GetAllHops());
+        }
+
+        public bool ImportWarehouses(BLWarehouse blWarehouse)
         {
             var result = blWarehouseValidator.Validate(blWarehouse);
             if (result.IsValid)
             {
-                DALWarehouse dalWarehouse = mapper.Map<DALWarehouse>(blWarehouse);
-                //Datenbankaccess wird hier gemacht
+                DALHop dalWarehouse = _mapper.Map<DALHop>(blWarehouse);
+                _repo.Create(dalWarehouse);
                 return true;
             }
             return false;
@@ -39,7 +48,7 @@ namespace TeamJ.SKS.Package.BusinessLogic
             var result = codeValidator.Validate(code);
             if (result.IsValid)
             {
-                return new BLWarehouse();
+                return _mapper.Map<BLWarehouse>(_repo.GetByCode(code));
             }
             return null;
         }
