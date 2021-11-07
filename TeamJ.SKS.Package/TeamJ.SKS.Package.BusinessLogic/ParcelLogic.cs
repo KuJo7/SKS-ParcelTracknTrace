@@ -59,7 +59,7 @@ namespace TeamJ.SKS.Package.BusinessLogic
             {
                 DALParcel dalParcel = _mapper.Map<DALParcel>(blParcel);
                 _repo.Create(dalParcel);
-                dalParcel.TrackingId = "TEST";
+                //dalParcel.TrackingId = "TEST";
                 return _mapper.Map<BLParcel>(dalParcel);
             }
                 return null;

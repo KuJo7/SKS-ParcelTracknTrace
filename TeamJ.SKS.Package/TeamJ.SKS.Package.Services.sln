@@ -24,6 +24,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.DataAccess.Interfaces", "TeamJ.SKS.Package.DataAccess.Interfaces\TeamJ.SKS.Package.DataAccess.Interfaces.csproj", "{55AC6D00-CF61-47B5-B3C8-06AB024713DD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.DataAccess.Test", "TeamJ.SKS.Package.DataAccess.Tests\TeamJ.SKS.Package.DataAccess.Test.csproj", "{CFF98846-13E7-4590-8BAD-FEA07FA92663}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E89B1960-85B5-477C-90AA-164568FD7F88} = {E89B1960-85B5-477C-90AA-164568FD7F88}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.DataAccess.DTOs", "TeamJ.SKS.Package.DataAccess.DTOs\TeamJ.SKS.Package.DataAccess.DTOs.csproj", "{C19F1912-8BDA-41DB-831A-85F835C04C6C}"
 EndProject
