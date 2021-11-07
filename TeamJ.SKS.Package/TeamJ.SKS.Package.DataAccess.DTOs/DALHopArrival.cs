@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,15 +10,9 @@ namespace TeamJ.SKS.Package.DataAccess.DTOs
 {
     public class DALHopArrival
     {
-        [ForeignKey(nameof(DALParcel))]
-        public string ParcelId { get; set; }
-
-        public DALParcel Parcel { get; set; }
-
-        [ForeignKey(nameof(DALHop))]
-        public string HopCode { get; set; }
-
-        public DALHop Hop { get; set; }
+        [Key]
+        public string Id { get; set; }
+        public string Code { get; set; }
 
         public string Description { get; set; }
 

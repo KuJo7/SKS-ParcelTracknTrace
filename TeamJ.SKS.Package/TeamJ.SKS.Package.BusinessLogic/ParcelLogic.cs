@@ -28,7 +28,8 @@ namespace TeamJ.SKS.Package.BusinessLogic
 
         public BLParcel TrackParcel(string trackingID)
         {
-            var blParcel = _mapper.Map<BLParcel>(_repo.GetById(trackingID));
+            var blParcel = new BLParcel();
+            blParcel =  _mapper.Map<BLParcel>(_repo.GetById(trackingID));
             var result = validator.Validate(blParcel);
             if (result.IsValid) 
             {

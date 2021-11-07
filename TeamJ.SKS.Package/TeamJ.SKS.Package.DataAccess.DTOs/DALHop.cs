@@ -10,7 +10,8 @@ namespace TeamJ.SKS.Package.DataAccess.DTOs
     public class DALHop
     {
         [Key]
-        public string HopCode { get; set; }
+        public string Id { get; set; }
+        public string Code { get; set; }
 
         public string HopType { get; set; }
 
@@ -23,17 +24,5 @@ namespace TeamJ.SKS.Package.DataAccess.DTOs
         public double Lat { get; set; }
 
         public double Lon { get; set; }
-
-        public int Level { get; set; }
-
-        public List<DALWarehouseNextHops> NextHops { get; set; }
-
-        public string RegionGeoJson { get; set; }
-
-        public string NumberPlate { get; set; }
-
-        public string LogisticsPartner { get; set; }
-
-        public string LogisticsPartnerUrl { get; set; }
     }
 }

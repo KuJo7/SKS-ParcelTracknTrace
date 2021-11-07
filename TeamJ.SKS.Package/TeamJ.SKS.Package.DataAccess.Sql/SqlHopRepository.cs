@@ -48,10 +48,10 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             return _context.Hops.Where(hop => hop.HopType == hopType);
         }
 
-        public IEnumerable<DALHop> GetByLevel(int level)
+        /*public List<DALHop> GetByLevel(int level)
         {
             return _context.Hops.Where(hop => hop.Level == level);
-        }
+        }*/
 
         //Person GetSinglePersonByFirstName(string searchPattern);
         //Person GetSinglePersonByLastName(string searchPattern);

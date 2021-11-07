@@ -38,39 +38,10 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             //builder.Entity<DALRecipient>()
             //    .HasKey(recipient => recipient.RecipientId);
 
-            builder.Entity<DALHopArrival>()
-                .HasKey(hopArrival => new { hopArrival.ParcelId, hopArrival.HopCode });
-
-            builder.Entity<DALWarehouseNextHops>()
-                .HasKey(warehouseNextHops => new { warehouseNextHops.FromHopCode, warehouseNextHops.ToHopCode });
-
-            builder.Entity<DALHopArrival>()
-                .HasOne(hopArrival => hopArrival.Parcel)
-                .WithMany(hopArrival => hopArrival.Hops);
-
-            builder.Entity<DALHop>()
-                .HasMany(hop => hop.NextHops)
-                .WithOne(hop => hop.FromHop);
-
-            builder.Entity<DALWarehouseNextHops>()
-                .HasOne(warehouseNextHops => warehouseNextHops.FromHop)
-                .WithMany(warehouseNextHops => warehouseNextHops.NextHops)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder.Entity<DALWarehouseNextHops>()
-                .HasOne(warehouseNextHops => warehouseNextHops.ToHop)
-                .WithOne()
-                .OnDelete(DeleteBehavior.NoAction);
-
-            builder.Entity<DALParcel>()
-                .HasOne(parcel => parcel.Recipient)
-                .WithMany()
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<DALParcel>()
-                .HasOne(parcel => parcel.Sender)
-                .WithMany()
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<DALHop>().HasDiscriminator(h => h.HopType);
+            builder.Entity<DALTruck>().HasBaseType<DALHop>();
+            builder.Entity<DALTransferwarehouse>().HasBaseType<DALHop>();
+            builder.Entity<DALWarehouse>().HasBaseType<DALHop>();
         }
     }
 }

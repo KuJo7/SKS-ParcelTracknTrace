@@ -7,18 +7,12 @@ using System.Threading.Tasks;
 
 namespace TeamJ.SKS.Package.DataAccess.DTOs
 {
-    public class DALRecipient
+    public class DALTruck : DALHop
     {
         [Key]
         public string Id { get; set; }
-        public string Name { get; set; }
 
-        public string Street { get; set; }
-
-        public string PostalCode { get; set; }
-
-        public string City { get; set; }
-
-        public string Country { get; set; }
+        public string RegionGeoJson { get; set; }
+        public string NumberPlate { get; set; }
     }
 }

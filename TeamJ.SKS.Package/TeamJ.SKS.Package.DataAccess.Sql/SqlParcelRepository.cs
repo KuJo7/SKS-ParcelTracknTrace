@@ -45,9 +45,9 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             return _context.Parcels.Find(code);
         }
 
-        public IEnumerable<DALParcel> GetByState(DALStateEnum state)
+        public List<DALParcel> GetByState(DALParcel parcel)
         {
-            return _context.Parcels.Where(parcel => parcel.State == state);
+            return (List<DALParcel>)_context.Parcels.Where(p => p.State == parcel.State);
         }
 
         //Person GetSinglePersonByFirstName(string searchPattern);

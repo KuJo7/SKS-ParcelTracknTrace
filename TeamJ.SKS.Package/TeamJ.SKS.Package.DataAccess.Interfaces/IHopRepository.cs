@@ -14,7 +14,7 @@ namespace TeamJ.SKS.Package.DataAccess.Interfaces
         public DALHop GetByCode(string code);
         public IEnumerable<DALHop> GetAllHops();
         public IEnumerable<DALHop> GetByHopType(string hopType);
-        public IEnumerable<DALHop> GetByLevel(int level);
+        //public IEnumerable<DALHop> GetByLevel(int level);
 
         //public IEnumerable<DALHop> ExportWarehouses();
         //public DALHop GetWarehouse(string code);

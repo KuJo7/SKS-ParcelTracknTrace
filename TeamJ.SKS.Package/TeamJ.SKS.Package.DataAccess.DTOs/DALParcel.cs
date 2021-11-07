@@ -11,28 +11,33 @@ namespace TeamJ.SKS.Package.DataAccess.DTOs
 {
     public class DALParcel
     {
-        [Key]
-        public string TrackingId { get; set; }
-
         public float Weight { get; set; }
-
-        [ForeignKey(nameof(Recipient))]
-        public Guid RecipientId { get; set; }
 
         public DALRecipient Recipient { get; set; }
 
-        [ForeignKey(nameof(Sender))]
-        public Guid SenderId { get; set; }
-
         public DALRecipient Sender { get; set; }
 
-        public DALStateEnum State { get; set; }
+        public enum StateEnum
+        {
+            [EnumMember(Value = "Pickup")]
+            PickupEnum = 0,
+            [EnumMember(Value = "InTransport")]
+            InTransportEnum = 1,
+            [EnumMember(Value = "InTruckDelivery")]
+            InTruckDeliveryEnum = 2,
+            [EnumMember(Value = "Transferred")]
+            TransferredEnum = 3,
+            [EnumMember(Value = "Delivered")]
+            DeliveredEnum = 4
+        }
 
-        public List<DALHopArrival> Hops { get; set; }
+        public StateEnum State { get; set; }
 
-        //public List<DALHopArrival> VisitedHops { get; set; }
+        public List<DALHopArrival> VisitedHops { get; set; }
 
-        //public List<DALHopArrival> FutureHops { get; set; }
+        public List<DALHopArrival> FutureHops { get; set; }
+        [Key]
+        public string TrackingId { get; set; }
 
     }
 }

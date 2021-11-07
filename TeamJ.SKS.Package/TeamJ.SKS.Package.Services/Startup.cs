@@ -62,7 +62,7 @@ namespace TeamJ.SKS.Package.Services
         {
 
 
-            services.AddAutoMapper(typeof(MapperProfiles));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMvc();
 
             services.AddMvc(setup => { }).AddFluentValidation();
