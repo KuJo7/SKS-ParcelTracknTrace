@@ -26,6 +26,11 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
 using TeamJ.SKS.Package.BusinessLogic.DTOs.Validators;
+using Microsoft.EntityFrameworkCore;
+using TeamJ.SKS.Package.DataAccess.Interfaces;
+using TeamJ.SKS.Package.BusinessLogic.Interfaces;
+using TeamJ.SKS.Package.Services.DTOs.MapperProfiles;
+using TeamJ.SKS.Package.DataAccess.Sql;
 
 namespace TeamJ.SKS.Package.Services
 {
@@ -57,7 +62,8 @@ namespace TeamJ.SKS.Package.Services
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddAutoMapper(typeof(Startup));
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMvc();
 
             services.AddMvc(setup => { }).AddFluentValidation();
@@ -67,6 +73,16 @@ namespace TeamJ.SKS.Package.Services
             services.AddTransient<IValidator<BLRecipient>, BLRecipientValidator>();
             services.AddTransient<IValidator<BLWarehouseNextHops>, BLWarehouseNextHopsValidator>();
             services.AddTransient<IValidator<string>, BLCodeValidator>();
+
+            services.AddDbContext<DataAccess.Sql.Context>(opt => opt.UseSqlServer("Server=tcp:parceltrackntrace.database.windows.net,1433;Initial Catalog=parceltrackntrace_db;Persist Security Info=False;User ID=adminteamj;Password=SKSTeamJ1234?;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"));
+
+            services.AddScoped<IContext, DataAccess.Sql.Context>(provider => provider.GetRequiredService<DataAccess.Sql.Context>());
+
+            services.AddScoped<IHopRepository, DataAccess.Sql.SqlHopRepository>();
+            services.AddScoped<IParcelRepository, DataAccess.Sql.SqlParcelRepository>();
+
+            services.AddScoped<IParcelLogic, BusinessLogic.ParcelLogic>();
+            services.AddScoped<IHopLogic, BusinessLogic.HopLogic>();
 
             // Add framework services.
             services
@@ -113,8 +129,11 @@ namespace TeamJ.SKS.Package.Services
         /// <param name="app"></param>
         /// <param name="env"></param>
         /// <param name="loggerFactory"></param>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        /// <param name="context"></param>
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, Context context)
         {
+            context.Database.Migrate();
+
             app.UseRouting();
 
             //TODO: Uncomment this if you need wwwroot folder

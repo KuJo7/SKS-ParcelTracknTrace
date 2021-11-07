@@ -33,6 +33,11 @@ namespace TeamJ.SKS.Package.Services.DTOs.Models
         /// </summary>
         /// <value>The error message.</value>
 
+        public Error()
+        {
+            ErrorMessage = "error Occured TEST";
+        }
+
         public Error(string message)
         {
             ErrorMessage = message;

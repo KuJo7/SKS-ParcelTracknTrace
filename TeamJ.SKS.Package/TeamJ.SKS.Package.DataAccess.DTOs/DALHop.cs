@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TeamJ.SKS.Package.BusinessLogic.DTOs
+
+namespace TeamJ.SKS.Package.DataAccess.DTOs
 {
     [ExcludeFromCodeCoverage]
-    public class BLHop
+    public class DALHop
     {
+        [Key]
+        public string Id { get; set; }
+        public string Code { get; set; }
 
         public string HopType { get; set; }
 
@@ -19,12 +22,10 @@ namespace TeamJ.SKS.Package.BusinessLogic.DTOs
 
         public string LocationName { get; set; }
 
-        public string Code { get; set; }
         public string Description { get; set; }
 
         public double Lat { get; set; }
 
         public double Lon { get; set; }
-
     }
 }

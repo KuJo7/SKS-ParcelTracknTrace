@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TeamJ.SKS.Package.BusinessLogic.Entities\TeamJ.SKS.Package.BusinessLogic.DTOs.csproj" />
+    <ProjectReference Include="..\TeamJ.SKS.Package.DataAccess.DTOs\TeamJ.SKS.Package.DataAccess.DTOs.csproj" />
   </ItemGroup>
 
 </Project>
