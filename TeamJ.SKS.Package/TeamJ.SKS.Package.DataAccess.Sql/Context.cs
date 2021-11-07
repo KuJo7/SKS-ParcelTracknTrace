@@ -16,7 +16,7 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
 
         public Context(DbContextOptions<Context> opt) : base(opt)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

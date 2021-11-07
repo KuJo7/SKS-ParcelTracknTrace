@@ -30,6 +30,7 @@ using Microsoft.EntityFrameworkCore;
 using TeamJ.SKS.Package.DataAccess.Interfaces;
 using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.Services.DTOs.MapperProfiles;
+using TeamJ.SKS.Package.DataAccess.Sql;
 
 namespace TeamJ.SKS.Package.Services
 {
@@ -73,11 +74,8 @@ namespace TeamJ.SKS.Package.Services
             services.AddTransient<IValidator<BLWarehouseNextHops>, BLWarehouseNextHopsValidator>();
             services.AddTransient<IValidator<string>, BLCodeValidator>();
 
-            services.AddDbContext<DataAccess.Sql.Context>(opt => opt.UseSqlServer("Server=.\\SQLEXPRESS;Database=ParcelTracknTrace_DB;User Id=parceltrackntrace;Password=password;Trusted_Connection=True;MultipleActiveResultSets=true")); //, x =>
-            //{
-            //    x.UseNetTopologySuite();
-            //    x.MigrationsAssembly("TeamJ")
-            //});
+            services.AddDbContext<DataAccess.Sql.Context>(opt => opt.UseSqlServer("Server=tcp:parceltrackntrace.database.windows.net,1433;Initial Catalog=parceltrackntrace_db;Persist Security Info=False;User ID=adminteamj;Password=SKSTeamJ1234?;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"));
+
             services.AddScoped<IContext, DataAccess.Sql.Context>(provider => provider.GetRequiredService<DataAccess.Sql.Context>());
 
             services.AddScoped<IHopRepository, DataAccess.Sql.SqlHopRepository>();
@@ -131,8 +129,11 @@ namespace TeamJ.SKS.Package.Services
         /// <param name="app"></param>
         /// <param name="env"></param>
         /// <param name="loggerFactory"></param>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        /// <param name="context"></param>
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, Context context)
         {
+            context.Database.Migrate();
+
             app.UseRouting();
 
             //TODO: Uncomment this if you need wwwroot folder

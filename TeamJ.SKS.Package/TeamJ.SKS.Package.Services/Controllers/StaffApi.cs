@@ -27,9 +27,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
     {
         private readonly IParcelLogic _parcelLogic;
 
-        /// <summary>
-        /// StaffApiController default Constructor
-        /// </summary>
+
         /*public StaffApiController()
         {
             _parcelLogic = new ParcelLogic();

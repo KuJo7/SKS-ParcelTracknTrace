@@ -30,7 +30,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             dalParcel.Recipient = new DALRecipient();
             dalParcel.TrackingId = "123456789";
             dalParcel.Sender = new DALRecipient();
-            //dalParcel.Hops = new List<DALHopArrival>();
+            //dalParcel.Visite = new List<DALHopArrival>();
             mockParcelRepository.Setup(pl => pl.GetById("123456789")).Returns(dalParcel);
             var config = new MapperConfiguration(cfg =>
             {

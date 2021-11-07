@@ -32,9 +32,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
         private readonly IMapper _mapper;
         private readonly IHopLogic _hopLogic;
 
-        /// <summary>
-        /// WarehouseManagementApiController default Constructor
-        /// </summary>
+
         /*public WarehouseManagementApiController()
         {
             _hopLogic = new HopLogic();

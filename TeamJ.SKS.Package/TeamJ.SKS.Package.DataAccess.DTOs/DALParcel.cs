@@ -11,6 +11,9 @@ namespace TeamJ.SKS.Package.DataAccess.DTOs
 {
     public class DALParcel
     {
+        [Key]
+        public string TrackingId { get; set; }
+
         public float Weight { get; set; }
 
         public DALRecipient Recipient { get; set; }
@@ -33,11 +36,9 @@ namespace TeamJ.SKS.Package.DataAccess.DTOs
 
         public StateEnum State { get; set; }
 
-        public List<DALHopArrival> VisitedHops { get; set; }
+        public List<DALHopArrival> VisitedHops { get; set; } = new();
 
-        public List<DALHopArrival> FutureHops { get; set; }
-        [Key]
-        public string TrackingId { get; set; }
+        public List<DALHopArrival> FutureHops { get; set; } = new(); 
 
     }
 }
