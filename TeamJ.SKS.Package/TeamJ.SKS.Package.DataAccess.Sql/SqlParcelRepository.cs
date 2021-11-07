@@ -45,11 +45,15 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             return _context.Parcels.Find(code);
         }
 
-        public List<DALParcel> GetByState(DALParcel parcel)
+        /*public List<DALParcel> GetByState(DALParcel parcel)
         {
             return (List<DALParcel>)_context.Parcels.Where(p => p.State == parcel.State);
         }
-
+        */
+        public List<DALParcel> GetAllParcels()
+        {
+            return new List<DALParcel>(_context.Parcels);
+        }
         //Person GetSinglePersonByFirstName(string searchPattern);
         //Person GetSinglePersonByLastName(string searchPattern);
         //ICollection<Person> GetAllPeopleWithEmptyCompany();

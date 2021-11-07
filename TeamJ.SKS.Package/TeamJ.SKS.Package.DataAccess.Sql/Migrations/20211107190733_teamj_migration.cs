@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TeamJ.SKS.Package.DataAccess.Sql.Migrations
 {
+    [ExcludeFromCodeCoverage]
     public partial class teamj_migration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

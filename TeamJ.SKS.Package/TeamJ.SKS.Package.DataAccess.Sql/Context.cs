@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using TeamJ.SKS.Package.DataAccess.DTOs;
 
 namespace TeamJ.SKS.Package.DataAccess.Sql
 {
+    [ExcludeFromCodeCoverage]
     public class Context : DbContext, IContext
     {
         public DbSet<DALHop> Hops { get; set; }

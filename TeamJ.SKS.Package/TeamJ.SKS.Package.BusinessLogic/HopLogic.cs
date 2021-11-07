@@ -28,7 +28,8 @@ namespace TeamJ.SKS.Package.BusinessLogic
 
         public List<BLHop> ExportWarehouses()
         {
-            return _mapper.Map<List<BLHop>>(_repo.GetAllHops());
+            var result = _mapper.Map<List<DALHop>, List<BLHop>>(_repo.GetAllHops());
+            return result;
         }
 
         public bool ImportWarehouses(BLWarehouse blWarehouse)

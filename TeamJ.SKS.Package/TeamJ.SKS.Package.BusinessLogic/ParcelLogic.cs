@@ -63,13 +63,13 @@ namespace TeamJ.SKS.Package.BusinessLogic
                 //dalParcel.TrackingId = "TEST";
                 return _mapper.Map<BLParcel>(dalParcel);
             }
-                return null;
+            return null;
         }
 
         public bool ReportParcelDelivery(string trackingID)
         {
             var blParcel = _mapper.Map<BLParcel>(_repo.GetById(trackingID));
-            blParcel.State = BLParcel.StateEnum.DeliveredEnum;
+            //blParcel.State = BLParcel.StateEnum.DeliveredEnum;
             var result = validator.Validate(blParcel);
             if (result.IsValid)
             {
@@ -83,10 +83,10 @@ namespace TeamJ.SKS.Package.BusinessLogic
         {
             var blParcel = _mapper.Map<BLParcel>(_repo.GetById(trackingID));
             //move first Hop of futureHops to visitedHops because parcel arrived at next Hop
-            blParcel.VisitedHops.Add(blParcel.FutureHops.First());
-            blParcel.FutureHops.Remove(blParcel.FutureHops.First());
+            //blParcel.VisitedHops.Add(blParcel.FutureHops.First());
+            //blParcel.FutureHops.Remove(blParcel.FutureHops.First());
             //Update parcel position at which hop (relation parcel and hop) ??
-            blParcel.State = BLParcel.StateEnum.InTransportEnum;
+            //blParcel.State = BLParcel.StateEnum.InTransportEnum;
             var resultTrackingID = validator.Validate(blParcel);
             var resultCode = codeValidator.Validate(code);
             if (resultTrackingID.IsValid && resultCode.IsValid)

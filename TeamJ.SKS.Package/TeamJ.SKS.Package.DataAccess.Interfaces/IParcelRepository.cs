@@ -18,7 +18,8 @@ namespace TeamJ.SKS.Package.DataAccess.Interfaces
 
         //public DALParcel GetByCode(string code);
         public DALParcel GetById(string trackingID);
-        public List<DALParcel> GetByState(DALParcel parcel);
+        //public List<DALParcel> GetByState(DALParcel parcel);
+        public List<DALParcel> GetAllParcels();
 
         //Person GetSinglePersonByFirstName(string searchPattern);
         //Person GetSinglePersonByLastName(string searchPattern);

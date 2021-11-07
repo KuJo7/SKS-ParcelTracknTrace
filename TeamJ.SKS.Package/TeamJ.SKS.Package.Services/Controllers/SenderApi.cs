@@ -72,7 +72,11 @@ namespace TeamJ.SKS.Package.Services.Controllers
                 // Mapping back auf SVC Parcel (?)
                 // mapping entf?llt, weil nur ein string
                 blParcel = _parcelLogic.SubmitParcel(blParcel);
-                return Ok(new NewParcelInfo() { TrackingId = ""});
+                if (blParcel != null)
+                {
+                    return Ok(new NewParcelInfo() { TrackingId = "" });
+                }
+                return BadRequest(new Error("Error: SubmitParcel"));
             }
             catch
             {

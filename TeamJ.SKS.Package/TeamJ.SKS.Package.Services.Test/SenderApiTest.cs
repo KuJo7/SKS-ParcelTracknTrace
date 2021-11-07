@@ -27,7 +27,7 @@ namespace TeamJ.SKS.Package.Services.Test
         public void SubmitParcel_ValidParcelBody_Success()
         {
             Mock<IParcelLogic> mockParcelLogic = new Mock<IParcelLogic>();
-            mockParcelLogic.Setup(pl => pl.SubmitParcel(It.IsAny<BLParcel>()));
+            mockParcelLogic.Setup(pl => pl.SubmitParcel(It.IsAny<BLParcel>())).Returns(new BLParcel());
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());

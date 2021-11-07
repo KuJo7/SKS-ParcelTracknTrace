@@ -33,9 +33,9 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             _context.SaveChanges();
         }
 
-        public IEnumerable<DALHop> GetAllHops()
+        public List<DALHop> GetAllHops()
         {
-            return _context.Hops;
+            return new List<DALHop>(_context.Hops);
         }
 
         public DALHop GetByCode(string code)
@@ -43,9 +43,14 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             return _context.Hops.Find(code);
         }
 
-        public IEnumerable<DALHop> GetByHopType(string hopType)
+        public List<DALHop> GetByHopType(string hopType)
         {
-            return _context.Hops.Where(hop => hop.HopType == hopType);
+            return (List<DALHop>)_context.Hops.Where(hop => hop.HopType == hopType);
+        }
+
+        public DALHop GetFirstHop()
+        {
+            return _context.Hops.First();
         }
 
         /*public List<DALHop> GetByLevel(int level)
