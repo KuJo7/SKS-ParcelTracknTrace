@@ -11,6 +11,7 @@
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 using TeamJ.SKS.Package.BusinessLogic;
@@ -28,6 +29,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
     public class RecipientApiController : ControllerBase
     {
         private readonly IParcelLogic _parcelLogic;
+        private readonly ILogger<RecipientApiController> _logger;
 
 
         /*public RecipientApiController()
@@ -38,9 +40,10 @@ namespace TeamJ.SKS.Package.Services.Controllers
         /// <summary>
         /// RecipientApiController Constructor with 2 parameters
         /// </summary>
-        public RecipientApiController(IParcelLogic parcelLogic)
+        public RecipientApiController(IParcelLogic parcelLogic, ILogger<RecipientApiController> logger)
         {
             _parcelLogic = parcelLogic;
+            _logger = logger;
         }
 
         
@@ -59,13 +62,15 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult TrackParcel([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")]string trackingId)
         {
-            
+            _logger.LogInformation("RecipientApi TrackParcel started.");
             if (_parcelLogic.TrackParcel(trackingId) != null)
             {
+                _logger.LogInformation("RecipientApi TrackParcel ended successful.");
                 return Ok(new TrackingInformation());
             }
             else
             {
+                _logger.LogInformation("RecipientApi TrackParcel ended unsuccessful.");
                 return BadRequest(new Error("Error: TrackParcel"));
             }
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...

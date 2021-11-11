@@ -11,6 +11,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
 using TeamJ.SKS.Package.BusinessLogic;
 using TeamJ.SKS.Package.BusinessLogic.Interfaces;
@@ -26,7 +27,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
     public class StaffApiController : ControllerBase
     {
         private readonly IParcelLogic _parcelLogic;
-
+        private readonly ILogger<StaffApiController> _logger;
 
         /*public StaffApiController()
         {
@@ -35,9 +36,10 @@ namespace TeamJ.SKS.Package.Services.Controllers
         /// <summary>
         /// StaffApiController Constructor with 1 parameters
         /// </summary>
-        public StaffApiController(IParcelLogic parcelLogic)
+        public StaffApiController(IParcelLogic parcelLogic, ILogger<StaffApiController> logger)
         {
             _parcelLogic = parcelLogic;
+            _logger = logger;
         }
 
         /// <summary>
@@ -54,12 +56,15 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult ReportParcelDelivery([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")]string trackingId)
         {
+            _logger.LogInformation("StaffApi ReportParcelDelivery started.");
             if (_parcelLogic.ReportParcelDelivery(trackingId))
             {
+                _logger.LogInformation("StaffApi ReportParcelDelivery ended successful.");
                 return Ok(StatusCode(200));
             }
             else
             {
+                _logger.LogInformation("StaffApi ReportParcelDelivery ended unsuccessful.");
                 return BadRequest(new Error("Error: ReportParcelDelivery"));
 
             }
@@ -91,15 +96,16 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult ReportParcelHop([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")] string trackingId, [FromRoute][Required][RegularExpression("^[A-Z]{4}\\d{1,4}$")] string code)
         {
-
+            _logger.LogInformation("StaffApi ReportParcelHop started.");
             if (_parcelLogic.ReportParcelHop(trackingId, code))
             {
+                _logger.LogInformation("StaffApi ReportParcelHop ended successful.");
                 return Ok(StatusCode(200));
             }
             else
             {
+                _logger.LogInformation("StaffApi ReportParcelHop ended unsuccessful.");
                 return BadRequest(new Error("Error: ReportParcelHop"));
-
             }
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200);

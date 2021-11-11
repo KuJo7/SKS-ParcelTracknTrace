@@ -13,6 +13,7 @@ using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Annotations;
 using TeamJ.SKS.Package.BusinessLogic;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
@@ -31,7 +32,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IHopLogic _hopLogic;
-
+        private readonly ILogger<WarehouseManagementApiController> _logger;
 
         /*public WarehouseManagementApiController()
         {
@@ -46,10 +47,11 @@ namespace TeamJ.SKS.Package.Services.Controllers
         /// <summary>
         /// WarehouseManagementApiController Constructor with 2 parameters
         /// </summary>
-        public WarehouseManagementApiController(IMapper mapper, IHopLogic hopLogic)
+        public WarehouseManagementApiController(IMapper mapper, IHopLogic hopLogic, ILogger<WarehouseManagementApiController> logger)
         {
             _hopLogic = hopLogic;
             _mapper = mapper;
+            _logger = logger;
         }
         /// <summary>
         /// WarehouseManagementApiController Constructor with 1 parameters
@@ -73,13 +75,15 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "An error occurred loading.")]
         public virtual IActionResult ExportWarehouses()
         {
-            
+            _logger.LogInformation("WarehouseManagementApi ExportWarehouse started");
             if (_hopLogic.ExportWarehouses().Any())
             {
+                _logger.LogInformation("WarehouseManagementApi ExportWarehouse ended successful");
                 return Ok(new Warehouse());
             }
             else
             {
+                _logger.LogInformation("WarehouseManagementApi ExportWarehouse ended unsuccessful");
                 return BadRequest(new Error("Error: ExportWarehouses"));
             }
                         
@@ -117,13 +121,15 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "An error occurred loading.")]
         public virtual IActionResult GetWarehouse([FromRoute][Required]string code)
         {
-            
+            _logger.LogInformation("WarehouseManagementApi GetWarehouse started.");
             if (_hopLogic.GetWarehouse(code) != null)
             {
+                _logger.LogInformation("WarehouseManagementApi GetWarehouse ended successful.");
                 return Ok(new Warehouse());
             }
             else
             {
+                _logger.LogInformation("WarehouseManagementApi GetWarehouse ended unsuccessful.");
                 return BadRequest(new Error("Error: GetWarehouse"));
             }
 
@@ -157,16 +163,19 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult ImportWarehouses([FromBody]Warehouse body)
         {
+            _logger.LogInformation("WarehouseManagementApi ImportWarehouses started.");
             BLWarehouse blWarehouse = _mapper.Map<BLWarehouse>(body);
             blWarehouse.NextHops = new List<BLWarehouseNextHops>();
             if (_hopLogic.ImportWarehouses(blWarehouse))
             {
                 // Mapping back auf SVC Parcel (?)
                 // mapping entf?llt nicht aufpassen!
+                _logger.LogInformation("WarehouseManagementApi ImportWarehouses ended successful.");
                 return Ok(200);
             }
             else
             {
+                _logger.LogInformation("WarehouseManagementApi ImportWarehouses ended unsuccessful.");
                 return BadRequest(new Error("Error: ImportWarehouses"));
             }
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...

@@ -14,6 +14,7 @@ using System.ComponentModel.DataAnnotations;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Annotations;
 using TeamJ.SKS.Package.BusinessLogic;
@@ -34,6 +35,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IParcelLogic _parcelLogic;
+        private readonly ILogger _logger;
 
         /*public LogisticsPartnerApiController()
         {
@@ -47,10 +49,11 @@ namespace TeamJ.SKS.Package.Services.Controllers
         /// <summary>
         /// LogisticsPartnerApiController Constructor with 2 parameters
         /// </summary>
-        public LogisticsPartnerApiController(IMapper mapper, IParcelLogic parcelLogic)
+        public LogisticsPartnerApiController(IMapper mapper, IParcelLogic parcelLogic, ILogger<LogisticsPartnerApiController> logger)
         {
             _parcelLogic = parcelLogic;
             _mapper = mapper;
+            _logger = logger;
         }
         /// <summary>
         /// Transfer an existing parcel into the system from the service of a logistics partner. 
@@ -67,7 +70,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult TransitionParcel([FromBody]Parcel body, [FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")]string trackingId)
         {
-
+            _logger.LogInformation("Controller LogisticsPartnerApi with TransitionParcel started.");
             BLParcel blParcel = _mapper.Map<BLParcel>(body);
             blParcel.TrackingId = trackingId;
             blParcel.FutureHops = new List<BLHopArrival>();
@@ -78,10 +81,12 @@ namespace TeamJ.SKS.Package.Services.Controllers
             {
                 // Mapping back auf SVC Parcel (?)
                 // mapping entf?llt, weil nur ein string
+                _logger.LogInformation("Controller LogisticsPartnerApi with TransitionParcel ended successful.");
                 return Ok(new NewParcelInfo());
             }
             else
             {
+                _logger.LogInformation("Controller LogisticsPartnerApi with TransitionParcel ended unsuccessful");
                 return BadRequest(new Error("Error: TransitionParcel"));
 
             }
