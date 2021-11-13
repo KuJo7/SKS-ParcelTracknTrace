@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 using TeamJ.SKS.Package.DataAccess.Interfaces;
 using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.Services.DTOs.MapperProfiles;
-using TeamJ.SKS.Package.DataAccess.Sql;
+
 
 namespace TeamJ.SKS.Package.Services
 {
@@ -62,10 +62,11 @@ namespace TeamJ.SKS.Package.Services
         public void ConfigureServices(IServiceCollection services)
         {
 
-
+            //AutoMapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMvc();
 
+            //Validator
             services.AddMvc(setup => { }).AddFluentValidation();
             services.AddTransient<IValidator<BLParcel>, BLParcelValidator>();
             services.AddTransient<IValidator<BLWarehouse>, BLWarehouseValidator>();
@@ -74,15 +75,21 @@ namespace TeamJ.SKS.Package.Services
             services.AddTransient<IValidator<BLWarehouseNextHops>, BLWarehouseNextHopsValidator>();
             services.AddTransient<IValidator<string>, BLCodeValidator>();
 
-            services.AddDbContext<DataAccess.Sql.Context>(opt => opt.UseSqlServer("Server=tcp:parceltrackntrace.database.windows.net,1433;Initial Catalog=parceltrackntrace_db;Persist Security Info=False;User ID=adminteamj;Password=SKSTeamJ1234?;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"));
+            //DBContext
+            services.AddDbContext<DataAccess.Sql.Context>(opt => opt.UseSqlServer(Configuration.GetConnectionString("ParcelTracknTraceDb"), 
+                                                            p => p.UseNetTopologySuite().EnableRetryOnFailure()
+                                                            )
+                                                         );
 
             services.AddScoped<IContext, DataAccess.Sql.Context>(provider => provider.GetRequiredService<DataAccess.Sql.Context>());
+
+            //DI
+            services.AddTransient<IParcelLogic, BusinessLogic.ParcelLogic>();
+            services.AddTransient<IHopLogic, BusinessLogic.HopLogic>();
 
             services.AddScoped<IHopRepository, DataAccess.Sql.SqlHopRepository>();
             services.AddScoped<IParcelRepository, DataAccess.Sql.SqlParcelRepository>();
 
-            services.AddScoped<IParcelLogic, BusinessLogic.ParcelLogic>();
-            services.AddScoped<IHopLogic, BusinessLogic.HopLogic>();
 
             // Add framework services.
             services
@@ -130,7 +137,7 @@ namespace TeamJ.SKS.Package.Services
         /// <param name="env"></param>
         /// <param name="loggerFactory"></param>
         /// <param name="context"></param>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, Context context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, DataAccess.Sql.Context context)
         {
             context.Database.Migrate();
 

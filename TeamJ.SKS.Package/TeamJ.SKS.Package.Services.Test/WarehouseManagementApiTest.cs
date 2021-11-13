@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
@@ -34,7 +35,8 @@ namespace TeamJ.SKS.Package.Services.Test
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            var controller = new WarehouseManagementApiController(new Mapper(config), mockHopLogic.Object);
+            Mock<ILogger<WarehouseManagementApiController>> mockLogger = new Mock<ILogger<WarehouseManagementApiController>>();
+            var controller = new WarehouseManagementApiController(new Mapper(config), mockHopLogic.Object, mockLogger.Object);
             var result = (ObjectResult)controller.ExportWarehouses();
             Assert.AreEqual(200, result.StatusCode);
 
@@ -50,7 +52,8 @@ namespace TeamJ.SKS.Package.Services.Test
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            var controller = new WarehouseManagementApiController(new Mapper(config), mockHopLogic.Object);
+            Mock<ILogger<WarehouseManagementApiController>> mockLogger = new Mock<ILogger<WarehouseManagementApiController>>();
+            var controller = new WarehouseManagementApiController(new Mapper(config), mockHopLogic.Object, mockLogger.Object);
             var result = (ObjectResult)controller.ExportWarehouses();
             Assert.AreEqual(400, result.StatusCode);
 
@@ -61,8 +64,12 @@ namespace TeamJ.SKS.Package.Services.Test
         {
             Mock<IHopLogic> mockHopLogic = new Mock<IHopLogic>();
             mockHopLogic.Setup(pl => pl.GetWarehouse(It.IsAny<string>())).Returns(new BLWarehouse());
-
-            var controller = new WarehouseManagementApiController(mockHopLogic.Object);
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new MapperProfiles());
+            });
+            Mock<ILogger<WarehouseManagementApiController>> mockLogger = new Mock<ILogger<WarehouseManagementApiController>>();
+            var controller = new WarehouseManagementApiController(new Mapper(config), mockHopLogic.Object, mockLogger.Object);
             var result = (ObjectResult)controller.GetWarehouse("ABCD12");
             Assert.AreEqual(200, result.StatusCode);
         }
@@ -72,8 +79,12 @@ namespace TeamJ.SKS.Package.Services.Test
         {
             Mock<IHopLogic> mockHopLogic = new Mock<IHopLogic>();
             mockHopLogic.Setup(pl => pl.GetWarehouse(It.IsAny<string>())).Returns(value: null);
-
-            var controller = new WarehouseManagementApiController(mockHopLogic.Object);
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new MapperProfiles());
+            });
+            Mock<ILogger<WarehouseManagementApiController>> mockLogger = new Mock<ILogger<WarehouseManagementApiController>>();
+            var controller = new WarehouseManagementApiController(new Mapper(config), mockHopLogic.Object, mockLogger.Object);
             var result = (ObjectResult)controller.GetWarehouse("wrongCode");
             Assert.AreEqual(400, result.StatusCode);
         }
@@ -87,7 +98,8 @@ namespace TeamJ.SKS.Package.Services.Test
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            var controller = new WarehouseManagementApiController(new Mapper(config), mockHopLogic.Object);
+            Mock<ILogger<WarehouseManagementApiController>> mockLogger = new Mock<ILogger<WarehouseManagementApiController>>();
+            var controller = new WarehouseManagementApiController(new Mapper(config), mockHopLogic.Object, mockLogger.Object);
             var warehouse = Builder<Warehouse>.CreateNew()
                 .With(x => x.Code = "code")
                 .With(x => x.Description = "")
@@ -110,7 +122,8 @@ namespace TeamJ.SKS.Package.Services.Test
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            var controller = new WarehouseManagementApiController(new Mapper(config), mockHopLogic.Object);
+            Mock<ILogger<WarehouseManagementApiController>> mockLogger = new Mock<ILogger<WarehouseManagementApiController>>();
+            var controller = new WarehouseManagementApiController(new Mapper(config), mockHopLogic.Object, mockLogger.Object);
             var warehouse = Builder<Warehouse>.CreateNew()
                 .With(x => x.Code = "wrongCode")
                 .With(x => x.Description = "")

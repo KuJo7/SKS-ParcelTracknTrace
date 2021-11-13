@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
@@ -26,7 +27,8 @@ namespace TeamJ.SKS.Package.Services.Test
             Mock<IParcelLogic> mockParcelLogic = new Mock<IParcelLogic>();
             mockParcelLogic.Setup(pl => pl.ReportParcelDelivery(It.IsAny<string>())).Returns(true);
 
-            var controller = new StaffApiController(mockParcelLogic.Object);
+            Mock<ILogger<StaffApiController>> mockLogger = new Mock<ILogger<StaffApiController>>();
+            var controller = new StaffApiController(mockParcelLogic.Object, mockLogger.Object);
             var result = (ObjectResult)controller.ReportParcelDelivery("123456789");
             Assert.AreEqual(200, result.StatusCode);
         }
@@ -36,7 +38,8 @@ namespace TeamJ.SKS.Package.Services.Test
             Mock<IParcelLogic> mockParcelLogic = new Mock<IParcelLogic>();
             mockParcelLogic.Setup(pl => pl.ReportParcelDelivery(It.IsAny<string>())).Returns(false);
 
-            var controller = new StaffApiController(mockParcelLogic.Object);
+            Mock<ILogger<StaffApiController>> mockLogger = new Mock<ILogger<StaffApiController>>();
+            var controller = new StaffApiController(mockParcelLogic.Object, mockLogger.Object);
             var result = (ObjectResult)controller.ReportParcelDelivery("1234");
             Assert.AreEqual(400, result.StatusCode);
         }
@@ -47,7 +50,8 @@ namespace TeamJ.SKS.Package.Services.Test
             Mock<IParcelLogic> mockParcelLogic = new Mock<IParcelLogic>();
             mockParcelLogic.Setup(pl => pl.ReportParcelHop(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
-            var controller = new StaffApiController(mockParcelLogic.Object);
+            Mock<ILogger<StaffApiController>> mockLogger = new Mock<ILogger<StaffApiController>>();
+            var controller = new StaffApiController(mockParcelLogic.Object, mockLogger.Object);
             var result = (ObjectResult)controller.ReportParcelHop("123456789", "ABCD12");
             Assert.AreEqual(200, result.StatusCode);
         }
@@ -57,7 +61,8 @@ namespace TeamJ.SKS.Package.Services.Test
             Mock<IParcelLogic> mockParcelLogic = new Mock<IParcelLogic>();
             mockParcelLogic.Setup(pl => pl.ReportParcelHop(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
 
-            var controller = new StaffApiController(mockParcelLogic.Object);
+            Mock<ILogger<StaffApiController>> mockLogger = new Mock<ILogger<StaffApiController>>();
+            var controller = new StaffApiController(mockParcelLogic.Object, mockLogger.Object);
             var result = (ObjectResult)controller.ReportParcelHop("1234", "wrongCode");
             Assert.AreEqual(400, result.StatusCode);
         }

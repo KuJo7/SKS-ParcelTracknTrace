@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
 
 namespace TeamJ.SKS.Package.BusinessLogic.Interfaces

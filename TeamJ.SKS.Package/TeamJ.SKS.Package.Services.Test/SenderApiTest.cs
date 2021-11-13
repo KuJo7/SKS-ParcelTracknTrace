@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
@@ -32,7 +33,8 @@ namespace TeamJ.SKS.Package.Services.Test
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            var controller = new SenderApiController(new Mapper(config), mockParcelLogic.Object);
+            Mock<ILogger<SenderApiController>> mockLogger = new Mock<ILogger<SenderApiController>>();
+            var controller = new SenderApiController(new Mapper(config), mockParcelLogic.Object, mockLogger.Object);
             var parcel = Builder<Parcel>.CreateNew()
                 .With(x => x.Recipient = Builder<Recipient>.CreateNew().Build())
                 .With(x => x.Sender = Builder<Recipient>.CreateNew().Build())
@@ -51,7 +53,8 @@ namespace TeamJ.SKS.Package.Services.Test
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            var controller = new SenderApiController(new Mapper(config), mockParcelLogic.Object);
+            Mock<ILogger<SenderApiController>> mockLogger = new Mock<ILogger<SenderApiController>>();
+            var controller = new SenderApiController(new Mapper(config), mockParcelLogic.Object, mockLogger.Object);
             var parcel = Builder<Parcel>.CreateNew()
                 .With(x => x.Recipient = Builder<Recipient>.CreateNew().Build())
                 .With(x => x.Sender = Builder<Recipient>.CreateNew().Build())

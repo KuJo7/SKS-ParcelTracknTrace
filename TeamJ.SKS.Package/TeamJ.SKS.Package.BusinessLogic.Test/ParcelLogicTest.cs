@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
@@ -25,6 +26,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         public void TrackParcel_ValidTrackingID_Success()
         {
             Mock<IParcelRepository> mockParcelRepository = new Mock<IParcelRepository>();
+            Mock<ILogger<ParcelLogic>> mockLogger = new Mock<ILogger<ParcelLogic>>();
             DALParcel dalParcel = new DALParcel();
             dalParcel.Weight = 2;
             dalParcel.Recipient = new DALRecipient();
@@ -35,7 +37,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config));
+            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config), mockLogger.Object);
 
             var result = parcelLogic.TrackParcel("123456789");
             Assert.IsNotNull(result);
@@ -45,6 +47,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         public void TrackParcel_WrongTrackingID_Error()
         {
             Mock<IParcelRepository> mockParcelRepository = new Mock<IParcelRepository>();
+            Mock<ILogger<ParcelLogic>> mockLogger = new Mock<ILogger<ParcelLogic>>();
             DALParcel dalParcel = new DALParcel();
             dalParcel.TrackingId = "1234";
             mockParcelRepository.Setup(pl => pl.GetById("1234")).Returns(dalParcel);
@@ -52,7 +55,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config));
+            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config), mockLogger.Object);
 
             var result = parcelLogic.TrackParcel("1234");
             Assert.IsNull(result);
@@ -63,11 +66,12 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         public void TransitionParcel_ValidParcel_Success()
         {
             Mock<IParcelRepository> mockParcelRepository = new Mock<IParcelRepository>();
+            Mock<ILogger<ParcelLogic>> mockLogger = new Mock<ILogger<ParcelLogic>>();
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config));
+            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config), mockLogger.Object);
             var parcel = new BLParcel();
             parcel.TrackingId = "123456789";
             parcel.Weight = 1;
@@ -84,11 +88,12 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         public void TransitionParcel_WrongParcel_Error()
         {
             Mock<IParcelRepository> mockParcelRepository = new Mock<IParcelRepository>();
+            Mock<ILogger<ParcelLogic>> mockLogger = new Mock<ILogger<ParcelLogic>>();
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config));
+            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config), mockLogger.Object);
             var parcel = new BLParcel();
             parcel.TrackingId = "1234";
             var result = parcelLogic.TransitionParcel(parcel);
@@ -99,11 +104,12 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         public void SubmitParcel_ValidParcel_Success()
         {
             Mock<IParcelRepository> mockParcelRepository = new Mock<IParcelRepository>();
+            Mock<ILogger<ParcelLogic>> mockLogger = new Mock<ILogger<ParcelLogic>>();
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config));
+            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config), mockLogger.Object);
             var parcel = new BLParcel();
             parcel.TrackingId = "123456789";
             parcel.FutureHops = new List<BLHopArrival>();
@@ -120,11 +126,12 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         public void SubmitParcel_WrongParcel_Error()
         {
             Mock<IParcelRepository> mockParcelRepository = new Mock<IParcelRepository>();
+            Mock<ILogger<ParcelLogic>> mockLogger = new Mock<ILogger<ParcelLogic>>();
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config));
+            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config), mockLogger.Object);
             var parcel = new BLParcel();
             parcel.TrackingId = "1234";
             var result = parcelLogic.SubmitParcel(parcel);
@@ -135,6 +142,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         public void ReportParcelDelivery_ValidTrackingID_Success()
         {
             Mock<IParcelRepository> mockParcelRepository = new Mock<IParcelRepository>();
+            Mock<ILogger<ParcelLogic>> mockLogger = new Mock<ILogger<ParcelLogic>>();
             DALParcel dalParcel = new DALParcel();
             dalParcel.Weight = 2;
             dalParcel.Recipient = new DALRecipient();
@@ -145,7 +153,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config));
+            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config), mockLogger.Object);
             
             var result = parcelLogic.ReportParcelDelivery("123456789");
             Assert.IsTrue(result);
@@ -155,6 +163,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         public void ReportParcelDelivery_WrongTrackingID_Error()
         {
             Mock<IParcelRepository> mockParcelRepository = new Mock<IParcelRepository>();
+            Mock<ILogger<ParcelLogic>> mockLogger = new Mock<ILogger<ParcelLogic>>();
             DALParcel dalParcel = new DALParcel();
             dalParcel.Weight = 2;
             dalParcel.Recipient = new DALRecipient();
@@ -165,7 +174,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config));
+            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config), mockLogger.Object);
             var result = parcelLogic.ReportParcelDelivery("1234");
             Assert.IsFalse(result);
         }
@@ -174,6 +183,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         public void ReportParcelHop_ValidTrackingID_Success()
         {
             Mock<IParcelRepository> mockParcelRepository = new Mock<IParcelRepository>();
+            Mock<ILogger<ParcelLogic>> mockLogger = new Mock<ILogger<ParcelLogic>>();
             DALParcel dalParcel = new DALParcel();
             dalParcel.Weight = 2;
             dalParcel.Recipient = new DALRecipient();
@@ -184,7 +194,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config));
+            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config), mockLogger.Object);
             var result = parcelLogic.ReportParcelHop("123456789", "ABCD12");
             Assert.IsTrue(result);
         }
@@ -193,6 +203,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         public void ReportParcelHop_WrongTrackingID_Error()
         {
             Mock<IParcelRepository> mockParcelRepository = new Mock<IParcelRepository>();
+            Mock<ILogger<ParcelLogic>> mockLogger = new Mock<ILogger<ParcelLogic>>();
             DALParcel dalParcel = new DALParcel();
             dalParcel.Weight = 2;
             dalParcel.Recipient = new DALRecipient();
@@ -203,7 +214,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config));
+            IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config), mockLogger.Object);
             var result = parcelLogic.ReportParcelHop("1234", "wrongCode");
             Assert.IsFalse(result);
         }
