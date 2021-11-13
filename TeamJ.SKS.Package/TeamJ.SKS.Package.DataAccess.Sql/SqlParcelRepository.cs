@@ -50,24 +50,17 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             return _context.Parcels.Find(trackingID);
         }
 
-        public DALParcel GetByCode(string code)
-        {
-            _logger.LogInformation("SqlParcelRepository GetByCode started.");
-            return _context.Parcels.Find(code);
-        }
-
         /*public List<DALParcel> GetByState(DALParcel parcel)
         {
             return (List<DALParcel>)_context.Parcels.Where(p => p.State == parcel.State);
         }
         */
+
         public List<DALParcel> GetAllParcels()
         {
             _logger.LogInformation("SqlParcelRepository GetAllParcels started.");
             return new List<DALParcel>(_context.Parcels);
         }
-        //Person GetSinglePersonByFirstName(string searchPattern);
-        //Person GetSinglePersonByLastName(string searchPattern);
-        //ICollection<Person> GetAllPeopleWithEmptyCompany();
+
     }
 }

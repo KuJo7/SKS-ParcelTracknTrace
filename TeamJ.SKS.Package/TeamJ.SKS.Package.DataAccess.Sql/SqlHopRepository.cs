@@ -51,13 +51,14 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
         public DALHop GetByCode(string code)
         {
             _logger.LogInformation("SqlHopRepository GetByCode started.");
-            return _context.Hops.Find(code);
+            return _context.Hops.Where(hop => hop.Code == code).ToList<DALHop>().First();
         }
 
         public List<DALHop> GetByHopType(string hopType)
         {
             _logger.LogInformation("SqlHopRepository GetByHopType started.");
-            return (List<DALHop>)_context.Hops.Where(hop => hop.HopType == hopType);
+            
+            return _context.Hops.Where(hop => hop.HopType == hopType).ToList<DALHop>();
         }
 
         public DALHop GetFirstHop()
@@ -71,8 +72,5 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             return _context.Hops.Where(hop => hop.Level == level);
         }*/
 
-        //Person GetSinglePersonByFirstName(string searchPattern);
-        //Person GetSinglePersonByLastName(string searchPattern);
-        //ICollection<Person> GetAllPeopleWithEmptyCompany();
     }
 }

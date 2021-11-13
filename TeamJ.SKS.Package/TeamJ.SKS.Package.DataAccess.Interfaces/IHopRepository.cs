@@ -17,12 +17,5 @@ namespace TeamJ.SKS.Package.DataAccess.Interfaces
         public List<DALHop> GetByHopType(string hopType);
         //public IEnumerable<DALHop> GetByLevel(int level);
 
-        //public IEnumerable<DALHop> ExportWarehouses();
-        //public DALHop GetWarehouse(string code);
-        //public void ImportWarehouse(DALWarehouse dalWarehouse);
-
-        //Person GetSinglePersonByFirstName(string searchPattern);
-        //Person GetSinglePersonByLastName(string searchPattern);
-        //ICollection<Person> GetAllPeopleWithEmptyCompany();
     }
 }

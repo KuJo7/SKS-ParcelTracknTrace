@@ -1,4 +1,5 @@
 ﻿using FizzWare.NBuilder;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -40,8 +41,8 @@ namespace TeamJ.SKS.Package.DataAccess.Test
             var mockDbContext = new Mock<IContext>();
             mockDbContext.Setup(c => c.Parcels).Returns(DbContextMock.GetQueryableMockDbSet<DALParcel>(parcels));
             mockDbContext.Setup(c => c.SaveChanges()).Returns(1);
-
-            parcel_repo = new SqlParcelRepository(mockDbContext.Object);
+            var mockLogger = new Mock<ILogger<SqlParcelRepository>>();
+            parcel_repo = new SqlParcelRepository(mockDbContext.Object, mockLogger.Object);
 
         }
 
@@ -62,14 +63,14 @@ namespace TeamJ.SKS.Package.DataAccess.Test
             Assert.DoesNotThrow(() => parcel_repo.Update(parcels[0]));
         }
 
-        //[Test]
-        //public void Delete_Success()
-        //{
-        //    var parcel = new DALParcel();
-        //    parcel_repo.Create(parcel);
-        //    parcel_repo.Delete(parcel);
-        //    Assert.AreEqual(1, parcels.Count);
-        //}
+        [Test]
+        public void Delete_Success()
+        {
+            var parcel = new DALParcel();
+            parcel_repo.Create(parcel);
+            parcel_repo.Delete(parcel);
+            Assert.AreEqual(1, parcels.Count);
+        }
 
         [Test]
         public void Delete_Failed()

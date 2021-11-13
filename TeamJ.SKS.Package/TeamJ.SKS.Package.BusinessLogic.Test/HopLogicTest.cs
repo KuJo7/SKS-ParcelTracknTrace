@@ -10,6 +10,7 @@ using TeamJ.SKS.Package.DataAccess.DTOs;
 using TeamJ.SKS.Package.DataAccess.Interfaces;
 using TeamJ.SKS.Package.Services.DTOs.MapperProfiles;
 using TeamJ.SKS.Package.Services.DTOs.Models;
+using Microsoft.Extensions.Logging;
 
 namespace TeamJ.SKS.Package.BusinessLogic.Test
 {
@@ -25,6 +26,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         {
 
             Mock<IHopRepository> mockHopRepository = new Mock<IHopRepository>();
+            Mock<ILogger<HopLogic>> mockLogger = new Mock<ILogger<HopLogic>>();
             List<DALHop> dalHops = new List<DALHop>();
             DALHop newDalHop = new DALHop();
             dalHops.Add(newDalHop);
@@ -42,7 +44,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config));
+            IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config), mockLogger.Object);
             //Assert.DoesNotThrow(() => hopLogic.ExportWarehouses());
             Assert.AreEqual(blHops.Count, hopLogic.ExportWarehouses().Count);
             //Assert.AreEqual(blHops, hopLogic.ExportWarehouses());
@@ -53,6 +55,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         {
 
             Mock<IHopRepository> mockHopRepository = new Mock<IHopRepository>();
+            Mock<ILogger<HopLogic>> mockLogger = new Mock<ILogger<HopLogic>>();
             List<DALHop> dalHops = new List<DALHop>();
             DALHop newDalHop = new DALHop();
             dalHops.Add(newDalHop);
@@ -68,7 +71,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config));
+            IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config), mockLogger.Object);
             //Assert.DoesNotThrow(() => hopLogic.ExportWarehouses());
             Assert.AreNotEqual(blHops.Count, hopLogic.ExportWarehouses().Count);
         }
@@ -77,6 +80,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         public void ImportWarehouse_NextHopsNotNull_Success()
         {
             Mock<IHopRepository> mockHopRepository = new Mock<IHopRepository>();
+            Mock<ILogger<HopLogic>> mockLogger = new Mock<ILogger<HopLogic>>();
             BLWarehouse warehouse = new BLWarehouse();
             warehouse.NextHops = new List<BLWarehouseNextHops>();
             var config = new MapperConfiguration(cfg =>
@@ -84,7 +88,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
                 cfg.AddProfile(new MapperProfiles());
             });
 
-            IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config));
+            IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config), mockLogger.Object);
             Assert.IsTrue(hopLogic.ImportWarehouses(warehouse));
         }
         
@@ -92,6 +96,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         public void ImportWarehouse_NextHopsNull_Error()
         {
             Mock<IHopRepository> mockHopRepository = new Mock<IHopRepository>();
+            Mock<ILogger<HopLogic>> mockLogger = new Mock<ILogger<HopLogic>>();
             BLWarehouse warehouse = new BLWarehouse();
             warehouse.NextHops = null;
             var config = new MapperConfiguration(cfg =>
@@ -99,7 +104,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
                 cfg.AddProfile(new MapperProfiles());
             });
 
-            IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config));
+            IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config), mockLogger.Object);
             Assert.IsFalse(hopLogic.ImportWarehouses(warehouse));
         }
         
@@ -107,11 +112,12 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         public void ImportWarehouse_WrongRegex_Error()
         {
             Mock<IHopRepository> mockHopRepository = new Mock<IHopRepository>();
+            Mock<ILogger<HopLogic>> mockLogger = new Mock<ILogger<HopLogic>>();
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config));
+            IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config), mockLogger.Object);
             BLWarehouse warehouse = new BLWarehouse();
             warehouse.Description = "/´´";
             warehouse.NextHops = null;
@@ -122,6 +128,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         public void ImportWarehouse_ValidParameter_Success()
         {
             Mock<IHopRepository> mockHopRepository = new Mock<IHopRepository>();
+            Mock<ILogger<HopLogic>> mockLogger = new Mock<ILogger<HopLogic>>();
             BLWarehouse warehouse = new BLWarehouse();
             warehouse.Description = "Hauptlager 27-12";
 
@@ -131,7 +138,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
                 cfg.AddProfile(new MapperProfiles());
             });
 
-            IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config));
+            IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config), mockLogger.Object);
             Assert.IsTrue(hopLogic.ImportWarehouses(warehouse));
         }
         
@@ -139,6 +146,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         public void GetWarehouse_ValidCode_Success()
         {
             Mock<IHopRepository> mockHopRepository = new Mock<IHopRepository>();
+            Mock<ILogger<HopLogic>> mockLogger = new Mock<ILogger<HopLogic>>();
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());
@@ -146,7 +154,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             DALWarehouse dalWarehouse = new DALWarehouse();
             dalWarehouse.Code = "test";
             mockHopRepository.Setup(pl => pl.GetByCode("ABCD12")).Returns(dalWarehouse);
-            IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config));
+            IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config), mockLogger.Object);
             Assert.AreEqual(dalWarehouse.Code, hopLogic.GetWarehouse("ABCD12").Code);
             Assert.IsNotNull(hopLogic.GetWarehouse("ABCD12"));
         }
@@ -155,11 +163,12 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         public void GetWarehouse_WrongCode_Error()
         {
             Mock<IHopRepository> mockHopRepository = new Mock<IHopRepository>();
+            Mock<ILogger<HopLogic>> mockLogger = new Mock<ILogger<HopLogic>>();
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());
             });
-            IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config));
+            IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config), mockLogger.Object);
             Assert.IsNull(hopLogic.GetWarehouse("wrongCode"));
         }
     }

@@ -1,4 +1,5 @@
 ﻿using FizzWare.NBuilder;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -15,9 +16,9 @@ namespace TeamJ.SKS.Package.DataAccess.Test
         private IHopRepository hop_repo;
         private List<DALHop> hops;
         private List<DALWarehouse> warehouses;
-        private List<DALWarehouseNextHops> warehousesNextHops;
+        //private List<DALWarehouseNextHops> warehousesNextHops;
         private List<DALTruck> trucks;
-        private List<DALTransferwarehouse> transferWarehouses;
+        //private List<DALTransferwarehouse> transferWarehouses;
 
 
         [SetUp]
@@ -38,7 +39,7 @@ namespace TeamJ.SKS.Package.DataAccess.Test
                 .Build();
 
             var truck = Builder<DALHop>.CreateNew()
-                .With(x => x.Code = "TRUC1234")
+                .With(x => x.Code = "1234")
                 .With(x => x.HopType = "Truck")
                 .Build();
 
@@ -54,8 +55,8 @@ namespace TeamJ.SKS.Package.DataAccess.Test
             mockDbContext.Setup(p => p.Hops).Returns(DbContextMock.GetQueryableMockDbSet<DALHop>(hops));
             mockDbContext.Setup(p => p.Parcels).Returns(DbContextMock.GetQueryableMockDbSet<DALParcel>(new List<DALParcel>()));
             //mockDbContext.Setup(p => p.Recipients).Returns(DbContextMock.GetQueryableMockDbSet<DALRecipient>(new List<DALRecipient>()));
-
-            hop_repo = new SqlHopRepository(mockDbContext.Object);
+            var mockLogger = new Mock<ILogger<SqlHopRepository>>();
+            hop_repo = new SqlHopRepository(mockDbContext.Object, mockLogger.Object);
 
 
         }
@@ -72,6 +73,7 @@ namespace TeamJ.SKS.Package.DataAccess.Test
         [Test]
         public void Update_Success()
         {
+            hops[0].Description = "new Description";
             Assert.DoesNotThrow(() => hop_repo.Update(hops[0]));
         }
 
@@ -83,15 +85,15 @@ namespace TeamJ.SKS.Package.DataAccess.Test
             Assert.AreEqual(2, hops.Count);
         }
 
-        //[Test]
-        //public void Delete_Failed()
-        //{
-        //    var hop = new DALHop();
-        //    hop_repo.Delete(hop);
-        //    Assert.AreEqual(1, hops.Count);
-        //}
+        [Test]
+        public void Delete_Failed()
+        {
+            var hop = new DALHop();
+            hop_repo.Delete(hop);
+            Assert.AreEqual(2, hops.Count);
+        }
 
-        /*[Test]
+        [Test]
         public void GetHopByHopType_Success()
         {
             var hop = hop_repo.GetByHopType("Warehouse");
@@ -103,19 +105,19 @@ namespace TeamJ.SKS.Package.DataAccess.Test
         {
             var hop = hop_repo.GetByHopType("wrongHopType");
             Assert.AreEqual(hops[0].HopType, "Warehouse");
-        }*/
+        }
 
         [Test]
         public void GetHopByCode_Success()
         {
             var hop = hop_repo.GetByCode("1234");
-            Assert.AreEqual(null, hop);
+            Assert.AreEqual(hops[0].Code, hop.Code);
         }
 
         [Test]
         public void GetHopByCode_Failed()
         {
-            Assert.AreEqual(null, hop_repo.GetByCode("wrongCode"));
+            Assert.Throws<InvalidOperationException>(() => hop_repo.GetByCode("wrongCode"));   
         }
 
         [Test]

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
@@ -29,7 +30,8 @@ namespace TeamJ.SKS.Package.Services.Test
             Mock<IParcelLogic> mockParcelLogic = new Mock<IParcelLogic>();
             mockParcelLogic.Setup(pl => pl.TrackParcel(It.IsAny<string>())).Returns(new BLParcel());
 
-            var controller = new RecipientApiController(mockParcelLogic.Object);
+            Mock<ILogger<RecipientApiController>> mockLogger = new Mock<ILogger<RecipientApiController>>();
+            var controller = new RecipientApiController(mockParcelLogic.Object, mockLogger.Object);
             var result = (ObjectResult)controller.TrackParcel("123456789");
             Assert.AreEqual(200, result.StatusCode);
         }
@@ -39,8 +41,8 @@ namespace TeamJ.SKS.Package.Services.Test
         {
             Mock<IParcelLogic> mockParcelLogic = new Mock<IParcelLogic>();
             mockParcelLogic.Setup(pl => pl.TrackParcel(It.IsAny<string>())).Returns(value:null);
-
-            var controller = new RecipientApiController(mockParcelLogic.Object);
+            Mock<ILogger<RecipientApiController>> mockLogger = new Mock<ILogger<RecipientApiController>>();
+            var controller = new RecipientApiController(mockParcelLogic.Object, mockLogger.Object);
             var result = (ObjectResult)controller.TrackParcel("1234");
             Assert.AreEqual(400, result.StatusCode);
         }
