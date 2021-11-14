@@ -11,9 +11,6 @@ namespace TeamJ.SKS.Package.DataAccess.DTOs
     [ExcludeFromCodeCoverage]
     public class DALWarehouse : DALHop
     {
-        [Key]
-        public string Id { get; set; }
-
         public int Level { get; set; }
         public List<DALWarehouseNextHops> NextHops { get; set; }
     }
