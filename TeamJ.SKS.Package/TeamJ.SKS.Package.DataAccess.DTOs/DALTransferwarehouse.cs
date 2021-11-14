@@ -11,9 +11,6 @@ namespace TeamJ.SKS.Package.DataAccess.DTOs
     [ExcludeFromCodeCoverage]
     public class DALTransferwarehouse : DALHop
     {
-        [Key]
-        public string Id { get; set; }
-
         public string RegionGeoJson { get; set; }
 
         public string LogisticsPartner { get; set; }

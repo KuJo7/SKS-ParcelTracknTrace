@@ -11,9 +11,6 @@ namespace TeamJ.SKS.Package.DataAccess.DTOs
     [ExcludeFromCodeCoverage]
     public class DALTruck : DALHop
     {
-        [Key]
-        public string Id { get; set; }
-
         public string RegionGeoJson { get; set; }
         public string NumberPlate { get; set; }
     }
