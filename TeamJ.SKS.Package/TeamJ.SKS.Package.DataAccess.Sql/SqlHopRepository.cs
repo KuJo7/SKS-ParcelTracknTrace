@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
 using TeamJ.SKS.Package.DataAccess.DTOs;
 using TeamJ.SKS.Package.DataAccess.Interfaces;
@@ -11,6 +13,8 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
     {
         private readonly IContext _context;
         private readonly ILogger<SqlHopRepository> _logger;
+        private string msgSQL;
+        private string msgException;
 
         public SqlHopRepository(IContext context, ILogger<SqlHopRepository> logger)
         {
@@ -20,51 +24,160 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
 
         public void Create(DALHop dalHop)
         {
-            _logger.LogInformation("SqlHopRepository Create started.");
-            _context.Hops.Add(dalHop);
-            _context.SaveChanges();
+            try
+            {
+                _logger.LogInformation("SqlHopRepository Create started.");
+                _context.Hops.Add(dalHop);
+                _context.SaveChanges();
+            }
+            catch (SqlException ex)
+            {
+                msgSQL = "An error occured while trying to create a hop.";
+                _logger.LogError(msgSQL, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(Create), msgSQL, ex);
+            }
+            catch (Exception ex)
+            {
+                msgException = "An unknown error occured while trying to create a hop.";
+                _logger.LogError(msgException, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(Create), msgException, ex);
+            }
             _logger.LogInformation("SqlHopRepository Create ended.");
         }
 
         public void Update(DALHop dalHop)
         {
-            _logger.LogInformation("SqlHopRepository Update started.");
-            _context.Hops.Update(dalHop);
-            _context.SaveChanges();
+            try
+            {
+                _logger.LogInformation("SqlHopRepository Update started.");
+                _context.Hops.Update(dalHop);
+                _context.SaveChanges();
+            }
+            catch (SqlException ex)
+            {
+                msgSQL = "An error occured while trying to update a hop.";
+                _logger.LogError(msgSQL, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(Update), msgSQL, ex);
+            }
+            catch (Exception ex)
+            {
+                msgException = "An unknown error occured while trying to update a hop.";
+                _logger.LogError(msgException, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(Update), msgException, ex);
+            }
             _logger.LogInformation("SqlHopRepository Update ended.");
         }
 
         public void Delete(DALHop dalHop)
         {
-            _logger.LogInformation("SqlHopRepository Delete started.");
-            _context.Hops.Remove(dalHop);
-            _context.SaveChanges();
+            try
+            {
+                
+                _logger.LogInformation("SqlHopRepository Delete started.");
+                _context.Hops.Remove(dalHop);
+                _context.SaveChanges();
+            }
+            catch (SqlException ex)
+            {
+                msgSQL = "An error occured while trying to delete a hop.";
+                _logger.LogError(msgSQL, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(Delete), msgSQL, ex);
+            }
+            catch (Exception ex)
+            {
+                msgException = "An unknown error occured while trying to delete a hop.";
+                _logger.LogError(msgException, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(Delete), msgException, ex);
+            }
             _logger.LogInformation("SqlHopRepository Delete ended.");
         }
 
         public List<DALHop> GetAllHops()
         {
-            _logger.LogInformation("SqlHopRepository GetAllHops started.");
-            return new List<DALHop>(_context.Hops);
+            try
+            {
+                _logger.LogInformation("SqlHopRepository GetAllHops started.");
+                return new List<DALHop>(_context.Hops);
+            }
+            catch (SqlException ex)
+            {
+                msgSQL = "An error occured while trying to get all hops.";
+                _logger.LogError(msgSQL, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(GetAllHops), msgSQL, ex);
+            }
+            catch (Exception ex)
+            {
+                msgException = "An unknown error occured while trying to get all hops.";
+                _logger.LogError(msgException, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(GetAllHops), msgException, ex);
+            }
+            
         }
 
         public DALHop GetByCode(string code)
         {
-            _logger.LogInformation("SqlHopRepository GetByCode started.");
-            return _context.Hops.Where(hop => hop.Code == code).ToList<DALHop>().First();
+            try
+            {
+                _logger.LogInformation("SqlHopRepository GetByCode started.");
+                return _context.Hops.Where(hop => hop.Code == code).ToList<DALHop>().First();
+            }
+            catch (SqlException ex)
+            {
+                msgSQL = "An error occured while trying to get a hop by code.";
+                _logger.LogError(msgSQL, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(GetByCode), msgSQL, ex);
+            }
+            catch (Exception ex)
+            {
+                msgException = "An unknown error occured while trying to get a hop by code.";
+                _logger.LogError(msgException, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(GetByCode), msgException, ex);
+            }
+            
         }
 
         public List<DALHop> GetByHopType(string hopType)
         {
-            _logger.LogInformation("SqlHopRepository GetByHopType started.");
-            
-            return _context.Hops.Where(hop => hop.HopType == hopType).ToList<DALHop>();
+            try
+            {
+                _logger.LogInformation("SqlHopRepository GetByHopType started.");
+                return _context.Hops.Where(hop => hop.HopType == hopType).ToList<DALHop>();
+
+            }
+            catch (SqlException ex)
+            {
+                msgSQL = "An error occured while trying to get a hop by type.";
+                _logger.LogError(msgSQL, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(GetByHopType), msgSQL, ex);
+            }
+            catch (Exception ex)
+            {
+                msgException = "An unknown error occured while trying to get a hop by type.";
+                _logger.LogError(msgException, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(GetByHopType), msgException, ex);
+            }
         }
 
         public DALHop GetFirstHop()
         {
-            _logger.LogInformation("SqlHopRepository GetFirstHop started.");
-            return _context.Hops.First();
+            try
+            {
+                _logger.LogInformation("SqlHopRepository GetFirstHop started.");
+                return _context.Hops.First();
+            }
+            catch (SqlException ex)
+            {
+                msgSQL = "An error occured while trying to get the first hop.";
+                _logger.LogError(msgSQL, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(GetFirstHop), msgSQL, ex);
+            }
+            catch (Exception ex)
+            {
+                msgException = "An unknown error occured while trying to get the first hop.";
+                _logger.LogError(msgException, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(GetFirstHop), msgException, ex);
+            }
+            
         }
 
         /*public List<DALHop> GetByLevel(int level)

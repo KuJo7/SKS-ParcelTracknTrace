@@ -70,26 +70,37 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult TransitionParcel([FromBody]Parcel body, [FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")]string trackingId)
         {
-            _logger.LogInformation("Controller LogisticsPartnerApi with TransitionParcel started.");
-            BLParcel blParcel = _mapper.Map<BLParcel>(body);
-            blParcel.TrackingId = trackingId;
-            blParcel.FutureHops = new List<BLHopArrival>();
-            blParcel.VisitedHops = new List<BLHopArrival>();
-            blParcel.Recipient = new BLRecipient();
-            blParcel.Sender = new BLRecipient();
-            if (_parcelLogic.TransitionParcel(blParcel))
+            try
             {
-                // Mapping back auf SVC Parcel (?)
-                // mapping entf?llt, weil nur ein string
-                _logger.LogInformation("Controller LogisticsPartnerApi with TransitionParcel ended successful.");
-                return Ok(new NewParcelInfo());
+                _logger.LogInformation("Controller LogisticsPartnerApi with TransitionParcel started.");
+                BLParcel blParcel = _mapper.Map<BLParcel>(body);
+                blParcel.TrackingId = trackingId;
+                blParcel.FutureHops = new List<BLHopArrival>();
+                blParcel.VisitedHops = new List<BLHopArrival>();
+                blParcel.Recipient = new BLRecipient();
+                blParcel.Sender = new BLRecipient();
+                if (_parcelLogic.TransitionParcel(blParcel))
+                {
+                    // Mapping back auf SVC Parcel (?)
+                    // mapping entf?llt, weil nur ein string
+                    _logger.LogInformation("Controller LogisticsPartnerApi with TransitionParcel ended successful.");
+                    return Ok(new NewParcelInfo());
+                }
             }
-            else
+            catch (BusinessLogicException ex)
             {
-                _logger.LogInformation("Controller LogisticsPartnerApi with TransitionParcel ended unsuccessful");
-                return BadRequest(new Error("Error: TransitionParcel"));
-
+                var msg = @"An error occured while trying to use the /parcel/trackingid post api.";
+                _logger.LogError(msg, ex);
+                throw new BusinessLogicException(nameof(TransitionParcel), msg, ex);
             }
+            catch (Exception ex)
+            {
+                var msgException = @"An unknown error occured while trying to use the /parcel/trackingid post api.";
+                _logger.LogError(msgException, ex);
+                throw new BusinessLogicException(nameof(TransitionParcel), msgException, ex);
+            }
+            _logger.LogInformation("Controller LogisticsPartnerApi with TransitionParcel ended unsuccessful");
+            return BadRequest(new Error("Error: TransitionParcel"));
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(NewParcelInfo));

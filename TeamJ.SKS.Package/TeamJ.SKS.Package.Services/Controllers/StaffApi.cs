@@ -56,19 +56,29 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult ReportParcelDelivery([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")]string trackingId)
         {
-            _logger.LogInformation("StaffApi ReportParcelDelivery started.");
-            if (_parcelLogic.ReportParcelDelivery(trackingId))
+            try
             {
-                _logger.LogInformation("StaffApi ReportParcelDelivery ended successful.");
-                return Ok(StatusCode(200));
+                _logger.LogInformation("StaffApi ReportParcelDelivery started.");
+                if (_parcelLogic.ReportParcelDelivery(trackingId))
+                {
+                    _logger.LogInformation("StaffApi ReportParcelDelivery ended successful.");
+                    return Ok(StatusCode(200));
+                }
             }
-            else
+            catch (BusinessLogicException ex)
             {
-                _logger.LogInformation("StaffApi ReportParcelDelivery ended unsuccessful.");
-                return BadRequest(new Error("Error: ReportParcelDelivery"));
-
+                var msg = "An error occured while trying to use the /parcel/trackingid/reportdelivery post api.";
+                _logger.LogError(msg, ex);
+                throw new BusinessLogicException(nameof(ReportParcelDelivery), msg, ex);
             }
-
+            catch (Exception ex)
+            {
+                var msgException = "An unknown error occured while trying to use the /parcel/trackingid/reportdelivery post api.";
+                _logger.LogError(msgException, ex);
+                throw new BusinessLogicException(nameof(ReportParcelDelivery), msgException, ex);
+            }
+            _logger.LogInformation("StaffApi ReportParcelDelivery ended unsuccessful.");
+            return BadRequest(new Error("Error: ReportParcelDelivery"));
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200);
 
@@ -96,17 +106,30 @@ namespace TeamJ.SKS.Package.Services.Controllers
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]
         public virtual IActionResult ReportParcelHop([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")] string trackingId, [FromRoute][Required][RegularExpression("^[A-Z]{4}\\d{1,4}$")] string code)
         {
-            _logger.LogInformation("StaffApi ReportParcelHop started.");
-            if (_parcelLogic.ReportParcelHop(trackingId, code))
+            try
             {
-                _logger.LogInformation("StaffApi ReportParcelHop ended successful.");
-                return Ok(StatusCode(200));
+                _logger.LogInformation("StaffApi ReportParcelHop started.");
+                if (_parcelLogic.ReportParcelHop(trackingId, code))
+                {
+                    _logger.LogInformation("StaffApi ReportParcelHop ended successful.");
+                    return Ok(StatusCode(200));
+                }
             }
-            else
+            catch (BusinessLogicException ex)
             {
-                _logger.LogInformation("StaffApi ReportParcelHop ended unsuccessful.");
-                return BadRequest(new Error("Error: ReportParcelHop"));
+                var msg = "An error occured while trying to use the /parcel/trackingid/reportHop/code post api.";
+                _logger.LogError(msg, ex);
+                throw new BusinessLogicException(nameof(ReportParcelHop), msg, ex);
             }
+            catch (Exception ex)
+            {
+                var msgException = "An unknown error occured while trying to use the /parcel/trackingid/reportHop/code post api.";
+                _logger.LogError(msgException, ex);
+                throw new BusinessLogicException(nameof(ReportParcelHop), msgException, ex);
+            }
+            _logger.LogInformation("StaffApi ReportParcelHop ended unsuccessful.");
+            return BadRequest(new Error("Error: ReportParcelHop"));
+
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200);
 

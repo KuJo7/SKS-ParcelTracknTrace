@@ -21,6 +21,9 @@ namespace TeamJ.SKS.Package.BusinessLogic
         private readonly IHopRepository _repo;
         private readonly IMapper _mapper;
         private readonly ILogger<HopLogic> _logger;
+        private string msg;
+        private string msgException;
+        private string msgMapper = "An error occured while trying to map hops.";
 
         public HopLogic(IHopRepository repo, IMapper mapper, ILogger<HopLogic> logger)
         {
@@ -31,38 +34,100 @@ namespace TeamJ.SKS.Package.BusinessLogic
 
         public List<BLHop> ExportWarehouses()
         {
-            _logger.LogInformation("HopLogic ExportWarehouses started.");
-            var result = _mapper.Map<List<DALHop>, List<BLHop>>(_repo.GetAllHops());
-            _logger.LogInformation("HopLogic ExportWarehouses ended.");
-            return result;
+            try
+            {
+                _logger.LogInformation("HopLogic ExportWarehouses started.");
+                var result = _mapper.Map<List<DALHop>, List<BLHop>>(_repo.GetAllHops());
+                return result;
+            }
+            catch (DataAccessException ex)
+            {
+                msg = "An error occured while trying to export warehouses.";
+                _logger.LogError(msg, ex);
+                throw new BusinessLogicException(nameof(ExportWarehouses), msg, ex);
+            }
+            catch (AutoMapperMappingException ex)
+            {
+                _logger.LogError(msgMapper, ex);
+                throw new BusinessLogicException(nameof(ExportWarehouses), msgMapper, ex);
+            }
+            catch (Exception ex)
+            {
+                msgException = "An unknown error occured while trying to export warehouses.";
+                _logger.LogError(msgException, ex);
+                throw new BusinessLogicException(nameof(ExportWarehouses), msgException, ex);
+            }
+            
         }
 
         public bool ImportWarehouses(BLWarehouse blWarehouse)
         {
-            _logger.LogInformation("HopLogic ImportWarehouses started.");
-            var result = blWarehouseValidator.Validate(blWarehouse);
-            if (result.IsValid)
+            try
             {
-                DALHop dalWarehouse = _mapper.Map<DALHop>(blWarehouse);
-                _repo.Create(dalWarehouse);
-                _logger.LogInformation("HopLogic ImportWarehouses ended successful.");
-                return true;
+                _logger.LogInformation("HopLogic ImportWarehouses started.");
+                var result = blWarehouseValidator.Validate(blWarehouse);
+                if (result.IsValid)
+                {
+                    DALHop dalWarehouse = _mapper.Map<DALHop>(blWarehouse);
+                    _repo.Create(dalWarehouse);
+                    _logger.LogInformation("HopLogic ImportWarehouses ended successful.");
+                    return true;
+                }
+                _logger.LogInformation("HopLogic ImportWarehouses ended unsuccessful.");
+                return false;
             }
-            _logger.LogInformation("HopLogic ImportWarehouses ended unsuccessful.");
-            return false;
+            catch (DataAccessException ex)
+            {
+                msg = "An error occured while trying to import warehouses.";
+                _logger.LogError(msg, ex);
+                throw new BusinessLogicException(nameof(ImportWarehouses), msg, ex);
+            }
+            catch (AutoMapperMappingException ex)
+            {
+                _logger.LogError(msgMapper, ex);
+                throw new BusinessLogicException(nameof(ImportWarehouses), msgMapper, ex);
+            }
+            catch (Exception ex)
+            {
+                msgException = "An unknown error occured while trying to import warehouses.";
+                _logger.LogError(msgException, ex);
+                throw new BusinessLogicException(nameof(ImportWarehouses), msgException, ex);
+            }
+
         }
 
         public BLHop GetWarehouse(string code)
         {
-            _logger.LogInformation("HopLogic GetWarehouse started.");
-            var result = codeValidator.Validate(code);
-            if (result.IsValid)
+            try
             {
-                _logger.LogInformation("HopLogic GetWarehouse ended successful.");
-                return _mapper.Map<BLWarehouse>(_repo.GetByCode(code));
+                _logger.LogInformation("HopLogic GetWarehouse started.");
+                var result = codeValidator.Validate(code);
+                if (result.IsValid)
+                {
+                    _logger.LogInformation("HopLogic GetWarehouse ended successful.");
+                    return _mapper.Map<BLWarehouse>(_repo.GetByCode(code));
+                }
+                _logger.LogInformation("HopLogic GetWarehouse ended unsuccessful.");
+                return null;
             }
-            _logger.LogInformation("HopLogic GetWarehouse ended unsuccessful.");
-            return null;
+            catch (DataAccessException ex)
+            {
+                msg = "An error occured while trying to get a warehouse.";
+                _logger.LogError(msg, ex);
+                throw new BusinessLogicException(nameof(GetWarehouse), msg, ex);
+            }
+            catch (AutoMapperMappingException ex)
+            {
+                _logger.LogError(msgMapper, ex);
+                throw new BusinessLogicException(nameof(GetWarehouse), msgMapper, ex);
+            }
+            catch (Exception ex)
+            {
+                msgException = "An unknown error occured while trying to get a warehouse.";
+                _logger.LogError(msgException, ex);
+                throw new BusinessLogicException(nameof(GetWarehouse), msgException, ex);
+            }
+            
         }
     }
 }
