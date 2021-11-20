@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TeamJ.SKS.Package.ServiceAgents.Interfaces\TeamJ.SKS.Package.ServiceAgents.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>

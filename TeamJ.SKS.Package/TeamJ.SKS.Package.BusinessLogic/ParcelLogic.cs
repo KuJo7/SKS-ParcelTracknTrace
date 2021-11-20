@@ -163,9 +163,9 @@ namespace TeamJ.SKS.Package.BusinessLogic
             }
             catch (DataAccessException ex)
             {
-                msgSQL = "An error occured while trying to report a delivered parcel.";
-                _logger.LogError(msgSQL, ex);
-                throw new BusinessLogicException(nameof(ReportParcelDelivery), msgSQL, ex);
+                msg = "An error occured while trying to report a delivered parcel.";
+                _logger.LogError(msg, ex);
+                throw new BusinessLogicException(nameof(ReportParcelDelivery), msg, ex);
             }
             catch (AutoMapperMappingException ex)
             {
@@ -205,9 +205,9 @@ namespace TeamJ.SKS.Package.BusinessLogic
             }
             catch (DataAccessException ex)
             {
-                msgSQL = "An error occured while trying to report a parcel arriving at a certain hop.";
-                _logger.LogError(msgSQL, ex);
-                throw new BusinessLogicException(nameof(ReportParcelHop), msgSQL, ex);
+                msg = "An error occured while trying to report a parcel arriving at a certain hop.";
+                _logger.LogError(msg, ex);
+                throw new BusinessLogicException(nameof(ReportParcelHop), msg, ex);
             }
             catch (AutoMapperMappingException ex)
             {

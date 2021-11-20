@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31105.61
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.Services", "TeamJ.SKS.Package.Services\TeamJ.SKS.Package.Services.csproj", "{A0819C4F-68AE-4C3F-A856-1719D1A4798E}"
 EndProject
@@ -29,6 +29,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.DataAcces
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.DataAccess.DTOs", "TeamJ.SKS.Package.DataAccess.DTOs\TeamJ.SKS.Package.DataAccess.DTOs.csproj", "{C19F1912-8BDA-41DB-831A-85F835C04C6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamJ.SKS.Package.ServiceAgents", "TeamJ.SKS.Package.ServiceAgents\TeamJ.SKS.Package.ServiceAgents.csproj", "{AEADD245-6C27-46C4-A7C5-0FA7D8FE5E96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamJ.SKS.Package.ServiceAgents.Interfaces", "TeamJ.SKS.Package.ServiceAgents.Interfaces\TeamJ.SKS.Package.ServiceAgents.Interfaces.csproj", "{875D66A2-8CD0-4ABE-8A67-6F93EB2ACD1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamJ.SKS.Package.ServiceAgent.Test", "TeamJ.SKS.Package.ServiceAgent.Test\TeamJ.SKS.Package.ServiceAgent.Test.csproj", "{CEE1A0AD-E492-4802-8E53-7A8A879EDA28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,6 +90,18 @@ Global
 		{C19F1912-8BDA-41DB-831A-85F835C04C6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C19F1912-8BDA-41DB-831A-85F835C04C6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C19F1912-8BDA-41DB-831A-85F835C04C6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEADD245-6C27-46C4-A7C5-0FA7D8FE5E96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEADD245-6C27-46C4-A7C5-0FA7D8FE5E96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEADD245-6C27-46C4-A7C5-0FA7D8FE5E96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEADD245-6C27-46C4-A7C5-0FA7D8FE5E96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{875D66A2-8CD0-4ABE-8A67-6F93EB2ACD1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{875D66A2-8CD0-4ABE-8A67-6F93EB2ACD1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{875D66A2-8CD0-4ABE-8A67-6F93EB2ACD1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{875D66A2-8CD0-4ABE-8A67-6F93EB2ACD1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEE1A0AD-E492-4802-8E53-7A8A879EDA28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEE1A0AD-E492-4802-8E53-7A8A879EDA28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEE1A0AD-E492-4802-8E53-7A8A879EDA28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEE1A0AD-E492-4802-8E53-7A8A879EDA28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
