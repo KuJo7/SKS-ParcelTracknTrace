@@ -7,10 +7,8 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>TeamJ.SKS.Package.Services</AssemblyName>
     <PackageId>TeamJ</PackageId>
-    <PlatformTarget>anycpu</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PlatformTarget>anycpu</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
