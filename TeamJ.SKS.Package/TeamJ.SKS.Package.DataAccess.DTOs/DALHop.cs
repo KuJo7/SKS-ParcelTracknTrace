@@ -10,10 +10,9 @@ using System.Threading.Tasks;
 namespace TeamJ.SKS.Package.DataAccess.DTOs
 {
     [ExcludeFromCodeCoverage]
-    public class DALHop
+    public abstract class DALHop
     {
         [Key]
-        public string Id { get; set; }
         public string Code { get; set; }
 
         public string HopType { get; set; }
@@ -24,8 +23,8 @@ namespace TeamJ.SKS.Package.DataAccess.DTOs
 
         public string Description { get; set; }
 
-        public double Lat { get; set; }
+        public double? Lat { get; set; }
 
-        public double Lon { get; set; }
+        public double? Lon { get; set; }
     }
 }

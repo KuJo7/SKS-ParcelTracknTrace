@@ -57,10 +57,10 @@ namespace TeamJ.SKS.Package.Services.Controllers
         /// <summary>
         /// WarehouseManagementApiController Constructor with 1 parameters
         /// </summary>
-        public WarehouseManagementApiController(IHopLogic hopLogic)
+        /*public WarehouseManagementApiController(IHopLogic hopLogic)
         {
             _hopLogic = hopLogic;
-        }
+        }*/
 
         /// <summary>
         /// Exports the hierarchy of Warehouse and Truck objects. 
@@ -193,8 +193,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
             try
             {
                 _logger.LogInformation("WarehouseManagementApi ImportWarehouses started.");
-                BLWarehouse blWarehouse = _mapper.Map<BLWarehouse>(body);
-                blWarehouse.NextHops = new List<BLWarehouseNextHops>();
+                var blWarehouse = _mapper.Map<Warehouse ,BLWarehouse>(body);
                 if (_hopLogic.ImportWarehouses(blWarehouse))
                 {
                     // Mapping back auf SVC Parcel (?)

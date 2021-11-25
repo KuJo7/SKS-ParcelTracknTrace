@@ -63,7 +63,12 @@ namespace TeamJ.SKS.Package.Services
         {
 
             //AutoMapper
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MapperProfiles());
+            });
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
             services.AddMvc();
 
             //Validator
@@ -139,7 +144,7 @@ namespace TeamJ.SKS.Package.Services
         /// <param name="context"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, DataAccess.Sql.Context context)
         {
-            context.Database.Migrate();
+            //context.Database.Migrate();
 
             app.UseRouting();
 

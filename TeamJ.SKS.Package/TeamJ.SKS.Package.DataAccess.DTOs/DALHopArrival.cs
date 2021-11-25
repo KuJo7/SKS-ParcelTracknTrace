@@ -13,7 +13,7 @@ namespace TeamJ.SKS.Package.DataAccess.DTOs
     public class DALHopArrival
     {
         [Key]
-        public string Id { get; set; }
+        //public string Id { get; set; }
 
         public string Code { get; set; }
 

@@ -171,5 +171,16 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config), mockLogger.Object);
             Assert.IsNull(hopLogic.GetWarehouse("wrongCode"));
         }
+        [Test]
+        public void Automapper()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new MapperProfiles());
+            });
+            var mapper = config.CreateMapper();
+            Assert.AreEqual(new BLWarehouse().Level, mapper.Map<Warehouse, BLWarehouse>(new Warehouse()).Level);
+            config.AssertConfigurationIsValid();
+        }
     }
 }

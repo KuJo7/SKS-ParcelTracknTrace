@@ -18,7 +18,7 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
 
         public Context(DbContextOptions<Context> opt) : base(opt)
         {
-            //Database.EnsureCreated();
+            Database.EnsureCreated();
         }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -43,7 +43,7 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             builder.Entity<DALHop>().HasDiscriminator(h => h.HopType);
             builder.Entity<DALTruck>().HasBaseType<DALHop>();
             builder.Entity<DALTransferwarehouse>().HasBaseType<DALHop>();
-            builder.Entity<DALWarehouse>().HasBaseType<DALHop>();
+            builder.Entity<DALWarehouse>().HasBaseType<DALHop>().HasDiscriminator(h => h.HopType);
         }
     }
 }

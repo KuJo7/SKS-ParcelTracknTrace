@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace TeamJ.SKS.Package.BusinessLogic.DTOs
 {
     [ExcludeFromCodeCoverage]
-    public class BLHop
+    public abstract class BLHop
     {
 
         public string HopType { get; set; }
@@ -22,9 +22,9 @@ namespace TeamJ.SKS.Package.BusinessLogic.DTOs
         public string Code { get; set; }
         public string Description { get; set; }
 
-        public double Lat { get; set; }
+        public double? Lat { get; set; }
 
-        public double Lon { get; set; }
+        public double? Lon { get; set; }
 
     }
 }

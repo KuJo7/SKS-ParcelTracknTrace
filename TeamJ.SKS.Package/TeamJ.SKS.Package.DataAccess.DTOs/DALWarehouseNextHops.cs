@@ -16,6 +16,7 @@ namespace TeamJ.SKS.Package.DataAccess.DTOs
         public string Id { get; set; }
 
         public int TraveltimeMins { get; set; }
+        [ForeignKey("Hops")]
 
         public DALHop Hop { get; set; }
     }

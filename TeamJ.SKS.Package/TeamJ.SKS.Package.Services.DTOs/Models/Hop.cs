@@ -26,7 +26,7 @@ namespace TeamJ.SKS.Package.Services.DTOs.Models
     /// </summary>
     [ExcludeFromCodeCoverage]
     [DataContract]
-    public abstract partial class Hop
+    public abstract partial  class Hop
     { 
         /// <summary>
         /// Gets or Sets HopType
@@ -41,7 +41,7 @@ namespace TeamJ.SKS.Package.Services.DTOs.Models
         /// </summary>
         /// <value>Unique CODE of the hop.</value>
         [Required]
-        [RegularExpression("/^[A-Z]{4}\\d{1,4}$/")]
+        [RegularExpression(@"^[A-Z]{4}\d{1,4}$")]
         [DataMember(Name="code")]
         public string Code { get; set; }
 

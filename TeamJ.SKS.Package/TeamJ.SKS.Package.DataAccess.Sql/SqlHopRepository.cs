@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging;
