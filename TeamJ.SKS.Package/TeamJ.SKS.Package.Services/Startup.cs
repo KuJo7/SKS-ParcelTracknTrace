@@ -78,7 +78,6 @@ namespace TeamJ.SKS.Package.Services
             services.AddTransient<IValidator<BLHopArrival>, BLHopArrivalValidator>();
             services.AddTransient<IValidator<BLRecipient>, BLRecipientValidator>();
             services.AddTransient<IValidator<BLWarehouseNextHops>, BLWarehouseNextHopsValidator>();
-            services.AddTransient<IValidator<string>, BLCodeValidator>();
 
             //DBContext
             services.AddDbContext<DataAccess.Sql.Context>(opt => opt.UseSqlServer(Configuration.GetConnectionString("ParcelTracknTraceDb"), 

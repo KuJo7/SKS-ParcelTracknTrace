@@ -18,6 +18,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using System.Diagnostics.CodeAnalysis;
+using TeamJ.SKS.Package.Services.DTOs.Converter;
 
 namespace TeamJ.SKS.Package.Services.DTOs.Models
 {
@@ -25,8 +26,9 @@ namespace TeamJ.SKS.Package.Services.DTOs.Models
     /// 
     /// </summary>
     [ExcludeFromCodeCoverage]
+    [JsonConverter(typeof(HopJsonConverter))]
     [DataContract]
-    public abstract partial  class Hop
+    public abstract partial class Hop
     { 
         /// <summary>
         /// Gets or Sets HopType

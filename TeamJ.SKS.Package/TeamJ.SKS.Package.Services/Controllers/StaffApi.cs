@@ -34,7 +34,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
             _parcelLogic = new ParcelLogic();
         }*/
         /// <summary>
-        /// StaffApiController Constructor with 1 parameters
+        /// StaffApiController Constructor with 2 parameters
         /// </summary>
         public StaffApiController(IParcelLogic parcelLogic, ILogger<StaffApiController> logger)
         {
@@ -50,7 +50,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
         /// <response code="400">The operation failed due to an error.</response>
         /// <response code="404">Parcel does not exist with this tracking ID. </response>
         [HttpPost]
-        [Route("/parcel/{trackingId}/reportDelivery/")]
+        [Route("/parcel/{trackingId}/reportDelivery")]
         [ValidateModelState]
         [SwaggerOperation("ReportParcelDelivery")]
         [SwaggerResponse(statusCode: 400, type: typeof(Error), description: "The operation failed due to an error.")]

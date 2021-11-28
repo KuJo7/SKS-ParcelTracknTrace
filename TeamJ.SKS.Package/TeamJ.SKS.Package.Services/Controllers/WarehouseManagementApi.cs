@@ -54,13 +54,6 @@ namespace TeamJ.SKS.Package.Services.Controllers
             _mapper = mapper;
             _logger = logger;
         }
-        /// <summary>
-        /// WarehouseManagementApiController Constructor with 1 parameters
-        /// </summary>
-        /*public WarehouseManagementApiController(IHopLogic hopLogic)
-        {
-            _hopLogic = hopLogic;
-        }*/
 
         /// <summary>
         /// Exports the hierarchy of Warehouse and Truck objects. 
@@ -79,10 +72,11 @@ namespace TeamJ.SKS.Package.Services.Controllers
             try
             {
                 _logger.LogInformation("WarehouseManagementApi ExportWarehouse started");
-                if (_hopLogic.ExportWarehouses().Any())
+                var result = _hopLogic.ExportWarehouses();
+                if (result.Any())
                 {
                     _logger.LogInformation("WarehouseManagementApi ExportWarehouse ended successful");
-                    return Ok(new Warehouse());
+                    return Ok(result);
                 }
 
             }
@@ -139,10 +133,12 @@ namespace TeamJ.SKS.Package.Services.Controllers
             try
             {
                 _logger.LogInformation("WarehouseManagementApi GetWarehouse started.");
-                if (_hopLogic.GetWarehouse(code) != null)
+                var result = _hopLogic.GetWarehouse(code);
+                if (result != null)
                 {
+                    var resultMapper = _mapper.Map<Warehouse>(result);
                     _logger.LogInformation("WarehouseManagementApi GetWarehouse ended successful.");
-                    return Ok(new Warehouse());
+                    return Ok(resultMapper);
                 }
             }
             catch (BusinessLogicException ex)
@@ -193,7 +189,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
             try
             {
                 _logger.LogInformation("WarehouseManagementApi ImportWarehouses started.");
-                var blWarehouse = _mapper.Map<Warehouse ,BLWarehouse>(body);
+                var blWarehouse = _mapper.Map<BLWarehouse>(body);
                 if (_hopLogic.ImportWarehouses(blWarehouse))
                 {
                     // Mapping back auf SVC Parcel (?)

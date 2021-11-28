@@ -13,22 +13,40 @@ namespace TeamJ.SKS.Package.Services.DTOs.MapperProfiles
         public MapperProfiles()
         {
             CreateMap<GeoCoordinate, BLHop>(MemberList.Source).ReverseMap();
-            CreateMap<Hop, BLHop>(MemberList.Source)
-                //.ForSourceMember(x => x.LocationCoordinates, opt => opt.DoNotValidate())
-                .IncludeMembers(s=>s.LocationCoordinates)
-                .IncludeAllDerived();
+
+            CreateMap<Hop, BLHop>()
+                .IncludeMembers(s => s.LocationCoordinates)
+                .Include<Warehouse, BLWarehouse>()
+                .Include<Truck, BLTruck>()
+                .Include<Transferwarehouse, BLTransferwarehouse>();
+            CreateMap<Transferwarehouse, BLTransferwarehouse>().ReverseMap();
+            CreateMap<Truck, BLTruck>().ReverseMap();
+            CreateMap<Warehouse, BLWarehouse>().ReverseMap();
+
+
+            CreateMap<BLHop, Hop>(MemberList.Source)
+                .ForPath(d => d.LocationCoordinates.Lat, opt => opt.MapFrom(s => s.Lat))
+                .ForPath(d => d.LocationCoordinates.Lon, opt => opt.MapFrom(s => s.Lat))
+                .Include<BLWarehouse, Warehouse>()
+                .Include<BLTruck, Truck>()
+                .Include<BLTransferwarehouse, Transferwarehouse>();
+
             CreateMap<HopArrival, BLHopArrival>().ReverseMap();
-            CreateMap<Truck, BLTruck>(MemberList.Source).ReverseMap();
-            CreateMap<Warehouse, BLWarehouse>(MemberList.Source).ReverseMap();
             CreateMap<WarehouseNextHops, BLWarehouseNextHops>().ReverseMap();
-            CreateMap<Transferwarehouse, BLTransferwarehouse>(MemberList.Source).ReverseMap();
+
             CreateMap<Parcel, BLParcel>(MemberList.Source).ReverseMap();
             CreateMap<TrackingInformation, BLParcel>(MemberList.Source).ReverseMap();
             CreateMap<NewParcelInfo, BLParcel>(MemberList.Source).ReverseMap();
             CreateMap<Recipient, BLRecipient>().ReverseMap();
 
-
-            CreateMap<BLHop, DALHop>(MemberList.Source).ReverseMap().IncludeAllDerived();
+            CreateMap<BLHop, DALHop>(MemberList.Source)
+                .Include<BLWarehouse, DALWarehouse>()
+                .Include<BLTruck, DALTruck>()
+                .Include<BLTransferwarehouse, DALTransferwarehouse>();
+            CreateMap<DALHop, BLHop>(MemberList.Source)
+                .Include<DALWarehouse, BLWarehouse>()
+                .Include<DALTruck, BLTruck>()
+                .Include<DALTransferwarehouse, BLTransferwarehouse>();
             CreateMap<BLTruck, DALTruck>(MemberList.Source).ReverseMap();
             CreateMap<BLWarehouse, DALWarehouse>(MemberList.Source).ReverseMap();
             CreateMap<BLTransferwarehouse, DALTransferwarehouse>(MemberList.Source).ReverseMap();

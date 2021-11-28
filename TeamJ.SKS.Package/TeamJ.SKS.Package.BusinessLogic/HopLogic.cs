@@ -17,7 +17,6 @@ namespace TeamJ.SKS.Package.BusinessLogic
     public class HopLogic : IHopLogic
     {
         private readonly IValidator<BLWarehouse> blWarehouseValidator = new BLWarehouseValidator();
-        private readonly IValidator<string> codeValidator = new BLCodeValidator();
         private readonly IHopRepository _repo;
         private readonly IMapper _mapper;
         private readonly ILogger<HopLogic> _logger;
@@ -69,6 +68,7 @@ namespace TeamJ.SKS.Package.BusinessLogic
                 if (result.IsValid)
                 {
                     DALHop dalWarehouse = _mapper.Map<DALHop>(blWarehouse);
+                    //_repo.DeleteAllHops();
                     _repo.Create(dalWarehouse);
                     _logger.LogInformation("HopLogic ImportWarehouses ended successful.");
                     return true;
@@ -101,14 +101,8 @@ namespace TeamJ.SKS.Package.BusinessLogic
             try
             {
                 _logger.LogInformation("HopLogic GetWarehouse started.");
-                var result = codeValidator.Validate(code);
-                if (result.IsValid)
-                {
-                    _logger.LogInformation("HopLogic GetWarehouse ended successful.");
-                    return _mapper.Map<BLWarehouse>(_repo.GetByCode(code));
-                }
-                _logger.LogInformation("HopLogic GetWarehouse ended unsuccessful.");
-                return null;
+                _logger.LogInformation("HopLogic GetWarehouse ended successful.");
+                return _mapper.Map<BLWarehouse>(_repo.GetByCode(code));
             }
             catch (DataAccessException ex)
             {

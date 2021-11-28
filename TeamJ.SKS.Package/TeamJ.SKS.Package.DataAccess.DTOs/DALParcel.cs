@@ -17,9 +17,7 @@ namespace TeamJ.SKS.Package.DataAccess.DTOs
         public string TrackingId { get; set; }
 
         public float Weight { get; set; }
-
         public DALRecipient Recipient { get; set; }
-
         public DALRecipient Sender { get; set; }
 
         public enum StateEnum
@@ -38,9 +36,9 @@ namespace TeamJ.SKS.Package.DataAccess.DTOs
 
         public StateEnum State { get; set; }
 
-        public List<DALHopArrival> VisitedHops { get; set; } = new();
+        public List<DALHopArrival> VisitedHops { get; set; }
 
-        public List<DALHopArrival> FutureHops { get; set; } = new(); 
+        public List<DALHopArrival> FutureHops { get; set; }
 
     }
 }

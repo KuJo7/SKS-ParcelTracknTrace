@@ -21,15 +21,20 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             Database.EnsureCreated();
         }
 
+        public void deleteAll()
+        {
+            Database.EnsureDeleted();
+        }
+
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
         //    optionsBuilder.AddInterceptors(new[] { new LogInterceptor() });
         //    optionsBuilder.UseSqlServer("Initial Catalog=Sample;User=sa;Password=pass@word1;Data Source=localhost;MultipleActiveResultSets=True"
         //        );
-            // ,sopt => sopt.UseNetTopologySuite());
+        // ,sopt => sopt.UseNetTopologySuite());
         //}
 
-         protected override void OnModelCreating(ModelBuilder builder)
+        protected override void OnModelCreating(ModelBuilder builder)
          {
             //builder.Entity<DALHop>()
             //    .HasKey(hop => hop.HopCode);
@@ -40,10 +45,24 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             //builder.Entity<DALRecipient>()
             //    .HasKey(recipient => recipient.RecipientId);
 
-            builder.Entity<DALHop>().HasDiscriminator(h => h.HopType);
+
+
+            builder.Entity<DALHop>()
+                .HasDiscriminator<string>(h => h.HopType)
+                .HasValue<DALTruck>("Truck")
+                .HasValue<DALWarehouse>("Warehouse")
+                .HasValue<DALTransferwarehouse>("TransferWarehouse");
             builder.Entity<DALTruck>().HasBaseType<DALHop>();
             builder.Entity<DALTransferwarehouse>().HasBaseType<DALHop>();
-            builder.Entity<DALWarehouse>().HasBaseType<DALHop>().HasDiscriminator(h => h.HopType);
-        }
+            builder.Entity<DALWarehouse>().HasBaseType<DALHop>();
+
+            builder.Entity<DALParcel>().Navigation(p => p.FutureHops).AutoInclude();
+            builder.Entity<DALParcel>().Navigation(p => p.VisitedHops).AutoInclude();
+            builder.Entity<DALParcel>().Navigation(p => p.Recipient).AutoInclude();
+            builder.Entity<DALParcel>().Navigation(p => p.Sender).AutoInclude();
+
+            builder.Entity<DALWarehouse>().HasMany<DALWarehouseNextHops>(h => h.NextHops).WithOne().OnDelete(DeleteBehavior.ClientCascade);
+            builder.Entity<DALWarehouseNextHops>().HasOne<DALHop>(wnh => wnh.Hop);
+         }
     }
 }

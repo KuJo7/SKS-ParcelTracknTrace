@@ -10,7 +10,7 @@ namespace TeamJ.SKS.Package.DataAccess.Interfaces
         public void Update(DALHop dalHop);
         public void Delete(DALHop dalHop);
 
-
+        public void DeleteAllHops();
         public DALHop GetByCode(string code);
         public DALHop GetFirstHop();
         public List<DALHop> GetAllHops();

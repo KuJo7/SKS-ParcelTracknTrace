@@ -18,7 +18,6 @@ namespace TeamJ.SKS.Package.BusinessLogic
     public class ParcelLogic : IParcelLogic
     {
         readonly IValidator<BLParcel> validator = new BLParcelValidator();
-        readonly IValidator<string> codeValidator = new BLCodeValidator();
         private readonly IParcelRepository _repo;
         private readonly IMapper _mapper;
         private readonly ILogger<ParcelLogic> _logger;
@@ -149,17 +148,17 @@ namespace TeamJ.SKS.Package.BusinessLogic
             try
             {
                 _logger.LogInformation("ParcelLogic ReportParcelDelivery started.");
-                var blParcel = _mapper.Map<BLParcel>(_repo.GetById(trackingID));
-                //blParcel.State = BLParcel.StateEnum.DeliveredEnum;
+                /*var blParcel = _mapper.Map<BLParcel>(_repo.GetById(trackingID));
+                blParcel.State = BLParcel.StateEnum.DeliveredEnum;
                 var result = validator.Validate(blParcel);
                 if (result.IsValid)
-                {
+                {*/
                     _logger.LogInformation("ParcelLogic ReportParcelDelivery ended successful.");
-                    _repo.Update(_mapper.Map<DALParcel>(blParcel));
+                    _repo.Update(trackingID);
                     return true;
-                }
+                /*}
                 _logger.LogInformation("ParcelLogic ReportParcelDelivery ended unsuccessful.");
-                return false;
+                return false;*/
             }
             catch (DataAccessException ex)
             {
@@ -193,10 +192,9 @@ namespace TeamJ.SKS.Package.BusinessLogic
                 //Update parcel position at which hop (relation parcel and hop) ??
                 //blParcel.State = BLParcel.StateEnum.InTransportEnum;
                 var resultTrackingID = validator.Validate(blParcel);
-                var resultCode = codeValidator.Validate(code);
-                if (resultTrackingID.IsValid && resultCode.IsValid)
+                if (resultTrackingID.IsValid)
                 {
-                    _repo.Update(_mapper.Map<DALParcel>(blParcel));
+                    //_repo.Update(_mapper.Map<DALParcel>(blParcel));
                     _logger.LogInformation("ParcelLogic ReportParcelHop ended successful.");
                     return true;
                 }

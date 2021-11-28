@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace TeamJ.SKS.Package.DataAccess.DTOs
 {
     [ExcludeFromCodeCoverage]
-    public abstract class DALHop
+    public class DALHop
     {
         [Key]
         public string Code { get; set; }

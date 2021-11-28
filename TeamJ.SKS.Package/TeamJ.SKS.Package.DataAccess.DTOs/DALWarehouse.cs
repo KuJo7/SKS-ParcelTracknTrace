@@ -13,7 +13,6 @@ namespace TeamJ.SKS.Package.DataAccess.DTOs
     public class DALWarehouse : DALHop
     {
         public int Level { get; set; }
-        [ForeignKey("DALWarehouseNextHops")]
         public List<DALWarehouseNextHops> NextHops { get; set; }
     }
 }

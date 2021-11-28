@@ -4,6 +4,7 @@ using System.Data;
 using System.Diagnostics.Tracing;
 using System.Linq;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TeamJ.SKS.Package.DataAccess.DTOs;
 using TeamJ.SKS.Package.DataAccess.Interfaces;
@@ -93,6 +94,29 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             _logger.LogInformation("SqlHopRepository Delete ended.");
         }
 
+        public void DeleteAllHops()
+        {
+            try
+            {
+
+                _logger.LogInformation("SqlHopRepository DeleteAllHops started.");
+                _context.deleteAll();
+            }
+            catch (SqlException ex)
+            {
+                msgSQL = "An error occured while trying to delete all hops.";
+                _logger.LogError(msgSQL, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(Delete), msgSQL, ex);
+            }
+            catch (Exception ex)
+            {
+                msgException = "An unknown error occured while trying to delete all hops.";
+                _logger.LogError(msgException, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(Delete), msgException, ex);
+            }
+            _logger.LogInformation("SqlHopRepository DeleteAllHops ended.");
+        }
+
         public List<DALHop> GetAllHops()
         {
             try
@@ -120,7 +144,7 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             try
             {
                 _logger.LogInformation("SqlHopRepository GetByCode started.");
-                return _context.Hops.Where(hop => hop.Code == code).ToList<DALHop>().First();
+                return _context.Hops.Where(hop => hop.Code == code).ToList().First();
             }
             catch (SqlException ex)
             {
