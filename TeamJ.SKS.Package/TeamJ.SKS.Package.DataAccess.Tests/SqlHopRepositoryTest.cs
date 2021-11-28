@@ -117,7 +117,7 @@ namespace TeamJ.SKS.Package.DataAccess.Test
         [Test]
         public void GetHopByCode_Failed()
         {
-            Assert.Throws<InvalidOperationException>(() => hop_repo.GetByCode("wrongCode"));   
+            Assert.Throws<DataAccessException>(() => hop_repo.GetByCode("wrongCode"));   
         }
 
         [Test]

@@ -29,9 +29,12 @@ namespace TeamJ.SKS.Package.Services.Test
         {
             Mock<IParcelLogic> mockParcelLogic = new Mock<IParcelLogic>();
             mockParcelLogic.Setup(pl => pl.TrackParcel(It.IsAny<string>())).Returns(new BLParcel());
-
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new MapperProfiles());
+            });
             Mock<ILogger<RecipientApiController>> mockLogger = new Mock<ILogger<RecipientApiController>>();
-            var controller = new RecipientApiController(mockParcelLogic.Object, mockLogger.Object);
+            var controller = new RecipientApiController(new Mapper(config), mockParcelLogic.Object, mockLogger.Object);
             var result = (ObjectResult)controller.TrackParcel("123456789");
             Assert.AreEqual(200, result.StatusCode);
         }
@@ -41,8 +44,12 @@ namespace TeamJ.SKS.Package.Services.Test
         {
             Mock<IParcelLogic> mockParcelLogic = new Mock<IParcelLogic>();
             mockParcelLogic.Setup(pl => pl.TrackParcel(It.IsAny<string>())).Returns(value:null);
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new MapperProfiles());
+            });
             Mock<ILogger<RecipientApiController>> mockLogger = new Mock<ILogger<RecipientApiController>>();
-            var controller = new RecipientApiController(mockParcelLogic.Object, mockLogger.Object);
+            var controller = new RecipientApiController(new Mapper(config), mockParcelLogic.Object, mockLogger.Object);
             var result = (ObjectResult)controller.TrackParcel("1234");
             Assert.AreEqual(400, result.StatusCode);
         }

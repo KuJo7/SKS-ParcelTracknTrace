@@ -28,7 +28,8 @@ namespace TeamJ.SKS.Package.Services.Test
         public void SubmitParcel_ValidParcelBody_Success()
         {
             Mock<IParcelLogic> mockParcelLogic = new Mock<IParcelLogic>();
-            mockParcelLogic.Setup(pl => pl.SubmitParcel(It.IsAny<BLParcel>())).Returns(new BLParcel());
+            var trackingId = "";
+            mockParcelLogic.Setup(pl => pl.SubmitParcel(It.IsAny<BLParcel>(), out trackingId)).Returns(true);
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());
@@ -48,7 +49,8 @@ namespace TeamJ.SKS.Package.Services.Test
         public void SubmitParcel_WrongParcelBody_Error()
         {
             Mock<IParcelLogic> mockParcelLogic = new Mock<IParcelLogic>();
-            mockParcelLogic.Setup(pl => pl.SubmitParcel(It.IsAny<BLParcel>()));
+            var trackingId = "";
+            mockParcelLogic.Setup(pl => pl.SubmitParcel(It.IsAny<BLParcel>(), out trackingId)).Returns(false);
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());

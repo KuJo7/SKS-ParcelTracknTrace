@@ -111,15 +111,15 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             });
             IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config), mockLogger.Object);
             var parcel = new BLParcel();
-            parcel.TrackingId = "123456789";
+            var trackingId = "123456789";
             parcel.FutureHops = new List<BLHopArrival>();
             parcel.VisitedHops = new List<BLHopArrival>();
             parcel.Weight = 1;
             parcel.State = BLParcel.StateEnum.PickupEnum;
             parcel.Sender = new BLRecipient();
             parcel.Recipient = new BLRecipient();
-            var result = parcelLogic.SubmitParcel(parcel);
-            Assert.AreEqual(parcel.TrackingId,result.TrackingId);
+            var result = parcelLogic.SubmitParcel(parcel, out trackingId);
+            Assert.AreEqual(true, result);
         }
         
         [Test]
@@ -133,9 +133,9 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             });
             IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, new Mapper(config), mockLogger.Object);
             var parcel = new BLParcel();
-            parcel.TrackingId = "1234";
-            var result = parcelLogic.SubmitParcel(parcel);
-            Assert.IsNull(result);
+            var trackingId = "1234";
+            var result = parcelLogic.SubmitParcel(parcel, out trackingId);
+            Assert.IsFalse(result);
         }
         
         [Test]
@@ -169,7 +169,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             dalParcel.Recipient = new DALRecipient();
             dalParcel.TrackingId = "1234";
             dalParcel.Sender = new DALRecipient();
-            mockParcelRepository.Setup(pl => pl.GetById("1234")).Returns(dalParcel);
+            mockParcelRepository.Setup(pl => pl.GetById("1234")).Returns(dalParcel = null);
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());

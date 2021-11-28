@@ -29,7 +29,7 @@ namespace TeamJ.SKS.Package.Services.Test
         {
             Mock<IHopLogic> mockHopLogic = new Mock<IHopLogic>();
             var listWithAny = new List<BLHop>();
-            listWithAny.Add(new BLWarehouse());
+            listWithAny.Add(new BLHop());
             mockHopLogic.Setup(pl => pl.ExportWarehouses()).Returns(listWithAny);
             var config = new MapperConfiguration(cfg =>
             {
