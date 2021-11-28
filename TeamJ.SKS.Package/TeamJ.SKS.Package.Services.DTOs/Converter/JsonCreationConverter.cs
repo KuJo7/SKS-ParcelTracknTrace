@@ -45,5 +45,10 @@ namespace TeamJ.SKS.Package.Services.DTOs.Converter
         {
             throw new NotImplementedException();
         }
+
+        protected static bool ContainsField(JObject jObject, params string[] fieldNames)
+        {
+            return fieldNames?.All(fieldName => jObject.ContainsKey(fieldName)) ?? throw new ArgumentNullException(nameof(fieldNames));
+        }
     }
 }

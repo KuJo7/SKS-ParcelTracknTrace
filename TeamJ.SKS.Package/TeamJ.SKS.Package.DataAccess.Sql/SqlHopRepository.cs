@@ -122,7 +122,8 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             try
             {
                 _logger.LogInformation("SqlHopRepository GetAllHops started.");
-                return new List<DALHop>(_context.Hops);
+                //var list = _context.Hops.ToList();
+                return _context.Hops.ToList();
             }
             catch (SqlException ex)
             {

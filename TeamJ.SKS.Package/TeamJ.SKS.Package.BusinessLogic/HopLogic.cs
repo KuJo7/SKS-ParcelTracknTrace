@@ -31,12 +31,12 @@ namespace TeamJ.SKS.Package.BusinessLogic
             _logger = logger;
         }
 
-        public List<BLHop> ExportWarehouses()
+        public List<BLWarehouse> ExportWarehouses()
         {
             try
             {
                 _logger.LogInformation("HopLogic ExportWarehouses started.");
-                var result = _mapper.Map<List<DALHop>, List<BLHop>>(_repo.GetAllHops());
+                var result = _mapper.Map<List<BLWarehouse>>(_repo.GetAllHops());
                 return result;
             }
             catch (DataAccessException ex)
@@ -68,7 +68,7 @@ namespace TeamJ.SKS.Package.BusinessLogic
                 if (result.IsValid)
                 {
                     DALHop dalWarehouse = _mapper.Map<DALHop>(blWarehouse);
-                    //_repo.DeleteAllHops();
+                    _repo.DeleteAllHops();
                     _repo.Create(dalWarehouse);
                     _logger.LogInformation("HopLogic ImportWarehouses ended successful.");
                     return true;

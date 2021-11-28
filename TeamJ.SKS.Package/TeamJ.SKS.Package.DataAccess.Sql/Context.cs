@@ -14,6 +14,7 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
     public class Context : DbContext, IContext
     {
         public DbSet<DALHop> Hops { get; set; }
+        public DbSet<DALWarehouse> Warehouses { get; set; }
         public DbSet<DALParcel> Parcels { get; set; }
 
         public Context(DbContextOptions<Context> opt) : base(opt)
@@ -24,6 +25,7 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
         public void deleteAll()
         {
             Database.EnsureDeleted();
+            Database.EnsureCreated();
         }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -61,7 +63,7 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             builder.Entity<DALParcel>().Navigation(p => p.Recipient).AutoInclude();
             builder.Entity<DALParcel>().Navigation(p => p.Sender).AutoInclude();
 
-            builder.Entity<DALWarehouse>().HasMany<DALWarehouseNextHops>(h => h.NextHops).WithOne().OnDelete(DeleteBehavior.ClientCascade);
+            builder.Entity<DALWarehouse>().HasMany<DALWarehouseNextHops>(h => h.NextHops);
             builder.Entity<DALWarehouseNextHops>().HasOne<DALHop>(wnh => wnh.Hop);
          }
     }

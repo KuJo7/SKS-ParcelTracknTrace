@@ -71,17 +71,20 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             _logger.LogInformation("SqlParcelRepository Delete ended.");
         }
 
-        public void Update(string trackingID)
+        public void Update(DALParcel dALParcel)
         {
             try
             {
                 _logger.LogInformation("SqlParcelRepository Update started.");
-                var result = _context.Parcels.SingleOrDefault(b => b.TrackingId == trackingID);
+                /*var result = _context.Parcels.SingleOrDefault(b => b.TrackingId == trackingID);
                 if (result != null)
                 {
                     result.State = DALParcel.StateEnum.DeliveredEnum;
                     _context.SaveChanges();
-                }
+                }*/
+
+                _context.Parcels.Update(dALParcel);
+                _context.SaveChanges();
                 
             }
             catch (SqlException ex)
@@ -106,8 +109,12 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             {
                 _logger.LogInformation("SqlParcelRepository GetById started.");
                 var result= _context.Parcels.Find(trackingID);
+                /*if (result != null)
+                {
                 result.Sender = new DALRecipient();
                 result.Recipient = new DALRecipient();
+
+                }*/
                 return result;
             }
             catch (SqlException ex)

@@ -26,7 +26,7 @@ namespace TeamJ.SKS.Package.Services.DTOs.Models
     /// </summary>
     [ExcludeFromCodeCoverage]
     [DataContract]
-    public partial class Transferwarehouse : Hop
+    public class Transferwarehouse : Hop
     { 
         /// <summary>
         /// GeoJSON of the are covered by the logistics partner.

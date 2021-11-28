@@ -37,17 +37,29 @@ namespace TeamJ.SKS.Package.BusinessLogic
             try
             {
                 _logger.LogInformation("ParcelLogic TrackParcel started.");
-                var blParcel = new BLParcel();
-                blParcel = _mapper.Map<BLParcel>(_repo.GetById(trackingID));
-                var result = validator.Validate(blParcel);
-                if (result.IsValid)
+                var dalParcel = _repo.GetById(trackingID);
+
+                if (dalParcel != null)
                 {
-                    _logger.LogInformation("ParcelLogic TrackParcel ended successful.");
-                    // return _mapper.Map<BLParcel>(_repo.TrackParcel(parcel.TrackingId));
-                    return blParcel;
+                    var blParcel = _mapper.Map<BLParcel>(dalParcel);
+                    var result = validator.Validate(blParcel);
+
+                    if (result.IsValid)
+                    {
+                        _logger.LogInformation("ParcelLogic TrackParcel ended successful.");
+                         //return _mapper.Map<TrackingInformation>(blParcel);
+                        return blParcel;
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
-                _logger.LogInformation("ParcelLogic TrackParcel ended unsuccessful.");
-                return null;
+                else
+                {
+                    _logger.LogInformation("ParcelLogic TrackParcel ended unsuccessful.");
+                    return null;
+                }
             }
             catch (DataAccessException ex)
             {
@@ -106,22 +118,34 @@ namespace TeamJ.SKS.Package.BusinessLogic
             
         }
 
-        public BLParcel SubmitParcel(BLParcel blParcel)
+        public bool SubmitParcel(BLParcel blParcel, out string trackingId)
         {
             try
             {
                 _logger.LogInformation("ParcelLogic SubmitParcel started.");
+                trackingId = GenerateTrackingId();
+                blParcel.TrackingId = trackingId;
                 var result = validator.Validate(blParcel);
                 if (result.IsValid)
                 {
+                    //var (lat, lon) = _agent.EncodeAddress(blParcel.Sender.Street + blParcel.Sender.PostalCode + blParcel.Sender.City + blParcel.Sender.Country); //returns tuple <lat, lon>
+                    //connection between parcel and hop (lat/lon save to db)
+                    //Predict future hops (=route between sender  recipient) 
+                    blParcel.VisitedHops = new List<BLHopArrival>() { new BLHopArrival() { Code = "testcode011", DateTime = DateTime.Now, Description = "testdesc011" } };
+                    blParcel.FutureHops = new List<BLHopArrival>() { new BLHopArrival() { Code = "testcode121", DateTime = DateTime.Now, Description = "testdesc121" },
+                                                                      new BLHopArrival() { Code = "testcode231", DateTime = DateTime.Now, Description = "testdesc231" } };
+                    
+                    blParcel.State = BLParcel.StateEnum.PickupEnum;
                     DALParcel dalParcel = _mapper.Map<DALParcel>(blParcel);
                     _repo.Create(dalParcel);
                     //dalParcel.TrackingId = "TEST";
                     _logger.LogInformation("ParcelLogic SubmitParcel ended successful.");
-                    return _mapper.Map<BLParcel>(dalParcel);
+                    //return _mapper.Map<BLParcel>(dalParcel);
+                    return true;
                 }
                 _logger.LogInformation("ParcelLogic SubmitParcel ended unsuccessful.");
-                return null;
+                trackingId = "";
+                return false;
             }
             catch (DataAccessException ex)
             {
@@ -140,7 +164,20 @@ namespace TeamJ.SKS.Package.BusinessLogic
                 _logger.LogError(msgException, ex);
                 throw new BusinessLogicException(nameof(SubmitParcel), msgException, ex);
             }
+
+        }
+
+        private string GenerateTrackingId()
+        {
+            Random random = new Random();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var id = new string(Enumerable.Repeat(chars, 9).Select(s => s[random.Next(s.Length)]).ToArray());
             
+            //check in db if id exists 
+            if (_repo.GetById(id) == null) //always not null 
+                return id;
+            else
+                return GenerateTrackingId();
         }
 
         public bool ReportParcelDelivery(string trackingID)
@@ -154,8 +191,17 @@ namespace TeamJ.SKS.Package.BusinessLogic
                 if (result.IsValid)
                 {*/
                     _logger.LogInformation("ParcelLogic ReportParcelDelivery ended successful.");
-                    _repo.Update(trackingID);
+                var dalParcel = _repo.GetById(trackingID);
+                if (dalParcel == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    dalParcel.State = DALParcel.StateEnum.DeliveredEnum;
+                    _repo.Update(dalParcel);
                     return true;
+                }
                 /*}
                 _logger.LogInformation("ParcelLogic ReportParcelDelivery ended unsuccessful.");
                 return false;*/

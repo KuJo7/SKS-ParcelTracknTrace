@@ -29,6 +29,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
     [ApiController]
     public class RecipientApiController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly IParcelLogic _parcelLogic;
         private readonly ILogger<RecipientApiController> _logger;
 
@@ -41,9 +42,10 @@ namespace TeamJ.SKS.Package.Services.Controllers
         /// <summary>
         /// RecipientApiController Constructor with 2 parameters
         /// </summary>
-        public RecipientApiController(IParcelLogic parcelLogic, ILogger<RecipientApiController> logger)
+        public RecipientApiController(IMapper mapper, IParcelLogic parcelLogic, ILogger<RecipientApiController> logger)
         {
             _parcelLogic = parcelLogic;
+            _mapper = mapper;
             _logger = logger;
         }
 
@@ -66,10 +68,14 @@ namespace TeamJ.SKS.Package.Services.Controllers
             try
             {
                 _logger.LogInformation("RecipientApi TrackParcel started.");
-                if (_parcelLogic.TrackParcel(trackingId) != null)
+                
+                var blParcel = _parcelLogic.TrackParcel(trackingId);
+                if (blParcel != null)
                 {
+                    var trackingInfo = _mapper.Map<TrackingInformation>(blParcel);
                     _logger.LogInformation("RecipientApi TrackParcel ended successful.");
-                    return Ok(new TrackingInformation());
+                    return Ok(trackingInfo /*new TrackingInformation() { State = state, VisitedHops = visitedHops, FutureHops = futureHops}*/);
+                    //return StatusCode(200, default(TrackingInformation));
                 }
             }
             catch (BusinessLogicException ex)
@@ -86,6 +92,8 @@ namespace TeamJ.SKS.Package.Services.Controllers
             }
             _logger.LogInformation("RecipientApi TrackParcel ended unsuccessful.");
             return BadRequest(new Error("Error: TrackParcel"));
+            //return StatusCode(400, default(Error));
+
 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(TrackingInformation));

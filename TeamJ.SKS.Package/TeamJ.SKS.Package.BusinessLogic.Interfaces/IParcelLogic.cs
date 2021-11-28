@@ -13,7 +13,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Interfaces
     {
         BLParcel TrackParcel(string trackingID);
         public bool TransitionParcel(BLParcel blParcel);
-        public BLParcel SubmitParcel(BLParcel blParcel);
+        public bool SubmitParcel(BLParcel blParcel, out string trackingId);
         public bool ReportParcelDelivery(string trackingID);
         public bool ReportParcelHop(string trackingID, string code);
     }

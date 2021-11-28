@@ -72,15 +72,17 @@ namespace TeamJ.SKS.Package.Services.Controllers
                 BLParcel blParcel = _mapper.Map<BLParcel>(body);
                 blParcel.FutureHops = new List<BLHopArrival>();
                 blParcel.VisitedHops = new List<BLHopArrival>();
-                //blParcel.TrackingId = "PYJRB4HZ6";
-                //blParcel.FutureHops = new();
+
+
+
                 // Mapping back auf SVC Parcel (?)
                 // mapping entf?llt, weil nur ein string
-                blParcel = _parcelLogic.SubmitParcel(blParcel);
-                if (blParcel != null)
+                var trackingId = "";
+                
+                if (_parcelLogic.SubmitParcel(blParcel, out trackingId))
                 {
                     _logger.LogInformation("SenderAPI SubmitParcel ended successful.");
-                    return Ok(new NewParcelInfo() { TrackingId = "" });
+                    return Ok(new NewParcelInfo() { TrackingId = trackingId });
                 }
             }
             catch (BusinessLogicException ex)

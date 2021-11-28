@@ -26,7 +26,7 @@ namespace TeamJ.SKS.Package.Services.DTOs.Models
     /// </summary>
     [ExcludeFromCodeCoverage]
     [DataContract]
-    public partial class Warehouse : Hop
+    public class Warehouse : Hop
     { 
         /// <summary>
         /// Gets or Sets Level

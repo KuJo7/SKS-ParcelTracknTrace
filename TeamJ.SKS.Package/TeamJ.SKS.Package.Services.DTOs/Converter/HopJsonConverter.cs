@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -14,23 +15,24 @@ namespace TeamJ.SKS.Package.Services.DTOs.Converter
     {
         protected override Hop Create(Type objectType, JObject jObject)
         {
-            if (jObject == null) throw new ArgumentNullException("jObject");
+            if (jObject is null) throw new ArgumentNullException(nameof(jObject));
 
-            if (jObject["regionGeoJson"] != null && jObject["numberPlate"] != null)
-            {
-                return new Truck();
-            }
-            else if (jObject["level"] != null && jObject["nextHops"] != null)
-            {
-                return new Warehouse();
-            }
-            else if (jObject["regionGeoJson"] != null && jObject["logisticsPartner"] != null && jObject["logisticsPartnerUrl"] != null)
+            if (ContainsField(jObject, "regionGeoJson", "logisticsPartner", "logisticsPartnerUrl"))
             {
                 return new Transferwarehouse();
             }
+            else if (ContainsField(jObject, "regionGeoJson", "numberPlate"))
+            {
+                return new Truck();
+            }
+            else if (ContainsField(jObject, "level", "nextHops"))
+            {
+                return new Warehouse();
+            }
             else
             {
-                return null;
+                //return new Hop();
+                throw new JsonSerializationException("Hop does not contain necessary fields.");
             }
         }
     }

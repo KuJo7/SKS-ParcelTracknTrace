@@ -28,7 +28,7 @@ namespace TeamJ.SKS.Package.Services.DTOs.Models
     [ExcludeFromCodeCoverage]
     [JsonConverter(typeof(HopJsonConverter))]
     [DataContract]
-    public abstract partial class Hop
+    public abstract class Hop
     { 
         /// <summary>
         /// Gets or Sets HopType
@@ -49,7 +49,7 @@ namespace TeamJ.SKS.Package.Services.DTOs.Models
 
         /// <summary>
         /// Description of the hop.
-        /// </summary>
+        /// </summary>D
         /// <value>Description of the hop.</value>
         [Required]
 

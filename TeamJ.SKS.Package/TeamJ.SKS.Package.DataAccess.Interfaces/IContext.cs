@@ -12,6 +12,7 @@ namespace TeamJ.SKS.Package.DataAccess.Interfaces
     public interface IContext
     {
         public DbSet<DALHop> Hops { get; set; }
+        public DbSet<DALWarehouse> Warehouses { get; set; }
         public DbSet<DALParcel> Parcels { get; set; }
         public void deleteAll();
         public int SaveChanges();
