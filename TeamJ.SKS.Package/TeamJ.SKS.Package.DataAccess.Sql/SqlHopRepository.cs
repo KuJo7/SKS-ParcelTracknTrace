@@ -117,25 +117,26 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             _logger.LogInformation("SqlHopRepository DeleteAllHops ended.");
         }
 
-        public List<DALHop> GetAllHops()
+        public DALWarehouse GetRootWarehouse()
         {
             try
             {
+                _context.Hops.Load();
                 _logger.LogInformation("SqlHopRepository GetAllHops started.");
-                //var list = _context.Hops.ToList();
-                return _context.Hops.ToList();
+                var root = _context.Hops.OfType<DALWarehouse>().Include(wh => wh.NextHops).Single(r => r.Level == 0);
+                return root;
             }
             catch (SqlException ex)
             {
-                msgSQL = "An error occured while trying to get all hops.";
+                msgSQL = "An error occured while trying to get Root Warehouse.";
                 _logger.LogError(msgSQL, ex);
-                throw new DataAccessException(nameof(SqlHopRepository), nameof(GetAllHops), msgSQL, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(GetRootWarehouse), msgSQL, ex);
             }
             catch (Exception ex)
             {
-                msgException = "An unknown error occured while trying to get all hops.";
+                msgException = "An unknown error occured while trying to get Root Warehouse.";
                 _logger.LogError(msgException, ex);
-                throw new DataAccessException(nameof(SqlHopRepository), nameof(GetAllHops), msgException, ex);
+                throw new DataAccessException(nameof(SqlHopRepository), nameof(GetRootWarehouse), msgException, ex);
             }
             
         }

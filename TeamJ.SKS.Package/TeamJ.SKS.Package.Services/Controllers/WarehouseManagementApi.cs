@@ -72,11 +72,12 @@ namespace TeamJ.SKS.Package.Services.Controllers
             try
             {
                 _logger.LogInformation("WarehouseManagementApi ExportWarehouse started");
-                var wareHouse = _hopLogic.ExportWarehouses();
-                if (wareHouse.Any())
+                var blWarehouse = _hopLogic.ExportWarehouses();
+                var warehouse = _mapper.Map<Warehouse>(blWarehouse);
+                if (warehouse != null)
                 {
                     _logger.LogInformation("WarehouseManagementApi ExportWarehouse ended successful");
-                    return Ok(wareHouse);
+                    return Ok(warehouse);
                 }
 
             }

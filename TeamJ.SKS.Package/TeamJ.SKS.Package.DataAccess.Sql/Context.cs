@@ -63,6 +63,8 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             builder.Entity<DALParcel>().Navigation(p => p.Recipient).AutoInclude();
             builder.Entity<DALParcel>().Navigation(p => p.Sender).AutoInclude();
 
+            builder.Entity<DALWarehouse>().Navigation(p => p.NextHops).AutoInclude();
+
             builder.Entity<DALWarehouse>().HasMany<DALWarehouseNextHops>(h => h.NextHops);
             builder.Entity<DALWarehouseNextHops>().HasOne<DALHop>(wnh => wnh.Hop);
          }

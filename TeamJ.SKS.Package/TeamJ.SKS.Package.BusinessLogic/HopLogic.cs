@@ -31,13 +31,13 @@ namespace TeamJ.SKS.Package.BusinessLogic
             _logger = logger;
         }
 
-        public List<BLHop> ExportWarehouses()
+        public BLWarehouse ExportWarehouses()
         {
             try
             {
                 _logger.LogInformation("HopLogic ExportWarehouses started.");
-                var result = _mapper.Map<List<BLHop>>(_repo.GetAllHops());
-                return result;
+                var root = _mapper.Map<BLWarehouse>(_repo.GetRootWarehouse());
+                return root;
             }
             catch (DataAccessException ex)
             {

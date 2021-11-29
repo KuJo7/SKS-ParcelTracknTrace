@@ -13,7 +13,7 @@ namespace TeamJ.SKS.Package.DataAccess.Interfaces
         public void DeleteAllHops();
         public DALHop GetByCode(string code);
         public DALHop GetFirstHop();
-        public List<DALHop> GetAllHops();
+        public DALWarehouse GetRootWarehouse();
         public List<DALHop> GetByHopType(string hopType);
         //public IEnumerable<DALHop> GetByLevel(int level);
 
