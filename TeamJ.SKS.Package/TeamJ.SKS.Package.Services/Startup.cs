@@ -67,6 +67,7 @@ namespace TeamJ.SKS.Package.Services
             {
                 mc.AddProfile(new MapperProfiles());
             });
+
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
             services.AddMvc();

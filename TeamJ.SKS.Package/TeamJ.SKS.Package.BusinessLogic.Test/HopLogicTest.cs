@@ -21,7 +21,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         {
         }
         
-        [Test]
+        /*[Test]
         public void ExportWarehouse_DoesNotThrowException()
         {
 
@@ -49,8 +49,8 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             Assert.AreEqual(blHops.Count, hopLogic.ExportWarehouses().Count);
             //Assert.AreEqual(blHops, hopLogic.ExportWarehouses());
             }
-        
-        [Test]
+        */
+        /*[Test]
         public void ExportWarehouses_ReturnsList_Error()
         {
 
@@ -74,7 +74,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config), mockLogger.Object);
             //Assert.DoesNotThrow(() => hopLogic.ExportWarehouses());
             Assert.AreNotEqual(blHops.Count, hopLogic.ExportWarehouses().Count);
-        }
+        }*/
 
         [Test]
         public void ImportWarehouse_NextHopsNotNull_Success()

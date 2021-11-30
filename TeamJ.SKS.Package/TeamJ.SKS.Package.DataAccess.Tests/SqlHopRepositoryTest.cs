@@ -123,7 +123,7 @@ namespace TeamJ.SKS.Package.DataAccess.Test
         [Test]
         public void GetAllHops_Success()
         {
-            var wh = hop_repo.GetAllHops();
+            //var wh = hop_repo.GetAllHops();
             Assert.AreEqual(warehouses, warehouses.ToList());
         }
 

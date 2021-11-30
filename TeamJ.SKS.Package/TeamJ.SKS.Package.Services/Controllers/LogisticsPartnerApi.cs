@@ -62,6 +62,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
         /// <param name="trackingId">The tracking ID of the parcel. E.g. PYJRB4HZ6 </param>
         /// <response code="200">Successfully transitioned the parcel</response>
         /// <response code="400">The operation failed due to an error.</response>
+        /// /// <response code="409">A parcel with the specified trackingID is already in the system.</response>
         [HttpPost]
         [Route("/parcel/{trackingId}")]
         [ValidateModelState]

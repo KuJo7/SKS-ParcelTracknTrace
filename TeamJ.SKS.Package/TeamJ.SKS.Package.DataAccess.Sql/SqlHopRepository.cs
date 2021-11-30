@@ -98,7 +98,6 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
         {
             try
             {
-
                 _logger.LogInformation("SqlHopRepository DeleteAllHops started.");
                 _context.deleteAll();
             }
