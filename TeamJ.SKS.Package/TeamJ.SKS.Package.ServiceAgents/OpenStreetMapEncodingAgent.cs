@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
+using NetTopologySuite.Geometries;
 using System;
 using System.Configuration;
 using System.Globalization;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using TeamJ.SKS.Package.DataAccess.Interfaces;
 using TeamJ.SKS.Package.ServiceAgents.Interfaces;
@@ -12,26 +14,27 @@ namespace TeamJ.SKS.Package.ServiceAgents
 {
     public class OpenStreetMapEncodingAgent : IGeoEncodingAgent
     {
-        private readonly HttpClient _client;
-        private readonly string _baseUrl;
+        private static readonly HttpClient _client = new HttpClient();
+        private static readonly ProductInfoHeaderValue _userAgent = new ("ParcelTracknTrace", "1.0.0");
         private readonly ILogger<OpenStreetMapEncodingAgent> _logger;
         private string msg;
 
-        public OpenStreetMapEncodingAgent(ILogger<OpenStreetMapEncodingAgent> logger, HttpClient client)
+        public OpenStreetMapEncodingAgent(ILogger<OpenStreetMapEncodingAgent> logger)
         {
             _logger = logger;
-            _client = client;
-            _baseUrl = ConfigurationManager.AppSettings["BaseUrl"];
+            _client.DefaultRequestHeaders.Add("User-Agent", "ParcelTracknTrace");
         }
 
-        public GeoCoordinate EncodeAddress(string address)
+        public Point EncodeAddress(string address)
         {
             try
             {
-                _client.DefaultRequestHeaders.Add("User-Agent", "ParcelTracknTrace");
+                
                 address = Uri.EscapeDataString(address);
-                var url = _baseUrl + address + "&format=json&limit=1";
-                var response = _client.GetAsync(url).Result;
+                var url = "https://nominatim.openstreetmap.org/?addressdetails=1&q=" + address + "&format=json&limit=1";
+                using var req = new HttpRequestMessage(HttpMethod.Get, url);
+                req.Headers.UserAgent.Add(_userAgent);
+                var response = _client.SendAsync(req).Result;
 
                 if(response.IsSuccessStatusCode)
                 {
@@ -44,8 +47,8 @@ namespace TeamJ.SKS.Package.ServiceAgents
                     var strLon = json.RootElement[0].GetProperty("lon").ToString();
                     var lat = double.Parse(strLat, CultureInfo.InvariantCulture.NumberFormat);
                     var lon = double.Parse(strLon, CultureInfo.InvariantCulture.NumberFormat);
-                    
-                    return new GeoCoordinate { Lat = lat, Lon = lon };
+
+                    return new Point(lon, lat) { SRID = 4326};
                 }
                 return null;
             }
