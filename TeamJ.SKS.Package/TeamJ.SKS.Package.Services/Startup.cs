@@ -30,7 +30,7 @@ using Microsoft.EntityFrameworkCore;
 using TeamJ.SKS.Package.DataAccess.Interfaces;
 using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.Services.DTOs.MapperProfiles;
-
+using TeamJ.SKS.Package.ServiceAgents.Interfaces;
 
 namespace TeamJ.SKS.Package.Services
 {
@@ -81,10 +81,14 @@ namespace TeamJ.SKS.Package.Services
             services.AddTransient<IValidator<BLWarehouseNextHops>, BLWarehouseNextHopsValidator>();
 
             //DBContext
-            services.AddDbContext<DataAccess.Sql.Context>(opt => opt.UseSqlServer(Configuration.GetConnectionString("ParcelTracknTraceDb"), 
-                                                            p => p.UseNetTopologySuite().EnableRetryOnFailure()
-                                                            )
-                                                         );
+            services.AddDbContext<DataAccess.Sql.Context>( opt =>
+                {
+                    opt.UseSqlServer(Configuration.GetConnectionString("ParcelTracknTraceDb"),
+                                                        p => p.UseNetTopologySuite().EnableRetryOnFailure());
+                    opt.EnableSensitiveDataLogging(true);
+                    opt.EnableDetailedErrors(true);
+                });
+
 
             services.AddScoped<IContext, DataAccess.Sql.Context>(provider => provider.GetRequiredService<DataAccess.Sql.Context>());
 
@@ -94,6 +98,8 @@ namespace TeamJ.SKS.Package.Services
 
             services.AddScoped<IHopRepository, DataAccess.Sql.SqlHopRepository>();
             services.AddScoped<IParcelRepository, DataAccess.Sql.SqlParcelRepository>();
+
+            services.AddScoped<IGeoEncodingAgent, ServiceAgents.OpenStreetMapEncodingAgent>();
 
 
             // Add framework services.
