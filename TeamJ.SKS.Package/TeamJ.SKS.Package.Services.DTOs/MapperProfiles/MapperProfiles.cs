@@ -4,6 +4,8 @@ using AutoMapper;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
 using TeamJ.SKS.Package.DataAccess.DTOs;
 using TeamJ.SKS.Package.Services.DTOs.Models;
+using TeamJ.SKS.Package.Services.DTOs.Converter;
+using NetTopologySuite.Geometries;
 
 namespace TeamJ.SKS.Package.Services.DTOs.MapperProfiles
 {
@@ -12,6 +14,12 @@ namespace TeamJ.SKS.Package.Services.DTOs.MapperProfiles
     {
         public MapperProfiles()
         {
+            CreateMap<GeoCoordinate, Point>().ConvertUsing(g => new Point(g.Lon, g.Lat) { SRID = 4326 });
+            CreateMap<Point, GeoCoordinate>().ConvertUsing(p => new GeoCoordinate { Lon = p.X, Lat = p.Y });
+
+            CreateMap<string, Geometry>().ConvertUsing(new GeometrySVCBL());
+            CreateMap<Geometry, string>().ConvertUsing(new GeometryBLSVC());
+
             CreateMap<GeoCoordinate, BLHop>(MemberList.Source).ReverseMap();
 
             CreateMap<Hop, BLHop>()
@@ -25,8 +33,7 @@ namespace TeamJ.SKS.Package.Services.DTOs.MapperProfiles
 
 
             CreateMap<BLHop, Hop>(MemberList.Source)
-                .ForPath(d => d.LocationCoordinates.Lat, opt => opt.MapFrom(s => s.Lat))
-                .ForPath(d => d.LocationCoordinates.Lon, opt => opt.MapFrom(s => s.Lat))
+                .ForPath(d => d.LocationCoordinates, opt => opt.MapFrom(s => s.LocationCoordinates))
                 .Include<BLWarehouse, Warehouse>()
                 .Include<BLTruck, Truck>()
                 .Include<BLTransferwarehouse, Transferwarehouse>();

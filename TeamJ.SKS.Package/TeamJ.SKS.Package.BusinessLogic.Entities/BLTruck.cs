@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetTopologySuite.Geometries;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.DTOs
     [ExcludeFromCodeCoverage]
     public class BLTruck : BLHop
     {
-        public string RegionGeoJson { get; set; }
+        public Geometry RegionGeoJson { get; set; }
 
         public string NumberPlate { get; set; }
     }

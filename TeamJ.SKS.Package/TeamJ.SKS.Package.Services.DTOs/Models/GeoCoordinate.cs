@@ -35,7 +35,7 @@ namespace TeamJ.SKS.Package.Services.DTOs.Models
         [Required]
 
         [DataMember(Name="lat")]
-        public double? Lat { get; set; }
+        public double Lat { get; set; }
 
         /// <summary>
         /// Longitude of the coordinate.
@@ -44,6 +44,6 @@ namespace TeamJ.SKS.Package.Services.DTOs.Models
         [Required]
 
         [DataMember(Name="lon")]
-        public double? Lon { get; set; }
+        public double Lon { get; set; }
     }
 }

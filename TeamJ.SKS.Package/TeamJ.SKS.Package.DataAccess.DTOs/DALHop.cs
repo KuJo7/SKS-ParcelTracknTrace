@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetTopologySuite.Geometries;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
@@ -13,6 +14,8 @@ namespace TeamJ.SKS.Package.DataAccess.DTOs
     public class DALHop
     {
         [Key]
+        public int Id { get; set; }
+
         public string Code { get; set; }
 
         public string HopType { get; set; }
@@ -23,8 +26,6 @@ namespace TeamJ.SKS.Package.DataAccess.DTOs
 
         public string Description { get; set; }
 
-        public double? Lat { get; set; }
-
-        public double? Lon { get; set; }
+        public virtual Point LocationCoordinates { get; set; }
     }
 }

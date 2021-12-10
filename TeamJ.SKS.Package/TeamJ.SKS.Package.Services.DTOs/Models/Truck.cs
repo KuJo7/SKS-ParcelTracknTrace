@@ -19,6 +19,7 @@ using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using System.Diagnostics.CodeAnalysis;
 
+
 namespace TeamJ.SKS.Package.Services.DTOs.Models
 {
     /// <summary>

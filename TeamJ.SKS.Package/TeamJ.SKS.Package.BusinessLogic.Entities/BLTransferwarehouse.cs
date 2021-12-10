@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetTopologySuite.Geometries;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
@@ -12,7 +13,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.DTOs
     [ExcludeFromCodeCoverage]
     public class BLTransferwarehouse : BLHop
     {
-        public string RegionGeoJson { get; set; }
+        public Geometry RegionGeoJson { get; set; }
 
         public string LogisticsPartner { get; set; }
 
