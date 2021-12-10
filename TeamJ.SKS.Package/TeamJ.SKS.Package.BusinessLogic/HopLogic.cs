@@ -102,7 +102,7 @@ namespace TeamJ.SKS.Package.BusinessLogic
             {
                 _logger.LogInformation("HopLogic GetWarehouse started.");
                 _logger.LogInformation("HopLogic GetWarehouse ended successful.");
-                return _mapper.Map<BLWarehouse>(_repo.GetByCode(code));
+                return _mapper.Map<BLHop>(_repo.GetByCode(code));
             }
             catch (DataAccessException ex)
             {

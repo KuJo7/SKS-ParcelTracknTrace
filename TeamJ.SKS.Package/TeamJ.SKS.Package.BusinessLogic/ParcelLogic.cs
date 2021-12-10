@@ -1,35 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
+using NetTopologySuite.Geometries;
+using Newtonsoft.Json;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
 using TeamJ.SKS.Package.BusinessLogic.DTOs.Validators;
 using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.DataAccess.DTOs;
 using TeamJ.SKS.Package.DataAccess.Interfaces;
+using TeamJ.SKS.Package.ServiceAgents.Interfaces;
 
 namespace TeamJ.SKS.Package.BusinessLogic
 {
     public class ParcelLogic : IParcelLogic
     {
+        private static readonly HttpClient _client = new HttpClient();
         readonly IValidator<BLParcel> validator = new BLParcelValidator();
-        private readonly IParcelRepository _repo;
+        private readonly IParcelRepository _parcelRepo;
+        private readonly IHopRepository _hopRepo;
+        private readonly IGeoEncodingAgent _agent;
         private readonly IMapper _mapper;
         private readonly ILogger<ParcelLogic> _logger;
         private string msg;
         private string msgException;
         private string msgMapper = "An error occured while trying to map parcels.";
 
-        public ParcelLogic(IParcelRepository repo, IMapper mapper, ILogger<ParcelLogic> logger)
+        public ParcelLogic(IParcelRepository parcelRepo, IHopRepository hopRepo, IMapper mapper, ILogger<ParcelLogic> logger, IGeoEncodingAgent agent)
         {
-            _repo = repo;
+            _parcelRepo = parcelRepo;
+            _hopRepo = hopRepo;
             _mapper = mapper;
             _logger = logger;
+            _agent = agent;
         }
 
         public BLParcel TrackParcel(string trackingID)
@@ -37,7 +46,7 @@ namespace TeamJ.SKS.Package.BusinessLogic
             try
             {
                 _logger.LogInformation("ParcelLogic TrackParcel started.");
-                var dalParcel = _repo.GetById(trackingID);
+                var dalParcel = _parcelRepo.GetById(trackingID);
 
                 if (dalParcel != null)
                 {
@@ -47,7 +56,6 @@ namespace TeamJ.SKS.Package.BusinessLogic
                     if (result.IsValid)
                     {
                         _logger.LogInformation("ParcelLogic TrackParcel ended successful.");
-                         //return _mapper.Map<TrackingInformation>(blParcel);
                         return blParcel;
                     }
                     else
@@ -82,16 +90,76 @@ namespace TeamJ.SKS.Package.BusinessLogic
             
         }
 
-        public bool TransitionParcel(BLParcel blParcel)
+        public bool TransitionParcel(BLParcel blParcel, string trackingId, bool isTransfer)
         {
             try
             {
                 _logger.LogInformation("ParcelLogic TransitionParcel started.");
+                if (isTransfer && _parcelRepo.GetById(trackingId) != null) //check if parcel already exists when transfering parcel
+                {
+                    _logger.LogInformation("ParcelLogic TransitionParcel ended unsuccessful.");
+                    return false;
+                }
+
+                blParcel.TrackingId = trackingId;
+                blParcel.FutureHops = new();
+                blParcel.VisitedHops = new();
+
                 var result = validator.Validate(blParcel);
                 if (result.IsValid)
                 {
+
+                    Point senderP = _agent.EncodeAddress(blParcel.Sender.Street + "," + blParcel.Sender.PostalCode + " " + blParcel.Sender.City + "," + blParcel.Sender.Country);
+                    Point recipientP = _agent.EncodeAddress(blParcel.Recipient.Street + "," + blParcel.Recipient.PostalCode + " " + blParcel.Recipient.City + "," + blParcel.Recipient.Country);
+                    var hops = _hopRepo.GetAllHops();
+                    var root = _hopRepo.GetRootWarehouse();
+
+                    var rootSender = new List<DALHop>();
+                    var rootRecipient = new List<DALHop>();
+                    if(isTransfer) // sender is twh and recipient is truck
+                    {
+                        
+                        var truckRecipient = hops.OfType<DALTruck>().FirstOrDefault(h => recipientP.CoveredBy(h.RegionGeoJson));
+                        var twhSender = hops.OfType<DALTransferwarehouse>().FirstOrDefault(h => senderP.CoveredBy(h.RegionGeoJson));
+
+                        rootSender = _hopRepo.GetPathFromRoot(root, twhSender);
+                        rootRecipient = _hopRepo.GetPathFromRoot(root, truckRecipient);
+
+                        if (rootSender == null && rootRecipient == null) // sender is truck and recipient is twh
+                        {
+                            var twhRecipient = hops.OfType<DALTruck>().FirstOrDefault(h => recipientP.CoveredBy(h.RegionGeoJson));
+                            var truckSender = hops.OfType<DALTransferwarehouse>().FirstOrDefault(h => senderP.CoveredBy(h.RegionGeoJson));
+
+                            rootSender = _hopRepo.GetPathFromRoot(root, truckSender);
+                            rootRecipient = _hopRepo.GetPathFromRoot(root, twhRecipient);
+                        }
+                    }
+                    else // sender is truck and recipient is truck
+                    {
+                        var truckRecipient = hops.OfType<DALTruck>().FirstOrDefault(h => recipientP.CoveredBy(h.RegionGeoJson));
+                        var truckSender = hops.OfType<DALTruck>().FirstOrDefault(h => senderP.CoveredBy(h.RegionGeoJson));
+
+                        rootSender = _hopRepo.GetPathFromRoot(root, truckSender);
+                        rootRecipient = _hopRepo.GetPathFromRoot(root, truckRecipient);
+                    }
+
+                    var firstCommonHop = rootSender.First(h => rootRecipient.Contains(h));
+                    rootRecipient.Reverse();
+                    var futureHops = rootSender.TakeWhile(h => h.Code != firstCommonHop.Code).Concat(rootRecipient.SkipWhile(h => h.Code != firstCommonHop.Code));
+
+                    blParcel.VisitedHops = new List<BLHopArrival>();
+                    blParcel.FutureHops = futureHops.Select(tmp => new BLHopArrival()
+                    {
+                        Code = tmp.Code,
+                        Description = tmp.Description,
+                        DateTime = DateTime.Now
+                    }).ToList();
+
+                    blParcel.State = BLParcel.StateEnum.PickupEnum;
+
                     DALParcel dalParcel = _mapper.Map<DALParcel>(blParcel);
-                    _repo.Create(dalParcel);
+                    _parcelRepo.Create(dalParcel);
+
                     _logger.LogInformation("ParcelLogic TransitionParcel ended successful.");
                     return true;
                 }
@@ -123,29 +191,20 @@ namespace TeamJ.SKS.Package.BusinessLogic
             try
             {
                 _logger.LogInformation("ParcelLogic SubmitParcel started.");
+
                 trackingId = GenerateTrackingId();
-                blParcel.TrackingId = trackingId;
-                var result = validator.Validate(blParcel);
-                if (result.IsValid)
+                if(TransitionParcel(blParcel, trackingId, false))
                 {
-                    //var (lat, lon) = _agent.EncodeAddress(blParcel.Sender.Street + blParcel.Sender.PostalCode + blParcel.Sender.City + blParcel.Sender.Country); //returns tuple <lat, lon>
-                    //connection between parcel and hop (lat/lon save to db)
-                    //Predict future hops (=route between sender  recipient) 
-                    blParcel.VisitedHops = new List<BLHopArrival>() { new BLHopArrival() { Code = "testcode011", DateTime = DateTime.Now, Description = "testdesc011" } };
-                    blParcel.FutureHops = new List<BLHopArrival>() { new BLHopArrival() { Code = "testcode121", DateTime = DateTime.Now, Description = "testdesc121" },
-                                                                      new BLHopArrival() { Code = "testcode231", DateTime = DateTime.Now, Description = "testdesc231" } };
-                    
-                    blParcel.State = BLParcel.StateEnum.PickupEnum;
-                    DALParcel dalParcel = _mapper.Map<DALParcel>(blParcel);
-                    _repo.Create(dalParcel);
-                    //dalParcel.TrackingId = "TEST";
                     _logger.LogInformation("ParcelLogic SubmitParcel ended successful.");
-                    //return _mapper.Map<BLParcel>(dalParcel);
                     return true;
                 }
-                _logger.LogInformation("ParcelLogic SubmitParcel ended unsuccessful.");
-                trackingId = "";
-                return false;
+                else
+                {
+                    _logger.LogInformation("ParcelLogic SubmitParcel ended unsuccessful.");
+                    trackingId = "";
+                    return false;
+                }
+
             }
             catch (DataAccessException ex)
             {
@@ -174,7 +233,7 @@ namespace TeamJ.SKS.Package.BusinessLogic
             var id = new string(Enumerable.Repeat(chars, 9).Select(s => s[random.Next(s.Length)]).ToArray());
             
             //check in db if id exists 
-            if (_repo.GetById(id) == null) //always not null 
+            if (_parcelRepo.GetById(id) == null)
                 return id;
             else
                 return GenerateTrackingId();
@@ -185,26 +244,24 @@ namespace TeamJ.SKS.Package.BusinessLogic
             try
             {
                 _logger.LogInformation("ParcelLogic ReportParcelDelivery started.");
-                /*var blParcel = _mapper.Map<BLParcel>(_repo.GetById(trackingID));
+                var blParcel = _mapper.Map<BLParcel>(_parcelRepo.GetById(trackingID));
                 blParcel.State = BLParcel.StateEnum.DeliveredEnum;
+                var count = blParcel.FutureHops.Count;
+                for(int i = 0; i < count; i++)
+                {
+                    blParcel.VisitedHops.Add(blParcel.FutureHops.First());
+                    blParcel.FutureHops.Remove(blParcel.FutureHops.First());
+                }
+
                 var result = validator.Validate(blParcel);
                 if (result.IsValid)
-                {*/
+                {
                     _logger.LogInformation("ParcelLogic ReportParcelDelivery ended successful.");
-                var dalParcel = _repo.GetById(trackingID);
-                if (dalParcel == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    dalParcel.State = DALParcel.StateEnum.DeliveredEnum;
-                    _repo.Update(dalParcel);
+                    _parcelRepo.Update(_mapper.Map<DALParcel>(blParcel));
                     return true;
                 }
-                /*}
                 _logger.LogInformation("ParcelLogic ReportParcelDelivery ended unsuccessful.");
-                return false;*/
+                return false;
             }
             catch (DataAccessException ex)
             {
@@ -231,16 +288,38 @@ namespace TeamJ.SKS.Package.BusinessLogic
             try
             {
                 _logger.LogInformation("ParcelLogic ReportParcelHop started.");
-                var blParcel = _mapper.Map<BLParcel>(_repo.GetById(trackingID));
+                var blParcel = _mapper.Map<BLParcel>(_parcelRepo.GetById(trackingID));
                 //move first Hop of futureHops to visitedHops because parcel arrived at next Hop
-                //blParcel.VisitedHops.Add(blParcel.FutureHops.First());
-                //blParcel.FutureHops.Remove(blParcel.FutureHops.First());
-                //Update parcel position at which hop (relation parcel and hop) ??
-                //blParcel.State = BLParcel.StateEnum.InTransportEnum;
-                var resultTrackingID = validator.Validate(blParcel);
-                if (resultTrackingID.IsValid)
+                blParcel.VisitedHops.Add(blParcel.FutureHops.First());
+                blParcel.FutureHops.Remove(blParcel.FutureHops.First());
+                var hop = _hopRepo.GetByCode(code);
+
+                if(hop is DALTransferwarehouse dalTransferWarehouse)
                 {
-                    //_repo.Update(_mapper.Map<DALParcel>(blParcel));
+
+                    //CALL API - TRANSFER (POST https://<partnerUrl>/parcel/<trackingId>)// 
+                    var url = dalTransferWarehouse.LogisticsPartnerUrl + "/parcel/" + blParcel.TrackingId;
+                    using var req = new HttpRequestMessage(HttpMethod.Post, url);
+                    var json = JsonConvert.SerializeObject(blParcel);
+                    var body = new StringContent(json, Encoding.UTF8, "application/json");
+                    var response = _client.PostAsync(url, body);
+
+                    blParcel.State = BLParcel.StateEnum.TransferredEnum;
+
+                } 
+                else if (hop is DALTruck)
+                {
+                    blParcel.State = BLParcel.StateEnum.InTruckDeliveryEnum;
+                }
+                else // Warehouse
+                {
+                    blParcel.State = BLParcel.StateEnum.InTransportEnum;               
+                }
+
+                var result = validator.Validate(blParcel);
+                if (result.IsValid)
+                {
+                    _parcelRepo.Update(_mapper.Map<DALParcel>(blParcel));
                     _logger.LogInformation("ParcelLogic ReportParcelHop ended successful.");
                     return true;
                 }
