@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -19,25 +20,19 @@ namespace TeamJ.SKS.Package.ServiceAgent.Test
         [Test]
         public void EncodeAddress_Success()
         {
-            /*var handlerMock = new Mock<HttpMessageHandler>();
-            var response = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(@"[{ ""id"": 1, ""title"": ""Cool post!""}, { ""id"": 100, ""title"": ""Some title""}]"),
-            };
-            Mock<HttpClient> mockHttpClient = new Mock<HttpClient>();
-            var baseurl = "https://nominatim.openstreetmap.org/?addressdetails=1&q=";
-
-
-            mockHttpClient.Setup(t => t.GetAsync(It.Is<string>(s => s.StartsWith(baseurl))))
-        .ReturnsAsync(response);
-
             Mock<ILogger<OpenStreetMapEncodingAgent>> mockLogger = new Mock<ILogger<OpenStreetMapEncodingAgent>>();
-            var agent = new OpenStreetMapEncodingAgent(mockLogger.Object, mockHttpClient.Object);
-            var address = "bakery+in+berlin+wedding";
-            var result = agent.EncodeAddress(address);
-            //Assert.DoesNotThrow(() => hopLogic.ExportWarehouses());
-            Assert.IsNotNull(result);*/
+            var agent = new OpenStreetMapEncodingAgent(mockLogger.Object);
+            var point = agent.EncodeAddress("Karlsplatz, 1010 Wien, Österreich");
+            Assert.AreEqual(point.X, 16.368359198969941d);
+            Assert.AreEqual(point.Y, 48.202849749999999d);
+        }
+
+        [Test]
+        public void EncodeAddress_Error()
+        {
+            Mock<ILogger<OpenStreetMapEncodingAgent>> mockLogger = new Mock<ILogger<OpenStreetMapEncodingAgent>>();
+            var agent = new OpenStreetMapEncodingAgent(mockLogger.Object);
+            Assert.IsNull(agent.EncodeAddress("error, error"));
         }
     }
 }

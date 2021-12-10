@@ -16,10 +16,6 @@ namespace TeamJ.SKS.Package.DataAccess.Test
         private IHopRepository hop_repo;
         private List<DALHop> hops;
         private List<DALWarehouse> warehouses;
-        //private List<DALWarehouseNextHops> warehousesNextHops;
-        private List<DALTruck> trucks;
-        //private List<DALTransferwarehouse> transferWarehouses;
-
 
         [SetUp]
         public void Setup()
@@ -48,8 +44,6 @@ namespace TeamJ.SKS.Package.DataAccess.Test
             hops.Add(truck);
 
             warehouses = new List<DALWarehouse> { hops[0] as DALWarehouse };
-
-            trucks = new List<DALTruck> { hops[1] as DALTruck };
 
             var mockDbContext = new Mock<IContext>();
             mockDbContext.Setup(p => p.Hops).Returns(DbContextMock.GetQueryableMockDbSet<DALHop>(hops));
@@ -110,7 +104,7 @@ namespace TeamJ.SKS.Package.DataAccess.Test
         [Test]
         public void GetHopByCode_Success()
         {
-            var hop = hop_repo.GetByCode("1234");
+            var hop = hop_repo.GetByCode("AUTA05");
             Assert.AreEqual(hops[0].Code, hop.Code);
         }
 

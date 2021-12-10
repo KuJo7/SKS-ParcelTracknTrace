@@ -28,9 +28,8 @@ namespace TeamJ.SKS.Package.Services.Test
         public void ExportWarehouses_IsFalse_Success()
         {
             Mock<IHopLogic> mockHopLogic = new Mock<IHopLogic>();
-            var listWithAny = new List<BLHop>();
-            listWithAny.Add(new BLHop());
-            mockHopLogic.Setup(pl => pl.ExportWarehouses()).Returns(listWithAny);
+            var bLWarehouse = new BLWarehouse();
+            mockHopLogic.Setup(pl => pl.ExportWarehouses()).Returns(bLWarehouse);
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());
@@ -46,8 +45,9 @@ namespace TeamJ.SKS.Package.Services.Test
         public void ExportWarehouses_IsTrue_Error()
         {
             Mock<IHopLogic> mockHopLogic = new Mock<IHopLogic>();
-            var emptyList = new List<BLHop>();
-            mockHopLogic.Setup(pl => pl.ExportWarehouses()).Returns(emptyList);
+            var bLWarehouse = new BLWarehouse();
+            bLWarehouse = null;
+            mockHopLogic.Setup(pl => pl.ExportWarehouses()).Returns(bLWarehouse);
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());

@@ -24,7 +24,7 @@ namespace TeamJ.SKS.Package.Services.Test
         public void TransitionParcel_ValidTrackingID_Success()
         {
             Mock<IParcelLogic> mockParcelLogic = new Mock<IParcelLogic>();
-            mockParcelLogic.Setup(pl => pl.TransitionParcel(It.IsAny<BLParcel>())).Returns(true);
+            mockParcelLogic.Setup(pl => pl.TransitionParcel(It.IsAny<BLParcel>(), "123456789", true)).Returns(true);
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());
@@ -44,7 +44,7 @@ namespace TeamJ.SKS.Package.Services.Test
         public void TransitionParcel_WrongTrackingID_Error()
         {
             Mock<IParcelLogic> mockParcelLogic = new Mock<IParcelLogic>();
-            mockParcelLogic.Setup(pl => pl.TransitionParcel(It.IsAny<BLParcel>())).Returns(false);
+            mockParcelLogic.Setup(pl => pl.TransitionParcel(It.IsAny<BLParcel>(), "1234", true)).Returns(false);
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());
