@@ -99,7 +99,7 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             try
             {
                 _logger.LogInformation("SqlHopRepository DeleteAllHops started.");
-                _context.deleteAll();
+                _context.DeleteAll();
             }
             catch (SqlException ex)
             {
@@ -116,12 +116,39 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             _logger.LogInformation("SqlHopRepository DeleteAllHops ended.");
         }
 
+        public IEnumerable<DALHop> GetAllHops()
+        {
+            _context.Hops.Load();
+            _logger.LogInformation("SqlHopRepository GetAllHops started.");
+            return _context.Hops;
+        }
+
+        public List<DALHop> GetPathFromRoot(DALHop root, DALHop truck)
+        {
+            if (root == truck)
+                return new List<DALHop>(0);
+
+            if (root is DALWarehouse warehouse)
+            {                
+                foreach (var item in warehouse.NextHops)
+                {
+                    var hop = GetPathFromRoot(item.Hop, truck);
+
+                    if (hop == null)
+                        continue;
+                    hop.Add(item.Hop);
+                    return hop;
+                }
+            }
+            return null;
+        }
+
         public DALWarehouse GetRootWarehouse()
         {
             try
             {
                 _context.Hops.Load();
-                _logger.LogInformation("SqlHopRepository GetAllHops started.");
+                _logger.LogInformation("SqlHopRepository GetRootWarehouse started.");
                 var root = _context.Hops.OfType<DALWarehouse>().Include(wh => wh.NextHops).Single(r => r.Level == 0);
                 return root;
             }
@@ -144,8 +171,9 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
         {
             try
             {
+                _context.Hops.Load();
                 _logger.LogInformation("SqlHopRepository GetByCode started.");
-                return _context.Hops.Where(hop => hop.Code == code).ToList().First();
+                return _context.Hops.Single(hop => hop.Code == code);
             }
             catch (SqlException ex)
             {

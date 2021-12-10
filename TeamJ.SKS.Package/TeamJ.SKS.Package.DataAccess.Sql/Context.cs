@@ -22,7 +22,7 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             Database.EnsureCreated();
         }
 
-        public void deleteAll()
+        public void DeleteAll()
         {
             Database.EnsureDeleted();
             Database.EnsureCreated();
