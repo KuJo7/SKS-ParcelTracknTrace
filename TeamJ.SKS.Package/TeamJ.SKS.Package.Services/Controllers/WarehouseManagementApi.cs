@@ -137,7 +137,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
                 var result = _hopLogic.GetWarehouse(code);
                 if (result != null)
                 {
-                    var resultMapper = _mapper.Map<Warehouse>(result);
+                    var resultMapper = _mapper.Map<Hop>(result);
                     _logger.LogInformation("WarehouseManagementApi GetWarehouse ended successful.");
                     return Ok(resultMapper);
                 }

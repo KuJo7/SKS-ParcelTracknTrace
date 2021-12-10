@@ -31,6 +31,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TeamJ.SKS.Package.BusinessLogic\TeamJ.SKS.Package.BusinessLogic.csproj" />
     <ProjectReference Include="..\TeamJ.SKS.Package.DataAccess.Sql\TeamJ.SKS.Package.DataAccess.Sql.csproj" />
+    <ProjectReference Include="..\TeamJ.SKS.Package.ServiceAgents\TeamJ.SKS.Package.ServiceAgents.csproj" />
     <ProjectReference Include="..\TeamJ.SKS.Package.Services.DTOs\TeamJ.SKS.Package.Services.DTOs.csproj" />
     <ProjectReference Include="..\TeamJ.SKS.Package.Services.Interfaces\TeamJ.SKS.Package.Services.Interfaces.csproj" />
   </ItemGroup>

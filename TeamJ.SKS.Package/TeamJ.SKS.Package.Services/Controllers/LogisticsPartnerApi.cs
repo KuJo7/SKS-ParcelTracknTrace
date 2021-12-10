@@ -75,17 +75,12 @@ namespace TeamJ.SKS.Package.Services.Controllers
             {
                 _logger.LogInformation("Controller LogisticsPartnerApi with TransitionParcel started.");
                 BLParcel blParcel = _mapper.Map<BLParcel>(body);
-                blParcel.TrackingId = trackingId;
-                blParcel.FutureHops = new List<BLHopArrival>();
-                blParcel.VisitedHops = new List<BLHopArrival>();
-                blParcel.Recipient = new BLRecipient();
-                blParcel.Sender = new BLRecipient();
-                if (_parcelLogic.TransitionParcel(blParcel))
+                if (_parcelLogic.TransitionParcel(blParcel, trackingId, true))
                 {
                     // Mapping back auf SVC Parcel (?)
                     // mapping entf?llt, weil nur ein string
                     _logger.LogInformation("Controller LogisticsPartnerApi with TransitionParcel ended successful.");
-                    return Ok(new NewParcelInfo());
+                    return Ok(200);
                 }
             }
             catch (BusinessLogicException ex)
