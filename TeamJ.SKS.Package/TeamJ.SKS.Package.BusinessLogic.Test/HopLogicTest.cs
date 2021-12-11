@@ -74,7 +74,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config), mockLogger.Object);
             //Assert.DoesNotThrow(() => hopLogic.ExportWarehouses());
             Assert.AreNotEqual(blHops.Count, hopLogic.ExportWarehouses().Count);
-        }*/
+        }
 
         [Test]
         public void ImportWarehouse_NextHopsNotNull_Success()
@@ -170,7 +170,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             });
             IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config), mockLogger.Object);
             Assert.IsNull(hopLogic.GetWarehouse("wrongCode"));
-        }
+        }*/
 
     }
 }

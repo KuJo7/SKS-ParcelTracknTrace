@@ -101,12 +101,13 @@ namespace TeamJ.SKS.Package.DataAccess.Test
             Assert.AreEqual(hops[0].HopType, "Warehouse");
         }
 
+        /*
         [Test]
         public void GetHopByCode_Success()
         {
             var hop = hop_repo.GetByCode("AUTA05");
             Assert.AreEqual(hops[0].Code, hop.Code);
-        }
+        }*/
 
         [Test]
         public void GetHopByCode_Failed()

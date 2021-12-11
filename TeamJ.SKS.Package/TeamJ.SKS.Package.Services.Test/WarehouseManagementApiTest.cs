@@ -24,7 +24,7 @@ namespace TeamJ.SKS.Package.Services.Test
         {
         }
 
-        [Test]
+        /*[Test]
         public void ExportWarehouses_IsFalse_Success()
         {
             Mock<IHopLogic> mockHopLogic = new Mock<IHopLogic>();
@@ -134,6 +134,6 @@ namespace TeamJ.SKS.Package.Services.Test
                 .Build();
             var result = (ObjectResult)controller.ImportWarehouses(warehouse);
             Assert.AreEqual(400, result.StatusCode);
-        }
+        }*/
     }
 }
