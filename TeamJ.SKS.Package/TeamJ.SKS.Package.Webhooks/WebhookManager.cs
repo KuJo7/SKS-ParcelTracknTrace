@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
+using TeamJ.SKS.Package.BusinessLogic.DTOs;
 using TeamJ.SKS.Package.DataAccess.DTOs;
 using TeamJ.SKS.Package.DataAccess.Interfaces;
 using TeamJ.SKS.Package.Webhooks.Interfaces;
@@ -29,16 +30,16 @@ namespace TeamJ.SKS.Package.Webhooks
             _webhookRepo = repo;
         }
 
-        public async Task<DALWebhookResponse> SubscribeParcelWebhook(string trackingId, string url)
+        public async Task<BLWebhookResponse> SubscribeParcelWebhook(string trackingId, string url)
         {
             try
             {
                 _logger.LogInformation("WebhookManager SubscribeParcelWebhook started.");
-                DALWebhookResponse dalWebhook = new DALWebhookResponse();
-                dalWebhook.TrackingId = trackingId;
-                dalWebhook.Url = url;
-                dalWebhook.CreatedAt = DateTime.Now;
-                _webhookRepo.Create(dalWebhook);
+                BLWebhookResponse blWebhook = new BLWebhookResponse();
+                blWebhook.TrackingId = trackingId;
+                blWebhook.Url = url;
+                blWebhook.CreatedAt = DateTime.Now;
+                _webhookRepo.Create(_mapper.Map<DALWebhookResponse>(blWebhook));
 
                 var values = new Dictionary<string, string> { };
                 var content = new FormUrlEncodedContent(values);
@@ -47,11 +48,11 @@ namespace TeamJ.SKS.Package.Webhooks
 
                 if (responseString == "404 - Not Found\n")
                 {
-                    dalWebhook.Url = "404 - Not Found";
-                    return dalWebhook;
+                    blWebhook.Url = "404 - Not Found";
+                    return blWebhook;
                 }
 
-                return dalWebhook;
+                return blWebhook;
 
             }
             catch (DataAccessException ex)
@@ -76,10 +77,10 @@ namespace TeamJ.SKS.Package.Webhooks
                 _logger.LogInformation("WebhookManager UnsubscribeParcelWebhook started.");
                 if (!_webhookRepo.Delete(id))
                 {
-                    return true;
+                    return false;
                 }
 
-                return false;
+                return true;
             }
             catch (DataAccessException ex)
             {
@@ -96,12 +97,12 @@ namespace TeamJ.SKS.Package.Webhooks
             
         }
 
-        public List<DALWebhookResponse> ListParcelWebHooks(string trackingId)
+        public List<BLWebhookResponse> ListParcelWebHooks(string trackingId)
         {
             try
             {
                 _logger.LogInformation("WebhookManager ListParcelWebHooks started.");
-                return _webhookRepo.ListParcelWebhooks(trackingId);
+                return _mapper.Map<List<BLWebhookResponse>>(_webhookRepo.ListParcelWebhooks(trackingId));
 
             }
             catch (DataAccessException ex)

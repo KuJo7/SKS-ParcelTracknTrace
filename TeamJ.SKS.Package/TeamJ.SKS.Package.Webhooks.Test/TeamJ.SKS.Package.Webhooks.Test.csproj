@@ -4,4 +4,21 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+    <PackageReference Include="Moq" Version="4.16.1" />
+    <PackageReference Include="NBuilder" Version="6.1.0" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TeamJ.SKS.Package.DataAccess.DTOs\TeamJ.SKS.Package.DataAccess.DTOs.csproj" />
+    <ProjectReference Include="..\TeamJ.SKS.Package.DataAccess.Interfaces\TeamJ.SKS.Package.DataAccess.Interfaces.csproj" />
+    <ProjectReference Include="..\TeamJ.SKS.Package.DataAccess.Sql\TeamJ.SKS.Package.DataAccess.Sql.csproj" />
+    <ProjectReference Include="..\TeamJ.SKS.Package.Services.DTOs\TeamJ.SKS.Package.Services.DTOs.csproj" />
+    <ProjectReference Include="..\TeamJ.SKS.Package.Webhooks.Interfaces\TeamJ.SKS.Package.Webhooks.Interfaces.csproj" />
+    <ProjectReference Include="..\TeamJ.SKS.Package.Webhooks\TeamJ.SKS.Package.Webhooks.csproj" />
+  </ItemGroup>
+
 </Project>

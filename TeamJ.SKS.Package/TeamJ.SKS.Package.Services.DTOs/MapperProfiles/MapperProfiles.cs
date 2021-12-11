@@ -63,7 +63,8 @@ namespace TeamJ.SKS.Package.Services.DTOs.MapperProfiles
             CreateMap<DALParcel, BLParcel>().ReverseMap();
             CreateMap<DALRecipient, BLRecipient>().ReverseMap();
 
-            CreateMap<WebhookResponse, DALWebhookResponse>(MemberList.Source).ReverseMap();
+            CreateMap<WebhookResponse, BLWebhookResponse>(MemberList.Source).ReverseMap();
+            CreateMap<BLWebhookResponse, DALWebhookResponse>(MemberList.Source).ReverseMap();
         }
     }
 }
