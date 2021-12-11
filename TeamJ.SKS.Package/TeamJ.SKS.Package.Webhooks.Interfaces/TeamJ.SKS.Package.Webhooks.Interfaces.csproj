@@ -4,4 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TeamJ.SKS.Package.DataAccess.DTOs\TeamJ.SKS.Package.DataAccess.DTOs.csproj" />
+  </ItemGroup>
+
 </Project>

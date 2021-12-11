@@ -16,6 +16,7 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
         public DbSet<DALHop> Hops { get; set; }
         public DbSet<DALWarehouse> Warehouses { get; set; }
         public DbSet<DALParcel> Parcels { get; set; }
+        public DbSet<DALWebhookResponse> WebhookResponse { get; set; }
 
         public Context(DbContextOptions<Context> opt) : base(opt)
         {

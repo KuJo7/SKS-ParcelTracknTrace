@@ -34,5 +34,7 @@
     <ProjectReference Include="..\TeamJ.SKS.Package.ServiceAgents\TeamJ.SKS.Package.ServiceAgents.csproj" />
     <ProjectReference Include="..\TeamJ.SKS.Package.Services.DTOs\TeamJ.SKS.Package.Services.DTOs.csproj" />
     <ProjectReference Include="..\TeamJ.SKS.Package.Services.Interfaces\TeamJ.SKS.Package.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\TeamJ.SKS.Package.Webhooks.Interfaces\TeamJ.SKS.Package.Webhooks.Interfaces.csproj" />
+    <ProjectReference Include="..\TeamJ.SKS.Package.Webhooks\TeamJ.SKS.Package.Webhooks.csproj" />
   </ItemGroup>
 </Project>

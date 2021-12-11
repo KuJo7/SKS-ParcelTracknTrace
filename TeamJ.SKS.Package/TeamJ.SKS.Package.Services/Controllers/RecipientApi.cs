@@ -20,6 +20,7 @@ using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.Services.Attributes;
 using TeamJ.SKS.Package.Services.DTOs.MapperProfiles;
 using TeamJ.SKS.Package.Services.DTOs.Models;
+using TeamJ.SKS.Package.Services.Interfaces;
 
 namespace TeamJ.SKS.Package.Services.Controllers
 { 
@@ -80,13 +81,13 @@ namespace TeamJ.SKS.Package.Services.Controllers
             {
                 var msg = @"An error occured while trying to use the /parcel/trackingid get api.";
                 _logger.LogError(msg, ex);
-                throw new BusinessLogicException(nameof(TrackParcel), msg, ex);
+                throw new ServiceException(nameof(TrackParcel), msg, ex);
             }
             catch (Exception ex)
             {
                 var msgException = @"An error occured while trying to use the /parcel/trackingid get api.";
                 _logger.LogError(msgException, ex);
-                throw new BusinessLogicException(nameof(TrackParcel), msgException, ex);
+                throw new ServiceException(nameof(TrackParcel), msgException, ex);
             }
             _logger.LogInformation("RecipientApi TrackParcel ended unsuccessful.");
             return BadRequest(new Error("Error: TrackParcel"));

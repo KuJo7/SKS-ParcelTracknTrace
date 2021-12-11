@@ -14,10 +14,16 @@ using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
-
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using IO.Swagger.Models;
+using Microsoft.Extensions.Logging;
+using TeamJ.SKS.Package.DataAccess.DTOs;
 using TeamJ.SKS.Package.Services.Attributes;
+using TeamJ.SKS.Package.Services.Interfaces;
+using TeamJ.SKS.Package.Webhooks;
+using TeamJ.SKS.Package.Webhooks.Interfaces;
 
 namespace IO.Swagger.Controllers
 { 
@@ -26,7 +32,18 @@ namespace IO.Swagger.Controllers
     /// </summary>
     [ApiController]
     public class ParcelWebhookApiController : ControllerBase
-    { 
+    {
+        private readonly IMapper _mapper;
+        private readonly IWebhookManager _webhookManager;
+        private readonly ILogger<ParcelWebhookApiController> _logger;
+
+        public ParcelWebhookApiController(IMapper mapper, IWebhookManager webhookManager, ILogger<ParcelWebhookApiController> logger)
+        {
+            _webhookManager = webhookManager;
+            _mapper = mapper;
+            _logger = logger;
+        }
+
         /// <summary>
         /// Get all registered subscriptions for the parcel webhook.
         /// </summary>
@@ -38,20 +55,29 @@ namespace IO.Swagger.Controllers
         [ValidateModelState]
         [SwaggerOperation("ListParcelWebhooks")]
         [SwaggerResponse(statusCode: 200, type: typeof(WebhookResponses), description: "List of webooks for the &#x60;trackingId&#x60;")]
-        public virtual IActionResult ListParcelWebhooks([FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")]string trackingId)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(WebhookResponses));
+        public virtual IActionResult ListParcelWebhooks([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")]string trackingId)
+        {
+            try
+            {
+                if (_webhookManager.ListParcelWebHooks(trackingId).Count == 0)
+                {
+                    return StatusCode(404, "No parcel found with that tracking ID.");
+                }
+                return Ok();
+            }
+            catch (WebhookException ex)
+            {
+                var msg = "An error occured while trying to use the /parcel/{trackingId}/webhooks get api.";
+                _logger.LogError(msg, ex);
+                throw new ServiceException(nameof(ListParcelWebhooks), msg, ex);
+            }
+            catch (Exception ex)
+            {
+                var msgException = "An unknown error occured while trying to use the /parcel/{trackingId}/webhooks get api.";
+                _logger.LogError(msgException, ex);
+                throw new ServiceException(nameof(ListParcelWebhooks), msgException, ex);
+            }
 
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
-            string exampleJson = null;
-            exampleJson = "[ {\n  \"created_at\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"id\" : 0,\n  \"url\" : \"url\",\n  \"trackingId\" : \"trackingId\"\n}, {\n  \"created_at\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"id\" : 0,\n  \"url\" : \"url\",\n  \"trackingId\" : \"trackingId\"\n} ]";
-            
-                        var example = exampleJson != null
-                        ? JsonConvert.DeserializeObject<WebhookResponses>(exampleJson)
-                        : default(WebhookResponses);            //TODO: Change the data returned
-            return new ObjectResult(example);
         }
 
         /// <summary>
@@ -66,20 +92,33 @@ namespace IO.Swagger.Controllers
         [ValidateModelState]
         [SwaggerOperation("SubscribeParcelWebhook")]
         [SwaggerResponse(statusCode: 200, type: typeof(WebhookResponse), description: "Successful response")]
-        public virtual IActionResult SubscribeParcelWebhook([FromRoute][Required][RegularExpression("/^[A-Z0-9]{9}$/")]string trackingId, [FromQuery][Required()]string url)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(WebhookResponse));
-
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
-            string exampleJson = null;
-            exampleJson = "{\n  \"created_at\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"id\" : 0,\n  \"url\" : \"url\",\n  \"trackingId\" : \"trackingId\"\n}";
+        public async virtual Task<IActionResult> SubscribeParcelWebhook([FromRoute][Required][RegularExpression("^[A-Z0-9]{9}$")]string trackingId, [FromQuery][Required()]string url)
+        {
+            try
+            {
+                _logger.LogInformation("ParcelWebhookApiController SubscribeParcelWebhook started");
+                var result = await _webhookManager.SubscribeParcelWebhook(trackingId, url);
+                if (result.Url == "404 - Not Found")
+                {
+                    _webhookManager.UnsubscribeParcelWebhook(result.Id);
+                    return StatusCode(404,"No parcel found with that tracking ID.");
+                }
+                WebhookResponse webhookResponse = _mapper.Map<WebhookResponse>(result);
+                return Ok(webhookResponse);
+            }
+            catch (WebhookException ex)
+            {
+                var msg = "An error occured while trying to use the /parcel/{trackingId}/webhooks post api.";
+                _logger.LogError(msg, ex);
+                throw new ServiceException(nameof(SubscribeParcelWebhook), msg, ex);
+            }
+            catch (Exception ex)
+            {
+                var msgException = "An unknown error occured while trying to use the /parcel/{trackingId}/webhooks post api.";
+                _logger.LogError(msgException, ex);
+                throw new ServiceException(nameof(SubscribeParcelWebhook), msgException, ex);
+            }
             
-                        var example = exampleJson != null
-                        ? JsonConvert.DeserializeObject<WebhookResponse>(exampleJson)
-                        : default(WebhookResponse);            //TODO: Change the data returned
-            return new ObjectResult(example);
         }
 
         /// <summary>
@@ -92,15 +131,30 @@ namespace IO.Swagger.Controllers
         [Route("/parcel/webhooks/{id}")]
         [ValidateModelState]
         [SwaggerOperation("UnsubscribeParcelWebhook")]
-        public virtual IActionResult UnsubscribeParcelWebhook([FromRoute][Required]long? id)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200);
+        public virtual IActionResult UnsubscribeParcelWebhook([FromRoute][Required]long id)
+        {
+            try
+            {
+                _logger.LogInformation("ParcelWebhookApiController UnsubscribeParcelWebhook started");
+                if (_webhookManager.UnsubscribeParcelWebhook(id))
+                {
+                    return Ok("Success");
+                }
 
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
-
-            throw new NotImplementedException();
+                return StatusCode(404, "Subscription does not exist.");
+            }
+            catch (WebhookException ex)
+            {
+                var msg = "An error occured while trying to use the /parcel/webhooks/id delete api.";
+                _logger.LogError(msg, ex);
+                throw new ServiceException(nameof(UnsubscribeParcelWebhook), msg, ex);
+            }
+            catch (Exception ex)
+            {
+                var msgException = "An unknown error occured while trying to use the /parcel/webhooks/id delete api.";
+                _logger.LogError(msgException, ex);
+                throw new ServiceException(nameof(UnsubscribeParcelWebhook), msgException, ex);
+            }
         }
     }
 }

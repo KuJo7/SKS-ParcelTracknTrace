@@ -17,6 +17,8 @@ using TeamJ.SKS.Package.BusinessLogic;
 using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.Services.Attributes;
 using TeamJ.SKS.Package.Services.DTOs.Models;
+using TeamJ.SKS.Package.Services.Interfaces;
+using TeamJ.SKS.Package.Webhooks.Interfaces;
 
 namespace TeamJ.SKS.Package.Services.Controllers
 { 
@@ -28,6 +30,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
     {
         private readonly IParcelLogic _parcelLogic;
         private readonly ILogger<StaffApiController> _logger;
+        private readonly IWebhookManager _webhookManager;
 
         /*public StaffApiController()
         {
@@ -36,10 +39,11 @@ namespace TeamJ.SKS.Package.Services.Controllers
         /// <summary>
         /// StaffApiController Constructor with 2 parameters
         /// </summary>
-        public StaffApiController(IParcelLogic parcelLogic, ILogger<StaffApiController> logger)
+        public StaffApiController(IParcelLogic parcelLogic, ILogger<StaffApiController> logger, IWebhookManager webhookManager)
         {
             _parcelLogic = parcelLogic;
             _logger = logger;
+            _webhookManager = webhookManager;
         }
 
         /// <summary>
@@ -61,6 +65,11 @@ namespace TeamJ.SKS.Package.Services.Controllers
                 _logger.LogInformation("StaffApi ReportParcelDelivery started.");
                 if (_parcelLogic.ReportParcelDelivery(trackingId))
                 {
+                    _webhookManager.SubscriberNotification(trackingId, "Parcel has been successfuly delivered at its final address");
+                    foreach (var subscriber in _webhookManager.ListParcelWebHooks(trackingId))
+                    {
+                        _webhookManager.UnsubscribeParcelWebhook(subscriber.Id);
+                    }
                     _logger.LogInformation("StaffApi ReportParcelDelivery ended successful.");
                     return Ok(StatusCode(200));
                 }
@@ -69,13 +78,13 @@ namespace TeamJ.SKS.Package.Services.Controllers
             {
                 var msg = "An error occured while trying to use the /parcel/trackingid/reportdelivery post api.";
                 _logger.LogError(msg, ex);
-                throw new BusinessLogicException(nameof(ReportParcelDelivery), msg, ex);
+                throw new ServiceException(nameof(ReportParcelDelivery), msg, ex);
             }
             catch (Exception ex)
             {
                 var msgException = "An unknown error occured while trying to use the /parcel/trackingid/reportdelivery post api.";
                 _logger.LogError(msgException, ex);
-                throw new BusinessLogicException(nameof(ReportParcelDelivery), msgException, ex);
+                throw new ServiceException(nameof(ReportParcelDelivery), msgException, ex);
             }
             _logger.LogInformation("StaffApi ReportParcelDelivery ended unsuccessful.");
             return BadRequest(new Error("Error: ReportParcelDelivery"));
@@ -111,6 +120,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
                 _logger.LogInformation("StaffApi ReportParcelHop started.");
                 if (_parcelLogic.ReportParcelHop(trackingId, code))
                 {
+                    _webhookManager.SubscriberNotification(trackingId, $"Parcel has been successfuly arrived at {code}");
                     _logger.LogInformation("StaffApi ReportParcelHop ended successful.");
                     return Ok(StatusCode(200));
                 }
@@ -119,13 +129,13 @@ namespace TeamJ.SKS.Package.Services.Controllers
             {
                 var msg = "An error occured while trying to use the /parcel/trackingid/reportHop/code post api.";
                 _logger.LogError(msg, ex);
-                throw new BusinessLogicException(nameof(ReportParcelHop), msg, ex);
+                throw new ServiceException(nameof(ReportParcelHop), msg, ex);
             }
             catch (Exception ex)
             {
                 var msgException = "An unknown error occured while trying to use the /parcel/trackingid/reportHop/code post api.";
                 _logger.LogError(msgException, ex);
-                throw new BusinessLogicException(nameof(ReportParcelHop), msgException, ex);
+                throw new ServiceException(nameof(ReportParcelHop), msgException, ex);
             }
             _logger.LogInformation("StaffApi ReportParcelHop ended unsuccessful.");
             return BadRequest(new Error("Error: ReportParcelHop"));

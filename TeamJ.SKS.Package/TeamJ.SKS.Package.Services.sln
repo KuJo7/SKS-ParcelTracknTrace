@@ -36,13 +36,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.ServiceAg
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.ServiceAgent.Test", "TeamJ.SKS.Package.ServiceAgent.Test\TeamJ.SKS.Package.ServiceAgent.Test.csproj", "{CEE1A0AD-E492-4802-8E53-7A8A879EDA28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamJ.SKS.Package.Webhooks", "TeamJ.SKS.Package.Webhooks\TeamJ.SKS.Package.Webhooks.csproj", "{71FED225-ACD6-4A3A-B95A-494ACCBC518E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.Webhooks", "TeamJ.SKS.Package.Webhooks\TeamJ.SKS.Package.Webhooks.csproj", "{71FED225-ACD6-4A3A-B95A-494ACCBC518E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamJ.SKS.Package.Webhooks.Test", "TeamJ.SKS.Package.Webhooks.Test\TeamJ.SKS.Package.Webhooks.Test.csproj", "{3834A10A-C7FF-489A-9058-7BABCAD41E17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.Webhooks.Test", "TeamJ.SKS.Package.Webhooks.Test\TeamJ.SKS.Package.Webhooks.Test.csproj", "{3834A10A-C7FF-489A-9058-7BABCAD41E17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamJ.SKS.Package.Webhooks.Interfaces", "TeamJ.SKS.Package.Webhooks.Interfaces\TeamJ.SKS.Package.Webhooks.Interfaces.csproj", "{16DE6BD2-7FED-4839-9411-05F73ADF30B7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamJ.SKS.Package.Webhooks.Sql", "TeamJ.SKS.Package.Webhooks.Sql\TeamJ.SKS.Package.Webhooks.Sql.csproj", "{317E739A-17B6-4CAA-9945-4105E084A0E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.Webhooks.Interfaces", "TeamJ.SKS.Package.Webhooks.Interfaces\TeamJ.SKS.Package.Webhooks.Interfaces.csproj", "{16DE6BD2-7FED-4839-9411-05F73ADF30B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -122,10 +120,6 @@ Global
 		{16DE6BD2-7FED-4839-9411-05F73ADF30B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16DE6BD2-7FED-4839-9411-05F73ADF30B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16DE6BD2-7FED-4839-9411-05F73ADF30B7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{317E739A-17B6-4CAA-9945-4105E084A0E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{317E739A-17B6-4CAA-9945-4105E084A0E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{317E739A-17B6-4CAA-9945-4105E084A0E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{317E739A-17B6-4CAA-9945-4105E084A0E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

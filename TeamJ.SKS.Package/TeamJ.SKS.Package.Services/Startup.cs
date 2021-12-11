@@ -31,6 +31,8 @@ using TeamJ.SKS.Package.DataAccess.Interfaces;
 using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.Services.DTOs.MapperProfiles;
 using TeamJ.SKS.Package.ServiceAgents.Interfaces;
+using TeamJ.SKS.Package.Webhooks;
+using TeamJ.SKS.Package.Webhooks.Interfaces;
 
 namespace TeamJ.SKS.Package.Services
 {
@@ -98,8 +100,10 @@ namespace TeamJ.SKS.Package.Services
 
             services.AddScoped<IHopRepository, DataAccess.Sql.SqlHopRepository>();
             services.AddScoped<IParcelRepository, DataAccess.Sql.SqlParcelRepository>();
+            services.AddScoped<IWebhookRepository, DataAccess.Sql.SqlWebhookRepository>();
 
             services.AddScoped<IGeoEncodingAgent, ServiceAgents.OpenStreetMapEncodingAgent>();
+            services.AddScoped<IWebhookManager, WebhookManager>();
 
 
             // Add framework services.

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using AutoMapper;
+using IO.Swagger.Models;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
 using TeamJ.SKS.Package.DataAccess.DTOs;
 using TeamJ.SKS.Package.Services.DTOs.Models;
@@ -61,6 +62,8 @@ namespace TeamJ.SKS.Package.Services.DTOs.MapperProfiles
             CreateMap<BLWarehouseNextHops, DALWarehouseNextHops>(MemberList.Source).ReverseMap();
             CreateMap<DALParcel, BLParcel>().ReverseMap();
             CreateMap<DALRecipient, BLRecipient>().ReverseMap();
+
+            CreateMap<WebhookResponse, DALWebhookResponse>(MemberList.Source).ReverseMap();
         }
     }
 }

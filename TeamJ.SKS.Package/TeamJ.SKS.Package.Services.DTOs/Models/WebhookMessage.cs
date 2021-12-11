@@ -102,20 +102,5 @@ namespace IO.Swagger.Models
             }
         }
 
-        #region Operators
-        #pragma warning disable 1591
-
-        public static bool operator ==(WebhookMessage left, WebhookMessage right)
-        {
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(WebhookMessage left, WebhookMessage right)
-        {
-            return !Equals(left, right);
-        }
-
-        #pragma warning restore 1591
-        #endregion Operators
     }
 }

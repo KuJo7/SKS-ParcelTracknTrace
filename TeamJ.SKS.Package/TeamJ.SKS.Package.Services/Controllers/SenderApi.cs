@@ -21,6 +21,7 @@ using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.Services.Attributes;
 using TeamJ.SKS.Package.Services.DTOs.MapperProfiles;
 using TeamJ.SKS.Package.Services.DTOs.Models;
+using TeamJ.SKS.Package.Services.Interfaces;
 
 namespace TeamJ.SKS.Package.Services.Controllers
 { 
@@ -89,13 +90,13 @@ namespace TeamJ.SKS.Package.Services.Controllers
             {
                 var msg = "An error occured while trying to use the /parcel post api.";
                 _logger.LogError(msg, ex);
-                throw new BusinessLogicException(nameof(SubmitParcel), msg, ex);
+                throw new ServiceException(nameof(SubmitParcel), msg, ex);
             }
             catch (Exception ex)
             {
                 var msgException = "An unknown error occured while trying to use the /parcel post api.";
                 _logger.LogError(msgException, ex);
-                throw new BusinessLogicException(nameof(SubmitParcel), msgException, ex);
+                throw new ServiceException(nameof(SubmitParcel), msgException, ex);
             }
             _logger.LogInformation("SenderAPI SubmitParcel ended unsuccessful.");
             return BadRequest(new Error("Error: SubmitParcel"));

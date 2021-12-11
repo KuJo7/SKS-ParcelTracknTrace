@@ -23,6 +23,9 @@ using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.Services.Attributes;
 using TeamJ.SKS.Package.Services.DTOs.Models;
 using TeamJ.SKS.Package.Services.DTOs.MapperProfiles;
+using TeamJ.SKS.Package.Services.Interfaces;
+using TeamJ.SKS.Package.Webhooks;
+using TeamJ.SKS.Package.Webhooks.Interfaces;
 
 
 namespace TeamJ.SKS.Package.Services.Controllers
@@ -35,7 +38,8 @@ namespace TeamJ.SKS.Package.Services.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IParcelLogic _parcelLogic;
-        private readonly ILogger _logger;
+        private readonly ILogger<LogisticsPartnerApiController> _logger;
+        private readonly IWebhookManager _webhookManager;
 
         /*public LogisticsPartnerApiController()
         {
@@ -49,11 +53,12 @@ namespace TeamJ.SKS.Package.Services.Controllers
         /// <summary>
         /// LogisticsPartnerApiController Constructor with 2 parameters
         /// </summary>
-        public LogisticsPartnerApiController(IMapper mapper, IParcelLogic parcelLogic, ILogger<LogisticsPartnerApiController> logger)
+        public LogisticsPartnerApiController(IMapper mapper, IParcelLogic parcelLogic, ILogger<LogisticsPartnerApiController> logger, IWebhookManager webhookManager)
         {
             _parcelLogic = parcelLogic;
             _mapper = mapper;
             _logger = logger;
+            _webhookManager = webhookManager;
         }
         /// <summary>
         /// Transfer an existing parcel into the system from the service of a logistics partner. 
@@ -79,6 +84,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
                 {
                     // Mapping back auf SVC Parcel (?)
                     // mapping entf?llt, weil nur ein string
+                    _webhookManager.SubscriberNotification(blParcel.TrackingId, "Parcel has been successfuly transitioned");
                     _logger.LogInformation("Controller LogisticsPartnerApi with TransitionParcel ended successful.");
                     return Ok(200);
                 }
@@ -87,13 +93,13 @@ namespace TeamJ.SKS.Package.Services.Controllers
             {
                 var msg = @"An error occured while trying to use the /parcel/trackingid post api.";
                 _logger.LogError(msg, ex);
-                throw new BusinessLogicException(nameof(TransitionParcel), msg, ex);
+                throw new ServiceException(nameof(TransitionParcel), msg, ex);
             }
             catch (Exception ex)
             {
                 var msgException = @"An unknown error occured while trying to use the /parcel/trackingid post api.";
                 _logger.LogError(msgException, ex);
-                throw new BusinessLogicException(nameof(TransitionParcel), msgException, ex);
+                throw new ServiceException(nameof(TransitionParcel), msgException, ex);
             }
             _logger.LogInformation("Controller LogisticsPartnerApi with TransitionParcel ended unsuccessful");
             return BadRequest(new Error("Error: TransitionParcel"));

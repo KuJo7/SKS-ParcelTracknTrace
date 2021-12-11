@@ -14,6 +14,8 @@ namespace TeamJ.SKS.Package.DataAccess.Interfaces
         public DbSet<DALHop> Hops { get; set; }
         public DbSet<DALWarehouse> Warehouses { get; set; }
         public DbSet<DALParcel> Parcels { get; set; }
+
+        public DbSet<DALWebhookResponse> WebhookResponse { get; set; }
         public void DeleteAll();
         public int SaveChanges();
     }

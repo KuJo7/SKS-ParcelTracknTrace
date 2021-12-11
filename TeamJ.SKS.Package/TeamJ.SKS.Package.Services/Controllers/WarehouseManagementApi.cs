@@ -22,6 +22,7 @@ using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.Services.Attributes;
 using TeamJ.SKS.Package.Services.DTOs.MapperProfiles;
 using TeamJ.SKS.Package.Services.DTOs.Models;
+using TeamJ.SKS.Package.Services.Interfaces;
 
 namespace TeamJ.SKS.Package.Services.Controllers
 { 
@@ -85,13 +86,13 @@ namespace TeamJ.SKS.Package.Services.Controllers
             {
                 var msg = "An error occured while trying to use the /warehouse get api.";
                 _logger.LogError(msg, ex);
-                throw new BusinessLogicException(nameof(ExportWarehouses), msg, ex);
+                throw new ServiceException(nameof(ExportWarehouses), msg, ex);
             }
             catch (Exception ex)
             {
                 var msgException = "An unknown error occured while trying to use the /warehouse get api.";
                 _logger.LogError(msgException, ex);
-                throw new BusinessLogicException(nameof(ExportWarehouses), msgException, ex);
+                throw new ServiceException(nameof(ExportWarehouses), msgException, ex);
             }
 
             _logger.LogInformation("WarehouseManagementApi ExportWarehouse ended unsuccessful");
@@ -146,13 +147,13 @@ namespace TeamJ.SKS.Package.Services.Controllers
             {
                 var msg = "An error occured while trying to use the /warehouse/code get api.";
                 _logger.LogError(msg, ex);
-                throw new BusinessLogicException(nameof(GetWarehouse), msg, ex);
+                throw new ServiceException(nameof(GetWarehouse), msg, ex);
             }
             catch (Exception ex)
             {
                 var msgException = "An unknown error occured while trying to use the /warehouse/code get api.";
                 _logger.LogError(msgException, ex);
-                throw new BusinessLogicException(nameof(GetWarehouse), msgException, ex);
+                throw new ServiceException(nameof(GetWarehouse), msgException, ex);
             }
             _logger.LogInformation("WarehouseManagementApi GetWarehouse ended unsuccessful.");
             return BadRequest(new Error("Error: GetWarehouse"));
@@ -203,13 +204,13 @@ namespace TeamJ.SKS.Package.Services.Controllers
             {
                 var msg = "An error occured while trying to use the /warehouse post api.";
                 _logger.LogError(msg, ex);
-                throw new BusinessLogicException(nameof(ImportWarehouses), msg, ex);
+                throw new ServiceException(nameof(ImportWarehouses), msg, ex);
             }
             catch (Exception ex)
             {
                 var msgException = "An unknown error occured while trying to use the /warehouse post get api.";
                 _logger.LogError(msgException, ex);
-                throw new BusinessLogicException(nameof(ImportWarehouses), msgException, ex);
+                throw new ServiceException(nameof(ImportWarehouses), msgException, ex);
             }
             _logger.LogInformation("WarehouseManagementApi ImportWarehouses ended unsuccessful.");
             return BadRequest(new Error("Error: ImportWarehouses"));
