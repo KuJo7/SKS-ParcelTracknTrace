@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using FizzWare.NBuilder;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
@@ -67,7 +68,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
         }
         
 
-        /*[Test]
+        [Test]
         public void TransitionParcel_ValidParcel_Success()
         {
             Mock<IParcelRepository> mockParcelRepository = new Mock<IParcelRepository>();
@@ -89,7 +90,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             parcel.VisitedHops = new List<BLHopArrival>();
             var result = parcelLogic.TransitionParcel(parcel, parcel.TrackingId, true);
             Assert.IsTrue(result);
-        }*/
+        }
         
         [Test]
         public void TransitionParcel_WrongParcel_Error()
@@ -109,13 +110,20 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             Assert.IsFalse(result);
         }
         
-        /*[Test]
+        [Test]
         public void SubmitParcel_ValidParcel_Success()
         {
             Mock<IParcelRepository> mockParcelRepository = new Mock<IParcelRepository>();
             Mock<IHopRepository> mockHopRepository = new Mock<IHopRepository>();
             Mock<ILogger<ParcelLogic>> mockLogger = new Mock<ILogger<ParcelLogic>>();
             Mock<IGeoEncodingAgent> mockAgent = new Mock<IGeoEncodingAgent>();
+
+            var blHopArrival = Builder<BLHopArrival>.CreateNew()
+                .With(p => p.Code = "test")
+                .With(p => p.DateTime = DateTime.Now)
+                .With(p => p.Description = "description")
+                .Build();
+
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());
@@ -123,15 +131,15 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, mockHopRepository.Object, new Mapper(config), mockLogger.Object, mockAgent.Object);
             var parcel = new BLParcel();
             var trackingId = "123456789";
-            parcel.FutureHops = new List<BLHopArrival>();
-            parcel.VisitedHops = new List<BLHopArrival>();
+            parcel.FutureHops = new List<BLHopArrival>{ blHopArrival };
+            parcel.VisitedHops = new List<BLHopArrival>{ blHopArrival };
             parcel.Weight = 1;
             parcel.State = BLParcel.StateEnum.PickupEnum;
             parcel.Sender = new BLRecipient();
             parcel.Recipient = new BLRecipient();
             var result = parcelLogic.SubmitParcel(parcel, out trackingId);
             Assert.AreEqual(true, result);
-        }*/
+        }
         
         [Test]
         public void SubmitParcel_WrongParcel_Error()
@@ -151,7 +159,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             Assert.IsFalse(result);
         }
         
-        /*[Test]
+        [Test]
         public void ReportParcelDelivery_ValidTrackingID_Success()
         {
             Mock<IParcelRepository> mockParcelRepository = new Mock<IParcelRepository>();
@@ -186,14 +194,15 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             dalParcel.Recipient = new DALRecipient();
             dalParcel.TrackingId = "1234";
             dalParcel.Sender = new DALRecipient();
-            mockParcelRepository.Setup(pl => pl.GetById("1234")).Returns(dalParcel = null);
+            mockParcelRepository.Setup(pl => pl.GetById("1234")).Returns(new DALParcel());
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());
             });
             IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, mockHopRepository.Object, new Mapper(config), mockLogger.Object, mockAgent.Object);
             var result = parcelLogic.ReportParcelDelivery("1234");
-            Assert.Throws<NullReferenceException>(result);
+            //Assert.Throws<NullReferenceException>(result);
+            Assert.IsFalse(result);
         }
         
         [Test]
@@ -203,11 +212,21 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             Mock<IHopRepository> mockHopRepository = new Mock<IHopRepository>();
             Mock<ILogger<ParcelLogic>> mockLogger = new Mock<ILogger<ParcelLogic>>();
             Mock<IGeoEncodingAgent> mockAgent = new Mock<IGeoEncodingAgent>();
+
+            var dalHopArrival = Builder<DALHopArrival>.CreateNew()
+                .With(p => p.Code = "test")
+                .With(p => p.DateTime = DateTime.Now)
+                .With(p => p.Id = 1)
+                .With(p => p.Description = "description")
+                .Build();
+
             DALParcel dalParcel = new DALParcel();
             dalParcel.Weight = 2;
             dalParcel.Recipient = new DALRecipient();
             dalParcel.TrackingId = "123456789";
             dalParcel.Sender = new DALRecipient();
+            dalParcel.VisitedHops = new List<DALHopArrival>{ dalHopArrival };
+            dalParcel.FutureHops = new List<DALHopArrival> { dalHopArrival };
             mockParcelRepository.Setup(pl => pl.GetById("123456789")).Returns(dalParcel);
             var config = new MapperConfiguration(cfg =>
             {
@@ -226,10 +245,20 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             Mock<ILogger<ParcelLogic>> mockLogger = new Mock<ILogger<ParcelLogic>>();
             Mock<IGeoEncodingAgent> mockAgent = new Mock<IGeoEncodingAgent>();
             DALParcel dalParcel = new DALParcel();
+
+            var dalHopArrival = Builder<DALHopArrival>.CreateNew()
+                .With(p => p.Code = "test")
+                .With(p => p.DateTime = DateTime.Now)
+                .With(p => p.Id = 1)
+                .With(p => p.Description = "description")
+                .Build();
+
             dalParcel.Weight = 2;
             dalParcel.Recipient = new DALRecipient();
             dalParcel.TrackingId = "1234";
             dalParcel.Sender = new DALRecipient();
+            dalParcel.VisitedHops = new List<DALHopArrival> { dalHopArrival };
+            dalParcel.FutureHops = new List<DALHopArrival> { dalHopArrival };
             mockParcelRepository.Setup(pl => pl.GetById("1234")).Returns(dalParcel);
             var config = new MapperConfiguration(cfg =>
             {
@@ -238,6 +267,6 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, mockHopRepository.Object, new Mapper(config), mockLogger.Object, mockAgent.Object);
             var result = parcelLogic.ReportParcelHop("1234", "wrongCode");
             Assert.IsFalse(result);
-        }*/
+        }
     }
 }

@@ -35,7 +35,7 @@ namespace TeamJ.SKS.Package.DataAccess.Test
                 .Build();
 
             var truck = Builder<DALHop>.CreateNew()
-                .With(x => x.Code = "1234")
+                .With(x => x.Code = "ABCD")
                 .With(x => x.HopType = "Truck")
                 .Build();
 
@@ -101,13 +101,13 @@ namespace TeamJ.SKS.Package.DataAccess.Test
             Assert.AreEqual(hops[0].HopType, "Warehouse");
         }
 
-        /*
+        
         [Test]
         public void GetHopByCode_Success()
         {
-            var hop = hop_repo.GetByCode("AUTA05");
-            Assert.AreEqual(hops[0].Code, hop.Code);
-        }*/
+            var hop = hop_repo.GetByCode("ABCD");
+            Assert.AreEqual("ABCD", hop.Code);
+        }
 
         [Test]
         public void GetHopByCode_Failed()

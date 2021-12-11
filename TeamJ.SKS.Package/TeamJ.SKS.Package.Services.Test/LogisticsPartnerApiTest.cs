@@ -14,23 +14,25 @@ using TeamJ.SKS.Package.BusinessLogic.Interfaces;
 using TeamJ.SKS.Package.Services.Controllers;
 using TeamJ.SKS.Package.Services.DTOs.MapperProfiles;
 using TeamJ.SKS.Package.Services.DTOs.Models;
+using TeamJ.SKS.Package.Webhooks.Interfaces;
 
 namespace TeamJ.SKS.Package.Services.Test
 {
     class LogisticsPartnerApiTest
     {
 
-        /*[Test]
+        [Test]
         public void TransitionParcel_ValidTrackingID_Success()
         {
             Mock<IParcelLogic> mockParcelLogic = new Mock<IParcelLogic>();
+            Mock<IWebhookManager> mockWebhookManager = new Mock<IWebhookManager>();
             mockParcelLogic.Setup(pl => pl.TransitionParcel(It.IsAny<BLParcel>(), "123456789", true)).Returns(true);
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());
             });
             Mock<ILogger<LogisticsPartnerApiController>> mockLogger = new Mock<ILogger<LogisticsPartnerApiController>>();
-            var controller = new LogisticsPartnerApiController(new Mapper(config), mockParcelLogic.Object, mockLogger.Object);
+            var controller = new LogisticsPartnerApiController(new Mapper(config), mockParcelLogic.Object, mockLogger.Object, mockWebhookManager.Object);
             var parcel = Builder<Parcel>.CreateNew()
                 .With(x => x.Recipient = Builder<Recipient>.CreateNew().Build())
                 .With(x => x.Sender = Builder<Recipient>.CreateNew().Build())
@@ -44,13 +46,14 @@ namespace TeamJ.SKS.Package.Services.Test
         public void TransitionParcel_WrongTrackingID_Error()
         {
             Mock<IParcelLogic> mockParcelLogic = new Mock<IParcelLogic>();
+            Mock<IWebhookManager> mockWebhookManager = new Mock<IWebhookManager>();
             mockParcelLogic.Setup(pl => pl.TransitionParcel(It.IsAny<BLParcel>(), "1234", true)).Returns(false);
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());
             });
             Mock<ILogger<LogisticsPartnerApiController>> mockLogger = new Mock<ILogger<LogisticsPartnerApiController>>();
-            var controller = new LogisticsPartnerApiController(new Mapper(config), mockParcelLogic.Object, mockLogger.Object);
+            var controller = new LogisticsPartnerApiController(new Mapper(config), mockParcelLogic.Object, mockLogger.Object, mockWebhookManager.Object);
             var parcel = Builder<Parcel>.CreateNew()
                 .With(x => x.Recipient = Builder<Recipient>.CreateNew().Build())
                 .With(x => x.Sender = Builder<Recipient>.CreateNew().Build())
@@ -59,6 +62,6 @@ namespace TeamJ.SKS.Package.Services.Test
             var result = (ObjectResult)controller.TransitionParcel(parcel, "1234");
             Assert.AreEqual(400, result.StatusCode);
         }
-        */
+        
     }
 }

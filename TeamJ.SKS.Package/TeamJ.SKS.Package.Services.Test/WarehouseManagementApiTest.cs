@@ -24,11 +24,19 @@ namespace TeamJ.SKS.Package.Services.Test
         {
         }
 
-        /*[Test]
+        [Test]
         public void ExportWarehouses_IsFalse_Success()
         {
             Mock<IHopLogic> mockHopLogic = new Mock<IHopLogic>();
             var bLWarehouse = new BLWarehouse();
+            bLWarehouse.HopType = "Warehouse";
+
+            var blWarehouseNextHops = Builder<BLWarehouseNextHops>.CreateNew()
+                .With(p => p.Hop = Builder<BLTransferwarehouse>.CreateNew().Build())
+                .With(p => p.TraveltimeMins = 2)
+                .Build();
+            bLWarehouse.NextHops = new List<BLWarehouseNextHops>{blWarehouseNextHops};
+
             mockHopLogic.Setup(pl => pl.ExportWarehouses()).Returns(bLWarehouse);
             var config = new MapperConfiguration(cfg =>
             {
@@ -134,6 +142,6 @@ namespace TeamJ.SKS.Package.Services.Test
                 .Build();
             var result = (ObjectResult)controller.ImportWarehouses(warehouse);
             Assert.AreEqual(400, result.StatusCode);
-        }*/
+        }
     }
 }
