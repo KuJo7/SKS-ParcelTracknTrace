@@ -174,7 +174,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             Assert.IsTrue(result);
         }
         
-        [Test]
+        /*[Test]
         public void ReportParcelDelivery_WrongTrackingID_Error()
         {
             Mock<IParcelRepository> mockParcelRepository = new Mock<IParcelRepository>();
@@ -194,7 +194,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             IParcelLogic parcelLogic = new ParcelLogic(mockParcelRepository.Object, mockHopRepository.Object, new Mapper(config), mockLogger.Object, mockAgent.Object);
             var result = parcelLogic.ReportParcelDelivery("1234");
             Assert.Throws<NullReferenceException>(result);
-        }
+        }*/
         
         [Test]
         public void ReportParcelHop_ValidTrackingID_Success()

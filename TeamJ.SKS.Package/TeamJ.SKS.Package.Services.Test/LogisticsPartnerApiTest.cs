@@ -20,7 +20,7 @@ namespace TeamJ.SKS.Package.Services.Test
     class LogisticsPartnerApiTest
     {
 
-        [Test]
+        /*[Test]
         public void TransitionParcel_ValidTrackingID_Success()
         {
             Mock<IParcelLogic> mockParcelLogic = new Mock<IParcelLogic>();
@@ -59,5 +59,6 @@ namespace TeamJ.SKS.Package.Services.Test
             var result = (ObjectResult)controller.TransitionParcel(parcel, "1234");
             Assert.AreEqual(400, result.StatusCode);
         }
+        */
     }
 }
