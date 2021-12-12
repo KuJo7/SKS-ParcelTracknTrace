@@ -59,11 +59,12 @@ namespace IO.Swagger.Controllers
         {
             try
             {
-                if (_webhookManager.ListParcelWebHooks(trackingId).Count == 0)
+                var result = _mapper.Map<List<WebhookResponse>>(_webhookManager.ListParcelWebHooks(trackingId));
+                if (result.Count == 0)
                 {
                     return StatusCode(404, "No parcel found with that tracking ID.");
                 }
-                return Ok();
+                return Ok(result);
             }
             catch (WebhookException ex)
             {

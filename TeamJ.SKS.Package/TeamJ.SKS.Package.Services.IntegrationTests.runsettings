@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <RunConfiguration>
+      <!-- <MaxCouCount>1</MaxCpuCount>
+      <TestSessionTimeout>300000</TestSessionTimeout>-->
+  </RunConfiguration>
+  <TestRunParameters>
+    <Parameter name="baseUrl" value="https://teamjparceltrackntrace-test.azurewebsites.net/" />
+  </TestRunParameters>
+</RunSettings>

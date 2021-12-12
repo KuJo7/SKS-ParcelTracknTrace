@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TeamJ.SKS.Package.BusinessLogic.Entities\TeamJ.SKS.Package.BusinessLogic.DTOs.csproj" />
     <ProjectReference Include="..\TeamJ.SKS.Package.DataAccess.DTOs\TeamJ.SKS.Package.DataAccess.DTOs.csproj" />
     <ProjectReference Include="..\TeamJ.SKS.Package.DataAccess.Interfaces\TeamJ.SKS.Package.DataAccess.Interfaces.csproj" />
     <ProjectReference Include="..\TeamJ.SKS.Package.DataAccess.Sql\TeamJ.SKS.Package.DataAccess.Sql.csproj" />
