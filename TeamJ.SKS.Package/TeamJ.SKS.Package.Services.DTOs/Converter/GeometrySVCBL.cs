@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 namespace TeamJ.SKS.Package.Services.DTOs.Converter
 {
     [ExcludeFromCodeCoverage]
+
     internal class GeometrySVCBL : ITypeConverter<string, Geometry>, IValueConverter<string, Geometry>
     {
         

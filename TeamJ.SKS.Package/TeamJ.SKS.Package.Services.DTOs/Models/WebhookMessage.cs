@@ -18,12 +18,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using TeamJ.SKS.Package.Services.DTOs.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace IO.Swagger.Models
-{ 
+{
     /// <summary>
     /// 
     /// </summary>
+    [ExcludeFromCodeCoverage]
     [DataContract]
     public partial class WebhookMessage : TrackingInformation, IEquatable<WebhookMessage>
     { 

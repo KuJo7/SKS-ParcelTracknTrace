@@ -244,20 +244,20 @@ namespace TeamJ.SKS.Package.BusinessLogic
             try
             {
                 _logger.LogInformation("ParcelLogic ReportParcelDelivery started.");
-                var blParcel = _mapper.Map<BLParcel>(_parcelRepo.GetById(trackingID));
-                blParcel.State = BLParcel.StateEnum.DeliveredEnum;
-                var count = blParcel.FutureHops.Count;
+                var dalParcel = _parcelRepo.GetById(trackingID);
+                dalParcel.State = DALParcel.StateEnum.DeliveredEnum;
+                var count = dalParcel.FutureHops.Count;
                 for(int i = 0; i < count; i++)
                 {
-                    blParcel.VisitedHops.Add(blParcel.FutureHops.First());
-                    blParcel.FutureHops.Remove(blParcel.FutureHops.First());
+                    dalParcel.VisitedHops.Add(dalParcel.FutureHops.First());
+                    dalParcel.FutureHops.Remove(dalParcel.FutureHops.First());
                 }
 
-                var result = validator.Validate(blParcel);
-                if (result.IsValid)
+                //var result = validator.Validate(Parcel);
+                if (true)
                 {
                     _logger.LogInformation("ParcelLogic ReportParcelDelivery ended successful.");
-                    _parcelRepo.Update(_mapper.Map<DALParcel>(blParcel));
+                    _parcelRepo.Update(dalParcel);
                     return true;
                 }
                 _logger.LogInformation("ParcelLogic ReportParcelDelivery ended unsuccessful.");
@@ -288,38 +288,38 @@ namespace TeamJ.SKS.Package.BusinessLogic
             try
             {
                 _logger.LogInformation("ParcelLogic ReportParcelHop started.");
-                var blParcel = _mapper.Map<BLParcel>(_parcelRepo.GetById(trackingID));
+                var dalParcel = _parcelRepo.GetById(trackingID);
                 //move first Hop of futureHops to visitedHops because parcel arrived at next Hop
-                blParcel.VisitedHops.Add(blParcel.FutureHops.First());
-                blParcel.FutureHops.Remove(blParcel.FutureHops.First());
+                dalParcel.VisitedHops.Add(dalParcel.FutureHops.First());
+                dalParcel.FutureHops.Remove(dalParcel.FutureHops.First());
                 var hop = _hopRepo.GetByCode(code);
 
                 if(hop is DALTransferwarehouse dalTransferWarehouse)
                 {
 
                     //CALL API - TRANSFER (POST https://<partnerUrl>/parcel/<trackingId>)// 
-                    var url = dalTransferWarehouse.LogisticsPartnerUrl + "/parcel/" + blParcel.TrackingId;
+                    var url = dalTransferWarehouse.LogisticsPartnerUrl + "/parcel/" + dalParcel.TrackingId;
                     using var req = new HttpRequestMessage(HttpMethod.Post, url);
-                    var json = JsonConvert.SerializeObject(blParcel);
+                    var json = JsonConvert.SerializeObject(dalParcel);
                     var body = new StringContent(json, Encoding.UTF8, "application/json");
                     var response = _client.PostAsync(url, body);
 
-                    blParcel.State = BLParcel.StateEnum.TransferredEnum;
+                    dalParcel.State = DALParcel.StateEnum.TransferredEnum;
 
                 } 
                 else if (hop is DALTruck)
                 {
-                    blParcel.State = BLParcel.StateEnum.InTruckDeliveryEnum;
+                    dalParcel.State = DALParcel.StateEnum.InTruckDeliveryEnum;
                 }
                 else // Warehouse
                 {
-                    blParcel.State = BLParcel.StateEnum.InTransportEnum;               
+                    dalParcel.State = DALParcel.StateEnum.InTransportEnum;               
                 }
 
-                var result = validator.Validate(blParcel);
-                if (result.IsValid)
+                //var result = validator.Validate(blParcel);
+                if (true)
                 {
-                    _parcelRepo.Update(_mapper.Map<DALParcel>(blParcel));
+                    _parcelRepo.Update(dalParcel);
                     _logger.LogInformation("ParcelLogic ReportParcelHop ended successful.");
                     return true;
                 }
