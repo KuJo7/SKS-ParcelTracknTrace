@@ -29,11 +29,25 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
-  displayName: Tests
+  displayName: UnitTests
   inputs:
     command: test
     projects: '**/*Test/*.csproj'
     arguments: '--configuration $(buildConfiguration) --collect "Code coverage" --settings "TeamJ.SKS.Package/TeamJ.SKS.Package.Services.Test.runsettings"'
+
+- task: DotNetCoreCLI@2
+  displayName: IntegrationTests
+  inputs:
+    command: build
+    projects: '**/*.IntegrationTests.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish IntegrationTests
+  inputs:
+    PathtoPublish: '$(Build.SourcesDirectory)/src/TeamJ.SKS.Package.Services.IntegrationTests/bin/$(BuildConfiguration)/net5.0'
+    ArtifactName: 'IntegrationTests'
+    publishLocation: Container
 
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish WebService'
@@ -43,6 +57,6 @@ steps:
     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     configuration: '$(buildConfiguration)'
     zipAfterPublish: true
-
+    
 - task: PublishBuildArtifacts@1
   displayName: 'publish artifacts'
