@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31702.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.Services", "TeamJ.SKS.Package.Services\TeamJ.SKS.Package.Services.csproj", "{A0819C4F-68AE-4C3F-A856-1719D1A4798E}"
 EndProject
@@ -41,6 +41,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.Webhooks.Test", "TeamJ.SKS.Package.Webhooks.Test\TeamJ.SKS.Package.Webhooks.Test.csproj", "{3834A10A-C7FF-489A-9058-7BABCAD41E17}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamJ.SKS.Package.Webhooks.Interfaces", "TeamJ.SKS.Package.Webhooks.Interfaces\TeamJ.SKS.Package.Webhooks.Interfaces.csproj", "{16DE6BD2-7FED-4839-9411-05F73ADF30B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamJ.SKS.Package.Services.IntegrationTests", "TeamJ.SKS.Package.Services.IntegrationTests\TeamJ.SKS.Package.Services.IntegrationTests.csproj", "{EDE46560-DAB3-4F68-841E-6B03BBFEEE80}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,6 +122,10 @@ Global
 		{16DE6BD2-7FED-4839-9411-05F73ADF30B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16DE6BD2-7FED-4839-9411-05F73ADF30B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16DE6BD2-7FED-4839-9411-05F73ADF30B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDE46560-DAB3-4F68-841E-6B03BBFEEE80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDE46560-DAB3-4F68-841E-6B03BBFEEE80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDE46560-DAB3-4F68-841E-6B03BBFEEE80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDE46560-DAB3-4F68-841E-6B03BBFEEE80}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
