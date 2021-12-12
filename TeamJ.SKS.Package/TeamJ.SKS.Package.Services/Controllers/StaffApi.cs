@@ -71,7 +71,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
                         _webhookManager.UnsubscribeParcelWebhook(subscriber.Id);
                     }
                     _logger.LogInformation("StaffApi ReportParcelDelivery ended successful.");
-                    return Ok(StatusCode(200));
+                    return Ok(200);
                 }
             }
             catch (BusinessLogicException ex)
@@ -122,7 +122,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
                 {
                     _webhookManager.SubscriberNotification(trackingId, $"Parcel has been successfuly arrived at {code}");
                     _logger.LogInformation("StaffApi ReportParcelHop ended successful.");
-                    return Ok(StatusCode(200));
+                    return Ok(200);
                 }
             }
             catch (BusinessLogicException ex)

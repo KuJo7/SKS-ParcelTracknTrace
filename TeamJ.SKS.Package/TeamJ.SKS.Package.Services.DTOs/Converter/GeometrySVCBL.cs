@@ -5,6 +5,7 @@ using NetTopologySuite.IO;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,11 @@ using System.Threading.Tasks;
 
 namespace TeamJ.SKS.Package.Services.DTOs.Converter
 {
+    [ExcludeFromCodeCoverage]
+
     internal class GeometrySVCBL : ITypeConverter<string, Geometry>, IValueConverter<string, Geometry>
     {
+        
         private static readonly JsonSerializer _serializer = GeoJsonSerializer.Create(new(new(), 4326));
 
         public Geometry Convert(string source, Geometry destination, ResolutionContext context)
