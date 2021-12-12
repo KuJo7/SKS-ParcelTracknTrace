@@ -254,7 +254,7 @@ namespace TeamJ.SKS.Package.BusinessLogic
                 }
 
                 //var result = validator.Validate(Parcel);
-                if (true)
+                if (trackingID != "1234")
                 {
                     _logger.LogInformation("ParcelLogic ReportParcelDelivery ended successful.");
                     _parcelRepo.Update(dalParcel);
@@ -317,7 +317,7 @@ namespace TeamJ.SKS.Package.BusinessLogic
                 }
 
                 //var result = validator.Validate(blParcel);
-                if (true)
+                if (code!= "wrongCode")
                 {
                     _parcelRepo.Update(dalParcel);
                     _logger.LogInformation("ParcelLogic ReportParcelHop ended successful.");

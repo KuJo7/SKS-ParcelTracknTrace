@@ -176,6 +176,8 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             dalParcel.Recipient = new DALRecipient();
             dalParcel.TrackingId = "123456789";
             dalParcel.Sender = new DALRecipient();
+            dalParcel.FutureHops = new List<DALHopArrival>();
+            dalParcel.VisitedHops = new List<DALHopArrival>();
             mockParcelRepository.Setup(pl => pl.GetById("123456789")).Returns(dalParcel);
             var config = new MapperConfiguration(cfg =>
             {
@@ -199,7 +201,9 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
             dalParcel.Recipient = new DALRecipient();
             dalParcel.TrackingId = "1234";
             dalParcel.Sender = new DALRecipient();
-            mockParcelRepository.Setup(pl => pl.GetById("1234")).Returns(new DALParcel());
+            dalParcel.FutureHops = new List<DALHopArrival>();
+            dalParcel.VisitedHops = new List<DALHopArrival>();
+            mockParcelRepository.Setup(pl => pl.GetById("1234")).Returns(new DALParcel() { FutureHops = new List<DALHopArrival>(), VisitedHops = new List<DALHopArrival>()});
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());
