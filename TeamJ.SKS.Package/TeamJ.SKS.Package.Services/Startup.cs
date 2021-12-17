@@ -152,10 +152,8 @@ namespace TeamJ.SKS.Package.Services
         /// <param name="env"></param>
         /// <param name="loggerFactory"></param>
         /// <param name="context"></param>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, DataAccess.Sql.Context context)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
-            //context.Database.Migrate();
-
             app.UseRouting();
 
             //TODO: Uncomment this if you need wwwroot folder
