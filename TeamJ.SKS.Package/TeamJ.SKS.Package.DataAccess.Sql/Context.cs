@@ -48,9 +48,9 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             //builder.Entity<DALRecipient>()
             //    .HasKey(recipient => recipient.RecipientId);
 
-            builder.HasServiceTier("Basic");
-            builder.HasDatabaseMaxSize("2 GB");
-
+            //builder.HasServiceTier("Basic");
+            //builder.HasDatabaseMaxSize("2 GB");
+            //builder.HasServiceTierSql("Basic");
 
             builder.Entity<DALHop>()
                 .HasDiscriminator<string>(h => h.HopType)
