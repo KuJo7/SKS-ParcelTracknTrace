@@ -154,10 +154,11 @@ namespace TeamJ.SKS.Package.Services
         /// <param name="context"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            
             app.UseRouting();
 
-            //TODO: Uncomment this if you need wwwroot folder
-            // app.UseStaticFiles();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 
@@ -172,7 +173,7 @@ namespace TeamJ.SKS.Package.Services
             });
 
             //TODO: Use Https Redirection
-            // app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseEndpoints(endpoints =>
             {

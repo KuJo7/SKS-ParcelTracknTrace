@@ -70,6 +70,7 @@ namespace TeamJ.SKS.Package.Services.Controllers
             try
             {
                 _logger.LogInformation("SenderAPI SubmitParcel started.");
+                _logger.LogInformation(body.ToString());
                 BLParcel blParcel = _mapper.Map<BLParcel>(body);
                 //blParcel.FutureHops = new List<BLHopArrival>();
                 //blParcel.VisitedHops = new List<BLHopArrival>();
