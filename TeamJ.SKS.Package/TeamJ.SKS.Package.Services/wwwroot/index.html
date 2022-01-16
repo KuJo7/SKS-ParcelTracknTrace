@@ -5,10 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <meta http-equiv="refresh" content="0;URL='./swagger/'" />-->
-    <title>TrackNTrace</title>
+    <title>BIF-VZ-5-WS2021-SKS</title>
 </head>
 
 <body>
+    <h1>TeamJ - Parcel Track‘n‘Trace</h1>
     <!--Submit Parcel HTML-->
     <h2>Submit a parcel</h2>
     <h3>Sender data:</h3>
@@ -29,16 +30,30 @@
         <br>
         <input type="submit" value="Submit">
     </form>
-    <h3>Tracking ID for parcel: </h3>
-    <div id="submitResult"></div>
+    <br>
+    <textarea placeholder="Tracking ID for parcel" id="submitResult" readonly></textarea>
 
+    <br>
+    <br>
+    <!--Track Parcel HTML-->
+    <h2>Track a parcel</h2>
+    <input type="text" placeholder="Tracking ID" id="trackTrackingID">
+    <input type="button" value="Track" id="trackbtn">
+    <br>
+    <br>
+    <textarea placeholder="Status of parcel" id="trackResult" readonly></textarea>
+
+    <br>
+    <br>
     <!--Report Parcel Delivery/ Report final delivery HTML-->
     <h2>Report a parcel to a hop or final Delivery</h2>
     <h3>When you only fill out the tracking ID, it is considered as final delivery. Else you just report it to a certain hop.</h3>
     <input type="text" placeholder="Tracking ID" id="reportTrackingID">
     <input type="text" placeholder="Tracking Point" id="reportHop">
     <input type="button" value="Report" id="reportbtn">
-
+    <br>
+    <br>
+    <textarea placeholder="StatusCode" id="statuscodeResult" readonly></textarea>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -76,7 +91,6 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    alert(data.trackingId);
                     $("#submitResult").html(data.trackingId);
                 },
                 failure: function (errMsg) {
@@ -84,14 +98,32 @@
                 }
             })
         })
+        //Track Parcel
+        $("#trackbtn").click(() => {
+            var trackingID = $("#trackTrackingID").val();
+            $.ajax({
+                type: "GET",
+                url: "parcel/" + trackingID,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    $("#trackResult").html(data.state);
+                    console.log(data);
+                },
+                failure: function (errMsg) {
+                    alert(errMsg);
+                }
+            })
+
+        });
         //Report Final Delivery
         $("#reportbtn").click(() => {
             var trackingID = $("#reportTrackingID").val();
             var hop = $("#reportHop").val();
             if (!hop) {
-                $.post("/parcel/" + trackingID + "/reportDelivery").done((data) => alert(data));
+                $.post("/parcel/" + trackingID + "/reportDelivery").done((data) => $("#statuscodeResult").html(data));
             } else {
-                $.post("/parcel/" + trackingID + "/reportHop/" + hop).done((data) => alert(data));
+                $.post("/parcel/" + trackingID + "/reportHop/" + hop).done((data) => $("#statuscodeResult").html(data));
             }
         });
     </script>
