@@ -8,6 +8,7 @@ using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using NetTopologySuite.Geometries;
 using NUnit.Framework;
 using TeamJ.SKS.Package.BusinessLogic.DTOs;
 using TeamJ.SKS.Package.BusinessLogic.Interfaces;
@@ -70,8 +71,18 @@ namespace TeamJ.SKS.Package.Services.Test
         [Test]
         public void GetWarehouse_ValidCode_Success()
         {
-            /*Mock<IHopLogic> mockHopLogic = new Mock<IHopLogic>();
-            mockHopLogic.Setup(pl => pl.GetWarehouse(It.IsAny<string>())).Returns(new BLWarehouse());
+            Mock<IHopLogic> mockHopLogic = new Mock<IHopLogic>();
+            var blWarehouse = Builder<BLWarehouse>.CreateNew()
+                .With(x => x.Code = "code")
+                .With(x => x.Description = "")
+                .With(x => x.HopType = "")
+                .With(x => x.LocationName = "")
+                .With(x => x.ProcessingDelayMins = Builder<int>.CreateNew().Build())
+                .With(x => x.Level = Builder<int>.CreateNew().Build())
+                .With(x => x.LocationCoordinates = new Point(2.0, 3.0))
+                .With(x => x.NextHops = new List<BLWarehouseNextHops>())
+                .Build();
+            mockHopLogic.Setup(pl => pl.GetWarehouse(It.IsAny<string>())).Returns(blWarehouse);
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new MapperProfiles());
@@ -79,7 +90,7 @@ namespace TeamJ.SKS.Package.Services.Test
             Mock<ILogger<WarehouseManagementApiController>> mockLogger = new Mock<ILogger<WarehouseManagementApiController>>();
             var controller = new WarehouseManagementApiController(new Mapper(config), mockHopLogic.Object, mockLogger.Object);
             var result = (ObjectResult)controller.GetWarehouse("ABCD12");
-            Assert.AreEqual(200, result.StatusCode);*/
+            Assert.AreEqual(200, result.StatusCode);
         }
 
         [Test]
@@ -124,7 +135,7 @@ namespace TeamJ.SKS.Package.Services.Test
         [Test]
         public void ImportWarehouses_WrongWarehouseBody_Error()
         {
-            /*Mock<IHopLogic> mockHopLogic = new Mock<IHopLogic>();
+            Mock<IHopLogic> mockHopLogic = new Mock<IHopLogic>();
             mockHopLogic.Setup(pl => pl.ImportWarehouses(It.IsAny<BLWarehouse>())).Returns(false);
             var config = new MapperConfiguration(cfg =>
             {
@@ -139,9 +150,10 @@ namespace TeamJ.SKS.Package.Services.Test
                 .With(x => x.LocationName = "")
                 .With(x => x.ProcessingDelayMins = Builder<int>.CreateNew().Build())
                 .With(x => x.Level = Builder<int>.CreateNew().Build())
+                .With(x => x.LocationCoordinates = Builder<GeoCoordinate>.CreateNew().Build())
                 .Build();
             var result = (ObjectResult)controller.ImportWarehouses(warehouse);
-            Assert.AreEqual(400, result.StatusCode);*/
+            Assert.AreEqual(400, result.StatusCode);
         }
     }
 }

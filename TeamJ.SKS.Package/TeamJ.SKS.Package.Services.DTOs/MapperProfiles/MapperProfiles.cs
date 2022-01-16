@@ -23,11 +23,12 @@ namespace TeamJ.SKS.Package.Services.DTOs.MapperProfiles
 
             CreateMap<GeoCoordinate, BLHop>(MemberList.Source).ReverseMap();
 
-            CreateMap<Hop, BLHop>()
+            CreateMap<Hop, BLHop>(MemberList.Source)
                 .IncludeMembers(s => s.LocationCoordinates)
                 .Include<Warehouse, BLWarehouse>()
                 .Include<Truck, BLTruck>()
                 .Include<Transferwarehouse, BLTransferwarehouse>();
+
             CreateMap<Transferwarehouse, BLTransferwarehouse>().ReverseMap();
             CreateMap<Truck, BLTruck>().ReverseMap();
             CreateMap<Warehouse, BLWarehouse>().ReverseMap();

@@ -48,19 +48,6 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
                 .With(p => p.ProcessingDelayMins = 3)
                 .With(p => p.LocationName = "locationname")
                 .Build();
-            /*List<DALHop> dalHops = new List<DALHop>();
-            DALHop newDalHop = new DALHop();
-            newDalHop.Code = "rightcode";
-            dalHops.Add(newDalHop);
-            DALHop newDalHop2 = new DALHop();
-            dalHops.Add(newDalHop2);
-
-            List<BLHop> blHops = new List<BLHop>();
-            BLHop newBlHop = new BLHop();
-            newBlHop.Code = "rightcode";
-            blHops.Add(newBlHop);
-            BLHop newBlHop2 = new BLHop();
-            blHops.Add(newBlHop2);*/
 
             mockHopRepository.Setup(pl => pl.GetRootWarehouse()).Returns(dalHop);
             var config = new MapperConfiguration(cfg =>
@@ -68,9 +55,7 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
                 cfg.AddProfile(new MapperProfiles());
             });
             IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config), mockLogger.Object);
-            //Assert.DoesNotThrow(() => hopLogic.ExportWarehouses());
             Assert.AreEqual(blHop.Code, hopLogic.ExportWarehouses().Code);
-            //Assert.AreEqual(blHops, hopLogic.ExportWarehouses());
         }
         
         [Test]
@@ -79,17 +64,6 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
 
             Mock<IHopRepository> mockHopRepository = new Mock<IHopRepository>();
             Mock<ILogger<HopLogic>> mockLogger = new Mock<ILogger<HopLogic>>();
-            /*List<DALHop> dalHops = new List<DALHop>();
-            DALHop newDalHop = new DALHop();
-            newDalHop.Code = "rightcode";
-            dalHops.Add(newDalHop);
-            DALHop newDalHop2 = new DALHop();
-            dalHops.Add(newDalHop2);
-
-            List<BLHop> blHops = new List<BLHop>();
-            BLHop newBlHop = new BLHop();
-            newBlHop.Code = "wrongcode";
-            blHops.Add(newBlHop);*/
             var dalHop = Builder<DALWarehouse>.CreateNew()
                 .With(p => p.LocationCoordinates = new Point(52, -0.9))
                 .With(p => p.Code = "rightcode")
@@ -115,7 +89,6 @@ namespace TeamJ.SKS.Package.BusinessLogic.Test
                 cfg.AddProfile(new MapperProfiles());
             });
             IHopLogic hopLogic = new HopLogic(mockHopRepository.Object, new Mapper(config), mockLogger.Object);
-            //Assert.DoesNotThrow(() => hopLogic.ExportWarehouses());
             Assert.AreNotEqual(blHop.Code, hopLogic.ExportWarehouses().Code);
         }
 
