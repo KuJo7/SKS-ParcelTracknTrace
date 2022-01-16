@@ -25,8 +25,28 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
 
         public void DeleteAll()
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+            //Database.EnsureDeleted();
+            //Database.EnsureCreated();
+            
+            /*for(int i = 0; i < Hops.Count(); i++)
+            {
+                Hops.Remove(Hops.First());
+            }
+            for (int i = 0; i < Warehouses.Count(); i++)
+            {
+                Warehouses.Remove(Warehouses.First());
+            }
+            for (int i = 0; i < Parcels.Count(); i++)
+            {
+                Parcels.Remove(Parcels.First());
+            }
+            for (int i = 0; i < WebhookResponse.Count(); i++)
+            {
+                WebhookResponse.Remove(WebhookResponse.First());
+            }*/
+            
+
+
         }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
