@@ -23,54 +23,11 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             Database.EnsureCreated();
         }
 
-        public void DeleteAll()
-        {
-            //Database.EnsureDeleted();
-            //Database.EnsureCreated();
-            
-            /*for(int i = 0; i < Hops.Count(); i++)
-            {
-                Hops.Remove(Hops.First());
-            }
-            for (int i = 0; i < Warehouses.Count(); i++)
-            {
-                Warehouses.Remove(Warehouses.First());
-            }
-            for (int i = 0; i < Parcels.Count(); i++)
-            {
-                Parcels.Remove(Parcels.First());
-            }
-            for (int i = 0; i < WebhookResponse.Count(); i++)
-            {
-                WebhookResponse.Remove(WebhookResponse.First());
-            }*/
-            
-
-
-        }
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.AddInterceptors(new[] { new LogInterceptor() });
-        //    optionsBuilder.UseSqlServer("Initial Catalog=Sample;User=sa;Password=pass@word1;Data Source=localhost;MultipleActiveResultSets=True"
-        //        );
-        // ,sopt => sopt.UseNetTopologySuite());
-        //}
-
         protected override void OnModelCreating(ModelBuilder builder)
          {
-            //builder.Entity<DALHop>()
-            //    .HasKey(hop => hop.HopCode);
-
-            //builder.Entity<DALParcel>()
-            //    .HasKey(hop => hop.TrackingId);
-
-            //builder.Entity<DALRecipient>()
-            //    .HasKey(recipient => recipient.RecipientId);
 
             //builder.HasServiceTier("Basic");
             //builder.HasDatabaseMaxSize("2 GB");
-            //builder.HasServiceTierSql("Basic");
 
             builder.Entity<DALHop>()
                 .HasDiscriminator<string>(h => h.HopType)

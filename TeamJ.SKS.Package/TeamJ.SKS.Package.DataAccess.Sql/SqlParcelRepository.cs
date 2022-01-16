@@ -120,12 +120,6 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             
         }
 
-        /*public List<DALParcel> GetByState(DALParcel parcel)
-        {
-            return (List<DALParcel>)_context.Parcels.Where(p => p.State == parcel.State);
-        }
-        */
-
         public List<DALParcel> GetAllParcels()
         {
             try

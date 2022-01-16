@@ -94,12 +94,21 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             _logger.LogInformation("SqlHopRepository Delete ended.");
         }
 
+
+
+
         public void DeleteAllHops()
         {
             try
             {
+
                 _logger.LogInformation("SqlHopRepository DeleteAllHops started.");
-                _context.DeleteAll();
+                _context.Warehouses.RemoveRange(_context.Warehouses);
+                _context.Hops.Load();
+                _context.Hops.RemoveRange(_context.Hops);
+                _context.Parcels.RemoveRange(_context.Parcels);
+                _context.WebhookResponse.RemoveRange(_context.WebhookResponse);
+                _context.SaveChanges();
             }
             catch (SqlException ex)
             {
@@ -233,11 +242,5 @@ namespace TeamJ.SKS.Package.DataAccess.Sql
             }
             
         }
-
-        /*public List<DALHop> GetByLevel(int level)
-        {
-            return _context.Hops.Where(hop => hop.Level == level);
-        }*/
-
     }
 }
