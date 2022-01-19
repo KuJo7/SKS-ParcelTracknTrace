@@ -22,9 +22,9 @@ namespace TeamJ.SKS.Package.ServiceAgent.Test
         {
             Mock<ILogger<OpenStreetMapEncodingAgent>> mockLogger = new Mock<ILogger<OpenStreetMapEncodingAgent>>();
             var agent = new OpenStreetMapEncodingAgent(mockLogger.Object);
-            var point = agent.EncodeAddress("Karlsplatz, 1010 Wien, Österreich");
-            Assert.AreEqual(point.X, 16.368359198969941d);
-            Assert.AreEqual(point.Y, 48.202849749999999d);
+            var point = agent.EncodeAddress("Karlsplatz 1, 1010 Wien, Österreich");
+            Assert.AreEqual(point.X, 16.369641399999999d);
+            Assert.AreEqual(point.Y, 48.201021500000003d);
         }
 
         [Test]
