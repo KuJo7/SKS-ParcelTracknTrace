@@ -21,37 +21,53 @@ namespace TeamJ.SKS.Package.Services.IntegrationTests
     {
         private string _baseUrl;
         private HttpClient _httpClient;
-        private Parcel _testParcel;
+        private Parcel _testSubmitParcel;
+        private Parcel _testTransitionParcel;
 
         [SetUp]
         public void Setup()
         {
-            //_baseUrl = TestContext.Parameters.Get("baseUrl", "https://www.technikum-wien.at");
-            /*_httpClient = new HttpClient();
-            _baseUrl = TestContext.Parameters.Get("baseUrl", "http://localhost:5001");
-            _httpClient.BaseAddress = new System.Uri(_baseUrl, System.UriKind.Absolute);
-            */
-            _baseUrl = TestContext.Parameters.Get("baseUrl", "https://teamj-test.azurewebsites.net");
+            //_baseUrl = TestContext.Parameters.Get("baseUrl", "https://teamj-test.azurewebsites.net");
+            _baseUrl = TestContext.Parameters.Get("baseUrl", "https://localhost:5001");
             _httpClient = new HttpClient()
             {
                 BaseAddress = new Uri(_baseUrl)
             };
 
-            // crate a parcel
-            _testParcel = Builder<Parcel>.CreateNew()
+            // crate a parcel for submit
+            _testSubmitParcel = Builder<Parcel>.CreateNew()
                 .With(p => p.Recipient = Builder<Recipient>.CreateNew()
                     .With(r => r.Name = "Joel K")
-                    .With(r => r.Street = "Baslergasse 32")
-                    .With(r => r.PostalCode = "1230")
-                    .With(r => r.City = "Vienna")
-                    .With(r => r.Country = "Austria")
+                    .With(r => r.Street = "Praterstraße 22")
+                    .With(r => r.PostalCode = "1020")
+                    .With(r => r.City = "Wien")
+                    .With(r => r.Country = "Österreich")
                     .Build())
                 .With(p => p.Sender = Builder<Recipient>.CreateNew()
                     .With(r => r.Name = "Jacky L")
                     .With(r => r.Street = "Gonzagagasse 11")
                     .With(r => r.PostalCode = "1010")
-                    .With(r => r.City = "Vienna")
-                    .With(r => r.Country = "Austria")
+                    .With(r => r.City = "Wien")
+                    .With(r => r.Country = "Österreich")
+                    .Build())
+                .With(p => p.Weight = 100)
+                .Build();
+
+            // crate a parcel for transiton
+            _testTransitionParcel = Builder<Parcel>.CreateNew()
+                .With(p => p.Recipient = Builder<Recipient>.CreateNew()
+                    .With(r => r.Name = "Joel K")
+                    .With(r => r.Street = "Praterstraße 22")
+                    .With(r => r.PostalCode = "1020")
+                    .With(r => r.City = "Wien")
+                    .With(r => r.Country = "Österreich")
+                    .Build())
+                .With(p => p.Sender = Builder<Recipient>.CreateNew()
+                    .With(r => r.Name = "Jacky L")
+                    .With(r => r.Street = "Drygalski-Allee 51")
+                    .With(r => r.PostalCode = "81477")
+                    .With(r => r.City = "München")
+                    .With(r => r.Country = "Deutschland")
                     .Build())
                 .With(p => p.Weight = 100)
                 .Build();
@@ -100,7 +116,7 @@ namespace TeamJ.SKS.Package.Services.IntegrationTests
         public void ParcelJourney_Success()
         {
             // submit parcel
-            var resSubmit = _httpClient.PostAsJsonAsync($"{_baseUrl}/parcel", _testParcel).Result;
+            var resSubmit = _httpClient.PostAsJsonAsync($"{_baseUrl}/parcel", _testSubmitParcel).Result;
             var parcelInfo = resSubmit.Content.ReadAsAsync<NewParcelInfo>().Result;
 
             Assert.AreEqual(HttpStatusCode.OK, resSubmit.StatusCode);
@@ -164,11 +180,8 @@ namespace TeamJ.SKS.Package.Services.IntegrationTests
 
             Console.Write($"Getting Parcel from logistic partner with TrackingID: {existingTrackingID}");
 
-            var res = _httpClient.PostAsJsonAsync($"{_baseUrl}/parcel/{existingTrackingID}", _testParcel).Result;
-            var parcelInfo = res.Content.ReadAsAsync<NewParcelInfo>().Result;
-
+            var res = _httpClient.PostAsJsonAsync($"{_baseUrl}/parcel/{existingTrackingID}", _testTransitionParcel).Result;
             Assert.AreEqual(HttpStatusCode.OK, res.StatusCode);
-            Assert.AreEqual(existingTrackingID, parcelInfo.TrackingId);
 
             // track parcel
             var resTrackedParcel = _httpClient.GetAsync($"{_baseUrl}/parcel/{existingTrackingID}").Result;
@@ -179,41 +192,5 @@ namespace TeamJ.SKS.Package.Services.IntegrationTests
 
             Console.Write($"Parcel from logistic Partner is in state {trackedParcelInfo.State}");
         }
-
-
-        [Test]
-        public void WebhookJourney_Sucess()
-        {
-            var res = _httpClient.PostAsJsonAsync($"{_baseUrl}/parcel", _testParcel).Result;
-            var parcelInfo = res.Content.ReadAsAsync<NewParcelInfo>().Result;
-
-            Assert.AreEqual(HttpStatusCode.OK, res.StatusCode);
-            Assert.IsNotNull(parcelInfo.TrackingId);
-
-            // create a webhook
-            var trackID = parcelInfo.TrackingId;
-            var resCreateWebhook = _httpClient.PostAsync($"{_baseUrl}/parcel/{trackID}/webhooks?url=https://www.technikum-wien.at/", null).Result;
-            var newWebhook = resCreateWebhook.Content.ReadAsAsync<WebhookResponse>().Result;
-
-            Console.WriteLine($"Webhhook created for: {newWebhook.TrackingId}");
-
-            Assert.AreEqual(HttpStatusCode.OK, resCreateWebhook.StatusCode);
-            Assert.AreEqual(trackID, newWebhook.TrackingId);
-
-            // check webhook after creating
-            var resCheckWebhook = _httpClient.GetAsync($"{_baseUrl}/parcel/{trackID}/webhooks").Result;
-            var listWebhook = resCheckWebhook.Content.ReadAsAsync<IEnumerable<WebhookResponse>>().Result;
-
-            Assert.AreEqual(HttpStatusCode.OK, resCheckWebhook.StatusCode);
-            Assert.AreEqual(newWebhook.Id, listWebhook.FirstOrDefault().Id);
-
-            // delete the created webhook
-            var webhookId = listWebhook.FirstOrDefault().Id;
-            Console.WriteLine($"Deleting Webhook with id: {webhookId}");
-            var resDelete = _httpClient.DeleteAsync($"{_baseUrl}/parcel/webhooks/{webhookId}").Result;
-
-            Assert.AreEqual(HttpStatusCode.OK, resDelete.StatusCode);
-        }
-
     }
 }
