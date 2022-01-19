@@ -34,5 +34,6 @@ namespace TeamJ.SKS.Package.ServiceAgent.Test
             var agent = new OpenStreetMapEncodingAgent(mockLogger.Object);
             Assert.IsNull(agent.EncodeAddress("error, error"));
         }
+
     }
 }
