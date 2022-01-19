@@ -5,6 +5,6 @@
       <TestSessionTimeout>300000</TestSessionTimeout>-->
   </RunConfiguration>
   <TestRunParameters>
-    <Parameter name="baseUrl" value="https://teamjparceltrackntrace-test.azurewebsites.net/" />
+    <Parameter name="baseUrl" value="http://localhost:5001" />
   </TestRunParameters>
 </RunSettings>
